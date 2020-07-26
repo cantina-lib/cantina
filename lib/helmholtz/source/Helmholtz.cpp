@@ -9,7 +9,7 @@ Katja Vetter, Feb 2012.
 */
 
 
-#include "Helmholtz.h"
+#include "helmholtz/Helmholtz.h"
 
 #include <cmath>
 

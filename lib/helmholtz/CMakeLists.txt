@@ -6,7 +6,7 @@ set(CANTINA_DIR ${PROJECT_SOURCE_DIR})
 project(helmholtz)
 
 set(HELMHOLTZ_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
-set(HELMHOLTZ_SRC_DIR ${PROJECT_SOURCE_DIR}/source)
+set(HELMHOLTZ_SOURCE_DIR ${PROJECT_SOURCE_DIR}/source)
 
 # need cantina_common for types and pd-related stuff
 
@@ -25,8 +25,8 @@ include_directories(
 # pd stuff
 
 set(HELMHOLTZ_LIB
-        ${HELMHOLTZ_SRC_DIR}/Helmholtz.cpp
-        ${HELMHOLTZ_INCLUDE_DIR}/Helmholtz.h
+        ${HELMHOLTZ_SOURCE_DIR}/Helmholtz.cpp
+        ${HELMHOLTZ_INCLUDE_DIR}/helmholtz/Helmholtz.h
         )
 
 add_library(helmholtz ${HELMHOLTZ_LIB})

@@ -32,7 +32,7 @@ set(RUBBERBAND_LIB ${RUBBERBAND_LIB_DIR}/librubberband.a)
 
 # internal
 
-set(HELMHOLTZ_DIR ${CANTINA_LIB_DIR}/helmholtz_tilde)
+set(HELMHOLTZ_DIR ${CANTINA_LIB_DIR}/helmholtz)
 add_subdirectory(${HELMHOLTZ_DIR})
 
 # finally, the actual flags.
@@ -41,17 +41,20 @@ set(CMAKE_CXX_FLAGS "-Wall -Werror -fPIC")
 set(PANTOUFLE_DIR ${PROJECT_SOURCE_DIR}/pantoufle)
 add_subdirectory(${PANTOUFLE_DIR})
 
-set(CANTINA_COMMON_DIR ${PANTOUFLE_DIR}/cantina_common)
 
-include_directories(
+set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INCLUDE_DIR}
-        ${CANTINA_COMMON_DIR}/include
-        ${PANTOUFLE_DIR}/include
-        # external
+        ${PANTOUFLE_INCLUDE_DIRS}
         ${SOUNDTOUCH_DIR}/include
         ${HELMHOLTZ_DIR}/include
         ${RUBBERBAND_DIR}/rubberband
         ${FFW3_DIR}/api
+        CACHE INTERNAL
+        "List of include directories for Cantina"
+        )
+
+include_directories(
+       ${CANTINA_INCLUDE_DIRS}
 )
 
 

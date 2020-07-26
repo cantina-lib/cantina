@@ -8,7 +8,7 @@
 #pragma once
 
 
-#include <Helmholtz.h>
+#include <helmholtz/Helmholtz.h>
 
 #include <cant/common/types.hpp>
 #include <cant/track/PitchTracker.hpp>
