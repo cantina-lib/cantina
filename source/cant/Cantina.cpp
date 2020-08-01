@@ -16,8 +16,8 @@ namespace cant
     Cantina::
     Cantina(const sizeint numberHarmonics,
             const int_m sampleRate,
-            const midi::byte_m channelId)
-    : _mach(UPtr<midi::MidiMachine>(new midi::MidiMachine(numberHarmonics, channelId))),
+            const pan::byte_m channelId)
+    : _mach(UPtr<pan::Pantoufle>(new pan::Pantoufle(numberHarmonics, channelId))),
     _tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
     _shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
     {
@@ -42,7 +42,7 @@ namespace cant
         }
         float_m pitch = _tracker->getPitchFreq();
         /* getting stream of processed notes */
-        const Stream<midi::MidiNoteOutput>& processedNoteOutput = _mach->getProcessedOutputData();
+        const Stream<pan::MidiNoteOutput>& processedNoteOutput = _mach->getProcessedOutputData();
         for(sizeint i=0; i < getNumberHarmonics(); ++i)
         {
             const auto& data = processedNoteOutput.at(i);
@@ -74,7 +74,7 @@ namespace cant
 
     void
     Cantina::
-    receiveNote(const sizeint iVoice, const midi::MidiNoteInputData& noteData)
+    receiveNote(const sizeint iVoice, const pan::MidiNoteInputData& noteData)
     {
         PANTOUFLE_TRY_RETHROW({
              _mach->receiveRawNoteData(iVoice, noteData);
@@ -83,7 +83,7 @@ namespace cant
 
     void
     Cantina::
-    receiveControl(const midi::MidiControlInputData &controlData)
+    receiveControl(const pan::MidiControlInputData &controlData)
     {
         CANTINA_TRY_RETHROW({
                 _mach->receiveRawControlData(controlData);
@@ -92,14 +92,14 @@ namespace cant
 
     void
     Cantina::
-    setController(const std::string &type, const midi::byte_m channelId, const midi::byte_m controllerId)
+    setController(const std::string &type, const pan::byte_m channelId, const pan::byte_m controllerId)
     {
         if(type == CONTROLLER_TYPE_DAMPER)
         {
             CANTINA_TRY_RETHROW({
                 _mach->setController
                         (
-                                midi::MidiDamper::make(
+                                pan::MidiDamper::make(
                                         getNumberHarmonics(),
                                         channelId,
                                         controllerId

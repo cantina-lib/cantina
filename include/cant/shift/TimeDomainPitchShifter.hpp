@@ -15,7 +15,7 @@ namespace cant::shift
     {
     private: // usable only by base class
         void
-        shift(sizeint iVoice, midi::tone_m src, const midi::MidiNoteOutput &data, const sample_m *input,
+        shift(sizeint iVoice, pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
               sample_m *output, sizeint blockSize) override;
         virtual void
         shift(sizeint iVoice, float_m shiftRatio, const sample_m *input, sample_m *output, sizeint blockSize) = 0;

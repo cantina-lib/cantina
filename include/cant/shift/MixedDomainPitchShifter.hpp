@@ -20,7 +20,7 @@ namespace cant::shift
        UPtr<TimeDomainPitchShifter> _auxShifter;
     private:
         void
-        shift(sizeint iVoice, midi::tone_m src, const midi::MidiNoteOutput &data, const sample_m *input,
+        shift(sizeint iVoice, pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
               sample_m *output, sizeint blockSize)
                 override;
         CANT_NODISCARD virtual bool isReady(sizeint iVoice) const = 0;

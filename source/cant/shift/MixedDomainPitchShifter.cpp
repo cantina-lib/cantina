@@ -19,7 +19,7 @@ namespace cant::shift
 
     void
     MixedDomainPitchShifter::
-    shift(sizeint iVoice, double src, const midi::MidiNoteOutput &data, const sample_m *input,
+    shift(sizeint iVoice, double src, const pan::MidiNoteOutput &data, const sample_m *input,
           sample_m *output, sizeint blockSize)
     {
         /*
