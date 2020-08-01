@@ -59,17 +59,16 @@ include Ron Mayer's fft or similar functionality. */
 /***********************************************************************/
 namespace helmholtz
 {
-    static constexpr int DEFFRAMESIZE = 1024;      // default analysis framesize
-    static constexpr int DEFOVERLAP = 1;            // default overlap
-    static constexpr double DEFBIAS = 0.2;             // default bias
-    static constexpr double DEFMINRMS = 0.003;        // default minimum RMS
-    static constexpr double SEEK = 0.85;              // seek-length as ratio of framesize
-
-
     class Helmholtz
     {
+        static constexpr int m_DEFFRAMESIZE = 1024;      // default analysis framesize
+        static constexpr int m_DEFOVERLAP = 1;            // default overlap
+        static constexpr double m_DEFBIAS = 0.2;             // default bias
+        static constexpr double m_DEFMINRMS = 0.003;        // default minimum RMS
+        static constexpr double m_SEEK = 0.85;              // seek-length as ratio of framesize
+
     public:
-        Helmholtz(int periodarg = DEFFRAMESIZE, int overlaparg = DEFOVERLAP, cant::sample_m biasarg = DEFBIAS);
+        Helmholtz(int periodarg, int overlaparg = m_DEFOVERLAP, cant::sample_m biasarg = m_DEFBIAS);
 
         ~Helmholtz() = default;
         void inOutSamples(const cant::sample_m *in, cant::sample_m *out, int size);
@@ -78,9 +77,9 @@ namespace helmholtz
         void setOverlap(int lap);
         void setBias(cant::sample_m bias);
         void setMinRMS(cant::sample_m rms);
-        cant::sample_m getPeriod() const;
-        cant::sample_m getFidelity() const;
-        int getFrameSize() const;
+        CANT_NODISCARD cant::sample_m getPeriod() const;
+        CANT_NODISCARD cant::sample_m getFidelity() const;
+        CANT_NODISCARD int getFrameSize() const;
 
     private:
         cant::fft::FFTWPerformer _fftPerformer;

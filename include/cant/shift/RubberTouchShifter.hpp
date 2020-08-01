@@ -8,7 +8,7 @@
 #pragma once
 
 
-#include <RubberBandStretcher.h>
+// #include <RubberBandStretcher.h>
 
 #include <cant/common/types.hpp>
 
@@ -31,7 +31,7 @@ namespace cant::shift
     protected:
         void clearBuffers(sizeint iVoice) override;
     public:
-        RubberTouchShifter(UPtr<TimeDomainPitchShifter>&& auxShifter, sizeint numberVoices, sizeint sampleRate, sizeint blockSize);
+        RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, sizeint numberVoices, sizeint sampleRate, sizeint blockSize);
 
     };
 }

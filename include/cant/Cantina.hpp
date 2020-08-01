@@ -11,12 +11,15 @@
 #include <cant/common/memory.hpp>
 #include <cant/common/types.hpp>
 
-#include <cant/pan/pan.hpp>
-#include <cant/track/track.hpp>
-#include <cant/shift/shift.hpp>
 
 namespace cant
 {
+    namespace track
+    {
+        class PitchShifter;
+        class TimeDomqinPitchShifter;
+    }
+
     class Cantina
     {
     private:
@@ -31,7 +34,7 @@ namespace cant
     private:
         void update(const sample_m *in, sizeint blockSize);
     public:
-        explicit Cantina(sizeint numberHarmonics,
+        CANT_EXPLICIT Cantina(sizeint numberHarmonics,
                 int_m sampleRate,
                 midi::byte_m channelId=0
                         );

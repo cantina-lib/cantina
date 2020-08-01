@@ -8,19 +8,29 @@ Katja Vetter, Feb 2012.
 
 */
 
+#include <cant/extern/helmholtz/Helmholtz.hpp>
 
-#include "helmholtz/Helmholtz.h"
-
+#include <iostream>
 #include <cmath>
+#include <algorithm>
 
 namespace helmholtz
 {
-    Helmholtz::Helmholtz(int frameSize, int overlap, cant::sample_m bias)
-    : _fftPerformer( frameSize), _timeIndex(0), _periodIndex(0), _periodLength(0.), _fidelity(0.), _minRMS(DEFMINRMS)
+    Helmholtz::Helmholtz(const int frameSize, const int overlap, const cant::sample_m bias)
+    : _fftPerformer(2 * frameSize),
+    _timeIndex(0),
+    _periodIndex(0),
+    _minRMS(m_DEFMINRMS),
+    _inputBuffer(),
+    _inputBuffer2(),
+    _processBuffer(),
+    _periodLength(0.),
+    _fidelity(0.)
     {
         setFrameSize(frameSize);
         setOverlap(overlap);
         setBias(bias);
+
 
         _inputBuffer   = std::vector<cant::sample_m>(_frameSize, 0.);
         _inputBuffer2  = std::vector<cant::sample_m>(_frameSize, 0.);
@@ -78,7 +88,7 @@ namespace helmholtz
                 ||(frame==2048)
                 ))
         {
-            frame = DEFFRAMESIZE;
+            frame = m_DEFFRAMESIZE;
         }
         _frameSize = frame;
 
@@ -104,7 +114,7 @@ namespace helmholtz
                 || (overlap == 8)
                 ))
         {
-            overlap = DEFOVERLAP;
+            overlap = m_DEFOVERLAP;
         }
         _overlap = overlap;
     }
@@ -148,7 +158,7 @@ namespace helmholtz
     {
         int n, tindex = _timeIndex;
         int mask = _frameSize - 1;
-        cant::sample_m norm = 1. / sqrt(cant::sample_m(_frameSize * 2));
+        cant::sample_m norm = 1. / sqrt(cant::sample_m(2 * _frameSize));
 
         // copy input to processing buffer
         for(n=0; n<_frameSize; n++)
@@ -178,7 +188,7 @@ namespace helmholtz
         int n;
         int fftsize = _frameSize * 2;
 
-        _fftPerformer.performForward(_processBuffer.data(), _frameSize);
+        _fftPerformer.performRealForward(_processBuffer);
 
         // compute power spectrum
         _processBuffer[0] *= _processBuffer[0]; // DC
@@ -192,14 +202,14 @@ namespace helmholtz
 
         }
 
-        _fftPerformer.performInverse(_processBuffer.data(), _frameSize);
+        _fftPerformer.performRealInverse(_processBuffer);
     }
 
 
     void Helmholtz::normalize()
     {
         int n;
-        int seek = _frameSize * SEEK;
+        int seek = static_cast<int>(std::floor(_frameSize * m_SEEK));
         cant::sample_m signal1, signal2;
 
         // minimum RMS implemented as minimum autocorrelation at index 0
@@ -232,9 +242,9 @@ namespace helmholtz
     void Helmholtz::pickPeak()
     {
         int n, peakIndex=0;
-        int seek = (cant::sample_m)_frameSize * SEEK;
+        int seek = static_cast<int>(std::floor(static_cast<cant::sample_m>(_frameSize)* m_SEEK));
         cant::sample_m maxValue = 0.;
-        cant::sample_m bias = _biasFactor / (cant::sample_m)_frameSize;    // user-controlled bias
+        cant::sample_m bias = _biasFactor / static_cast<cant::sample_m>(_frameSize);    // user-controlled bias
         cant::sample_m realPeak;
 
         // skip main lobe
@@ -261,7 +271,7 @@ namespace helmholtz
 
                 if((realPeak * (1. - (cant::sample_m)n * bias)) > maxValue)
                 {
-                    maxValue= realPeak;
+                    maxValue = realPeak;
                     peakIndex = n;
                 }
             }
@@ -274,7 +284,7 @@ namespace helmholtz
     {
         if(_periodIndex)
         {
-            _periodLength= (cant::sample_m)_periodIndex + interpolate3phase(_processBuffer.data(), _periodIndex);
+            _periodLength = static_cast<cant::sample_m>(_periodIndex) + interpolate3phase(_processBuffer.data(), _periodIndex);
             _fidelity = interpolate3max(_processBuffer.data(), _periodIndex);
         }
     }

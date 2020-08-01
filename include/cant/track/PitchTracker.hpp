@@ -17,11 +17,10 @@
 
 namespace cant::track
 {
-    static constexpr float_m TRACKER_MIN_FIDELITY = 0.90;
-
     class PitchTracker
     {
-    private:
+    protected:
+        static constexpr float_m m_DEFAULT_MIN_FIDELITY = 0.9;
     public:
         virtual void update(const sample_m *in, sizeint blockSize) = 0;
 

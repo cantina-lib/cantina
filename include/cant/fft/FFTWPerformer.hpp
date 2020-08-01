@@ -5,25 +5,38 @@
 #ifndef CANTINA_FFTWANALYSIS_HPP
 #define CANTINA_FFTWANALYSIS_HPP
 
+#pragma once
+
+extern "C"
+{
 #include <fftw3.h>
+};
 
 #include <cant/common/types.hpp>
+
+#include <vector>
 
 namespace cant::fft
 {
     class FFTWPerformer
     {
     private:
-        sample_m* _inoutBuffer;
-        fftwf_plan _forwardPlan, _inversePlan;
-        sizeint _blockSize;
+        fftwf_plan _realForwardPlan, _realInversePlan;
+
+        std::vector<sample_m> _inoutBuffer;
     private:
-        void perform(sample_m* inout, sizeint blockSize, const fftwf_plan& plan);
+        void performReal(std::vector<sample_m>& inout, const fftwf_plan& realPlan);
+
+        static fftwf_plan computeRealPlan(std::vector<sample_m>& inOutBuffer, fftw_r2r_kind kind);
+
     public:
-        CANT_EXPLICIT FFTWPerformer(sizeint blockSize);
+        CANT_EXPLICIT FFTWPerformer(sizeint transformSize);
         ~FFTWPerformer();
-        void performForward(sample_m* inout, sizeint blockSize);
-        void performInverse(sample_m* inout, sizeint blockSize);
+        void performRealForward(std::vector<sample_m>& inout);
+        void performRealInverse(std::vector<sample_m>& inout);
+
+        CANT_NODISCARD sizeint getTransformSize() const { return _inoutBuffer.size(); }
+
     };
 
 }

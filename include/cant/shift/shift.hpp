@@ -10,6 +10,6 @@
 #include "PitchShifter.hpp"
 
 #include "SoundTouchShifter.hpp"
-#include "RubberTouchShifter.hpp"
+// #include "RubberTouchShifter.hpp"
 
 #endif //CANTINA_SHIFT_HPP

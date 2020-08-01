@@ -7,11 +7,11 @@
 namespace cant::shift
 {
     RubberTouchShifter::
-    RubberTouchShifter(UPtr<TimeDomainPitchShifter>&& auxShifter, const sizeint numberVoices, const sizeint sampleRate, const sizeint blockSize)
+    RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, const sizeint numberVoices, const sizeint sampleRate, const sizeint blockSize)
     : MixedDomainPitchShifter(std::move(auxShifter)),
       _bands(
             numberVoices,
-            RubberBand::RubberBandStretcher(sampleRate, NUMBER_CHANNELS, RubberBand::RubberBandStretcher::OptionProcessRealTime)
+            std::move(RubberBand::RubberBandStretcher(sampleRate, NUMBER_CHANNELS, RubberBand::RubberBandStretcher::OptionProcessRealTime))
     )
     {
         for(auto& band: _bands)

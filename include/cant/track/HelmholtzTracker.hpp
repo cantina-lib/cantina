@@ -8,14 +8,13 @@
 #pragma once
 
 
-#include <helmholtz/Helmholtz.h>
+#include <cant/extern/helmholtz/Helmholtz.hpp>
 
 #include <cant/common/types.hpp>
 #include <cant/track/PitchTracker.hpp>
 
 namespace cant::track
 {
-    static constexpr float_m DEFAULT_MIN_FIDELITY = 0.9;
 
     class HelmholtzTracker: public PitchTracker
     {
@@ -32,11 +31,11 @@ namespace cant::track
 
         CANT_NODISCARD bool isPitchAcceptable(float_m fidelity) const;
     public:
-        HelmholtzTracker(
+        CANT_EXPLICIT HelmholtzTracker(
                 int_m sampleRate,
                 int_m frameSize = m_DEFAULT_FRAME_SIZE,
                 int_m overlap = m_DEFAULT_OVERLAP,
-                float_m minFidelity = DEFAULT_MIN_FIDELITY
+                float_m minFidelity = PitchTracker::m_DEFAULT_MIN_FIDELITY
                         );
 
         void update(const sample_m *in, sizeint blockSize) override;

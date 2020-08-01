@@ -4,11 +4,13 @@
 
 #include <cant/track/HelmholtzTracker.hpp>
 
+#include <iostream>
+
 namespace cant::track
 {
     HelmholtzTracker::
     HelmholtzTracker(const int_m sampleRate, const int_m frameSize, const int_m overlap, const float_m minFidelity)
-            : _helm(frameSize, overlap), _sampleRate(sampleRate), _minFidelity(minFidelity), _pitch(), _fidelity()
+    : _helm(frameSize, overlap), _sampleRate(sampleRate), _minFidelity(minFidelity), _pitch(), _fidelity()
     {
 
     }
@@ -24,6 +26,7 @@ namespace cant::track
             _pitch = (float_m)_sampleRate / _helm.getPeriod();
             _fidelity = updatedFidelity;
         }
+        std::cout << _pitch << " | " << _fidelity << std::endl;
     }
 
     float_m

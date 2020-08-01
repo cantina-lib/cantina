@@ -4,6 +4,9 @@
 
 #include <cant/Cantina.hpp>
 
+#include <cant/pan/pan.hpp>
+#include <cant/track/track.hpp>
+#include <cant/shift/shift.hpp>
 
 namespace cant
 {
@@ -18,6 +21,7 @@ namespace cant
     _tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
     _shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
     {
+
     }
 
     void
