@@ -22,7 +22,7 @@ namespace cant::track
     protected:
         static constexpr float_m m_DEFAULT_MIN_FIDELITY = 0.9;
     public:
-        virtual void update(const sample_m *in, sizeint blockSize) = 0;
+        virtual void update(const sample_m *in, size_m blockSize) = 0;
 
         CANT_NODISCARD virtual float_m getPitchFreq() const = 0;
         CANT_NODISCARD virtual float_m getFidelity() const = 0;

@@ -23,22 +23,22 @@ namespace cant::shift
     class PitchShifter
     {
     private:
-        virtual void update(sizeint iVoice, const sample_m *input, sizeint blockSize) = 0;
+        virtual void update(size_m iVoice, const sample_m *input, size_m blockSize) = 0;
         virtual void
-        shift(sizeint iVoice, pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
-              sample_m *output, sizeint blockSize) = 0;
+        shift(size_m iVoice, pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
+              sample_m *output, size_m blockSize) = 0;
     private:
         static float_m velocityToVolumeRatio(pan::vel_m velocity);
         static pan::tone_m freqToTone(float_m freq);
-        static void amplify(sample_m *block, sizeint blockSize, float_m amp);
+        static void amplify(sample_m *block, size_m blockSize, float_m amp);
     protected:
         static bool shouldClearBuffers(const pan::MidiNoteOutput &data);
 
-        virtual void clearBuffers(sizeint iVoice) = 0;
+        virtual void clearBuffers(size_m iVoice) = 0;
         static float_m toneToShiftRatio(pan::tone_m src, pan::tone_m dest);
     public:
-       void apply(sizeint iVoice, float_m pitch, const pan::MidiNoteOutput &data, const sample_m *input,
-                  sample_m *output, sizeint blockSize);
+       void apply(size_m iVoice, float_m pitch, const pan::MidiNoteOutput &data, const sample_m *input,
+                  sample_m *output, size_m blockSize);
     };
 
 

@@ -30,12 +30,12 @@ namespace cant::fft
         static fftwf_plan computeRealPlan(std::vector<sample_m>& inOutBuffer, fftw_r2r_kind kind);
 
     public:
-        CANT_EXPLICIT FFTWPerformer(sizeint transformSize);
+        CANT_EXPLICIT FFTWPerformer(size_m transformSize);
         ~FFTWPerformer();
         void performRealForward(std::vector<sample_m>& inout);
         void performRealInverse(std::vector<sample_m>& inout);
 
-        CANT_NODISCARD sizeint getTransformSize() const { return _inoutBuffer.size(); }
+        CANT_NODISCARD size_m getTransformSize() const { return _inoutBuffer.size(); }
 
     };
 

@@ -38,7 +38,7 @@ namespace cant::track
                 float_m minFidelity = PitchTracker::m_DEFAULT_MIN_FIDELITY
                         );
 
-        void update(const sample_m *in, sizeint blockSize) override;
+        void update(const sample_m *in, size_m blockSize) override;
 
         CANT_NODISCARD float_m getPitchFreq() const override;
         CANT_NODISCARD float_m getFidelity() const override;

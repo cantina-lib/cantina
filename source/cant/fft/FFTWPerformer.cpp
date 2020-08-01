@@ -12,7 +12,7 @@ namespace cant::fft
 {
 
     FFTWPerformer::
-    FFTWPerformer(const sizeint transformSize)
+    FFTWPerformer(const size_m transformSize)
     : _inoutBuffer()
     {
         const sample_m* inout = fftwf_alloc_real(transformSize);
@@ -64,7 +64,7 @@ namespace cant::fft
     performRealForward(std::vector<sample_m>& inout)
     {
         performReal(inout, _realForwardPlan);
-        for (sizeint i = getTransformSize() / 2; i < getTransformSize(); ++i)
+        for (size_m i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {
             inout[i] = - inout[i];
         }
@@ -74,7 +74,7 @@ namespace cant::fft
     FFTWPerformer::
     performRealInverse(std::vector<sample_m>& inout)
     {
-        for (sizeint i = getTransformSize() / 2; i < getTransformSize(); ++i)
+        for (size_m i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {
             inout[i] = - inout[i];
         }

@@ -24,7 +24,7 @@ namespace cant
     class Cantina
     {
     private:
-        UPtr<pan::Pantoufle> _mach;
+        UPtr<pan::Pantoufle> _pan;
         UPtr<track::PitchTracker> _tracker;
         /*
          * Cantina needs an unconstrained shifter for its main function,
@@ -33,20 +33,20 @@ namespace cant
         UPtr<shift::TimeDomainPitchShifter> _shifter;
 
     private:
-        void update(const sample_m *in, sizeint blockSize);
+        void update(const sample_m *in, size_m blockSize);
     public:
-        CANT_EXPLICIT Cantina(sizeint numberHarmonics,
+        CANT_EXPLICIT Cantina(size_m numberHarmonics,
                               int_m sampleRate,
                               pan::byte_m channelId=0
                         );
-        CANT_NODISCARD sizeint getNumberHarmonics() const;
+        CANT_NODISCARD size_m getNumberHarmonics() const;
         void setController(const std::string &type, pan::byte_m channelId, pan::byte_m controllerId);
-        void receiveNote(sizeint iVoice, const pan::MidiNoteInputData& noteData);
+        void receiveNote(size_m iVoice, const pan::MidiNoteInputData& noteData);
         void receiveControl(const pan::MidiControlData &controlData);
 
 
         /* @brief: assumes numberHarmonics() elements in outVoices */
-        void perform(const sample_m* in, sample_m* outSeed, sample_m** outHarmonics, sizeint blockSize);
+        void perform(const sample_m* in, sample_m* outSeed, sample_m** outHarmonics, size_m blockSize);
     };
 
 }

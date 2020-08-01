@@ -10,23 +10,20 @@
 
 namespace cant
 {
-
-
-
     Cantina::
-    Cantina(const sizeint numberHarmonics,
+    Cantina(const size_m numberHarmonics,
             const int_m sampleRate,
             const pan::byte_m channelId)
-    : _mach(UPtr<pan::Pantoufle>(new pan::Pantoufle(numberHarmonics, channelId))),
-    _tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
-    _shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
+    : _pan(UPtr<pan::Pantoufle>(new pan::Pantoufle(numberHarmonics, channelId))),
+      _tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
+      _shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
     {
 
     }
 
     void
     Cantina::
-    perform(const sample_m *in, sample_m *outSeed, sample_m **outHarmonics, const sizeint blockSize)
+    perform(const sample_m *in, sample_m *outSeed, sample_m **outHarmonics, const size_m blockSize)
     {
         /* UPDATING CANT */
         CANTINA_TRY_RETHROW({
@@ -42,8 +39,8 @@ namespace cant
         }
         float_m pitch = _tracker->getPitchFreq();
         /* getting stream of processed notes */
-        const Stream<pan::MidiNoteOutput>& processedNoteOutput = _mach->getProcessedOutputData();
-        for(sizeint i=0; i < getNumberHarmonics(); ++i)
+        const Stream<pan::MidiNoteOutput>& processedNoteOutput = _pan->getProcessedOutputData();
+        for(size_m i=0; i < getNumberHarmonics(); ++i)
         {
             const auto& data = processedNoteOutput.at(i);
             sample_m* outHarmonic = outHarmonics[i];
@@ -55,29 +52,29 @@ namespace cant
 
     void
     Cantina::
-    update(const sample_m* in, const sizeint blockSize)
+    update(const sample_m* in, const size_m blockSize)
     {
 
         CANTINA_TRY_RETHROW({
             _tracker->update(in, blockSize);
             // _shifter->update(in);
-            _mach->update();
+            _pan->update();
         })
     }
 
-    sizeint
+    size_m
     Cantina::
     getNumberHarmonics() const
     {
-        return _mach->getNumberVoices();
+        return _pan->getNumberVoices();
     }
 
     void
     Cantina::
-    receiveNote(const sizeint iVoice, const pan::MidiNoteInputData& noteData)
+    receiveNote(const size_m iVoice, const pan::MidiNoteInputData& noteData)
     {
         PANTOUFLE_TRY_RETHROW({
-             _mach->receiveRawNoteData(iVoice, noteData);
+             _pan->receiveRawNoteData(iVoice, noteData);
         })
     }
 
@@ -86,7 +83,7 @@ namespace cant
     receiveControl(const pan::MidiControlInputData &controlData)
     {
         CANTINA_TRY_RETHROW({
-                _mach->receiveRawControlData(controlData);
+                _pan->receiveRawControlData(controlData);
         })
     }
 
@@ -97,7 +94,7 @@ namespace cant
         if(type == CONTROLLER_TYPE_DAMPER)
         {
             CANTINA_TRY_RETHROW({
-                _mach->setController
+                _pan->setController
                         (
                                 pan::MidiDamper::make(
                                         getNumberHarmonics(),

@@ -15,12 +15,12 @@ namespace cant::shift
     {
     private: // usable only by base class
         void
-        shift(sizeint iVoice, pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
-              sample_m *output, sizeint blockSize) override;
+        shift(size_m iVoice, pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
+              sample_m *output, size_m blockSize) override;
         virtual void
-        shift(sizeint iVoice, float_m shiftRatio, const sample_m *input, sample_m *output, sizeint blockSize) = 0;
+        shift(size_m iVoice, float_m shiftRatio, const sample_m *input, sample_m *output, size_m blockSize) = 0;
     private:
-        void update(sizeint iVoice, const sample_m *input, sizeint blockSize) override = 0;
+        void update(size_m iVoice, const sample_m *input, size_m blockSize) override = 0;
     };
 }
 

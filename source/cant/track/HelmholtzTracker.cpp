@@ -4,8 +4,6 @@
 
 #include <cant/track/HelmholtzTracker.hpp>
 
-#include <iostream>
-
 namespace cant::track
 {
     HelmholtzTracker::
@@ -17,7 +15,7 @@ namespace cant::track
 
     void
     HelmholtzTracker::
-    update(const sample_m *in, const sizeint blockSize)
+    update(const sample_m *in, const size_m blockSize)
     {
         _helm.inSamples(in, blockSize);
         const float_m updatedFidelity = _helm.getFidelity();
@@ -26,7 +24,6 @@ namespace cant::track
             _pitch = (float_m)_sampleRate / _helm.getPeriod();
             _fidelity = updatedFidelity;
         }
-        std::cout << _pitch << " | " << _fidelity << std::endl;
     }
 
     float_m

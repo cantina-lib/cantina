@@ -8,8 +8,8 @@ namespace cant::shift
 {
     void
     TimeDomainPitchShifter::
-    shift(sizeint iVoice, double src, const pan::MidiNoteOutput &data, const sample_m *input,
-          sample_m *output, sizeint blockSize)
+    shift(size_m iVoice, double src, const pan::MidiNoteOutput &data, const sample_m *input,
+          sample_m *output, size_m blockSize)
     {
         CANTINA_TRY_RETHROW({
             if(shouldClearBuffers(data))
