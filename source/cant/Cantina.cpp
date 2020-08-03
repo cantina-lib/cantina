@@ -42,10 +42,10 @@ namespace cant
         const Stream<pan::MidiNoteOutput>& processedNoteOutput = _pan->getProcessedOutputData();
         for(size_m i=0; i < getNumberHarmonics(); ++i)
         {
-            const auto& data = processedNoteOutput.at(i);
+            const auto& note = processedNoteOutput.at(i);
             sample_m* outHarmonic = outHarmonics[i];
             CANTINA_TRY_RETHROW({
-                _shifter->apply(i, pitch, data, in, outHarmonic, blockSize);
+                _shifter->apply(i, pitch, note, in, outHarmonic, blockSize);
             })
         }
     }
@@ -89,19 +89,12 @@ namespace cant
 
     void
     Cantina::
-    setController(const std::string &type, const pan::byte_m channelId, const pan::byte_m controllerId)
+    setController(const std::string &type, const pan::byte_m channel, const pan::byte_m controllerId)
     {
         if(type == CONTROLLER_TYPE_DAMPER)
         {
             CANTINA_TRY_RETHROW({
-                _pan->setController
-                        (
-                                pan::MidiDamper::make(
-                                        getNumberHarmonics(),
-                                        channelId,
-                                        controllerId
-                                )
-                        );
+                _pan->setController(pan::MidiDamper::make(getNumberHarmonics(), channel, controllerId));
             })
         }
         else

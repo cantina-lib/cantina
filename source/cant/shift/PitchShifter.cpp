@@ -11,12 +11,12 @@ namespace cant::shift
 {
     void
     PitchShifter::
-    apply(size_m iVoice, float_m pitch, const pan::MidiNoteOutput &data, const sample_m *input,
+    apply(size_m iVoice, float_m pitch, const pan::MidiNoteOutput &note, const sample_m *input,
           sample_m *output, size_m blockSize)
     {
         CANTINA_TRY_RETHROW({
-            shift(iVoice, freqToTone(pitch), data, input, output, blockSize);
-            const pan::vel_m velocityPlaying = data.getVelocityPlaying();
+            shift(iVoice, freqToTone(pitch), note, input, output, blockSize);
+            const pan::vel_m velocityPlaying = note.getVelocityPlaying();
             amplify(output, blockSize, velocityToVolumeRatio(velocityPlaying));
         })
     }

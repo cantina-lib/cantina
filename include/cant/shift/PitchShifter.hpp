@@ -37,8 +37,14 @@ namespace cant::shift
         virtual void clearBuffers(size_m iVoice) = 0;
         static float_m toneToShiftRatio(pan::tone_m src, pan::tone_m dest);
     public:
-       void apply(size_m iVoice, float_m pitch, const pan::MidiNoteOutput &data, const sample_m *input,
-                  sample_m *output, size_m blockSize);
+       void apply(
+               size_m iVoice,
+               float_m pitch,
+               const pan::MidiNoteOutput &note,
+               const sample_m *input,
+               sample_m *output,
+               size_m blockSize
+               );
     };
 
 
