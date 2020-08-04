@@ -32,7 +32,7 @@ namespace cant::shift
         static pan::tone_m freqToTone(float_m freq);
         static void amplify(sample_m *block, size_m blockSize, float_m amp);
     protected:
-        static bool shouldClearBuffers(const pan::MidiNoteOutput &data);
+        static bool shouldClearBuffers(const pan::MidiNoteOutput &output);
 
         virtual void clearBuffers(size_m iVoice) = 0;
         static float_m toneToShiftRatio(pan::tone_m src, pan::tone_m dest);

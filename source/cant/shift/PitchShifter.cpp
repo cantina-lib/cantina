@@ -23,9 +23,9 @@ namespace cant::shift
 
     bool
     PitchShifter::
-    shouldClearBuffers(const pan::MidiNoteOutput &data)
+    shouldClearBuffers(const pan::MidiNoteOutput &output)
     {
-        return data.justStopped();
+        return output.justStopped();
     }
 
     float_m
