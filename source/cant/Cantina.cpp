@@ -4,7 +4,9 @@
 
 #include <cant/Cantina.hpp>
 
-#include <cant/pan/pan.hpp>
+
+#include <cant/pan/controller/controller.hpp>
+
 #include <cant/track/track.hpp>
 #include <cant/shift/shift.hpp>
 
@@ -14,7 +16,7 @@ namespace cant
     Cantina(const size_m numberHarmonics,
             const int_m sampleRate,
             const pan::byte_m channelId)
-    : _pan(UPtr<pan::Pantoufle>(new pan::Pantoufle(numberHarmonics, channelId))),
+    : _pantoufle(UPtr<pan::Pantoufle>(new pan::Pantoufle(numberHarmonics, channelId))),
       _tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
       _shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
     {
@@ -39,13 +41,13 @@ namespace cant
         }
         float_m pitch = _tracker->getPitchFreq();
         /* getting stream of processed notes */
-        const Stream<pan::MidiNoteOutput>& processedNoteOutput = _pan->getProcessedOutputData();
+        const Stream<pan::MidiNoteOutput>& processedNoteOutput = _pantoufle->getProcessedOutputData();
         for(size_m i=0; i < getNumberHarmonics(); ++i)
         {
             const auto& note = processedNoteOutput.at(i);
             sample_m* outHarmonic = outHarmonics[i];
             CANTINA_TRY_RETHROW({
-                _shifter->apply(i, pitch, note, in, outHarmonic, blockSize);
+                _shifter->apply(pitch, note, in, outHarmonic, blockSize);
             })
         }
     }
@@ -57,8 +59,7 @@ namespace cant
 
         CANTINA_TRY_RETHROW({
             _tracker->update(in, blockSize);
-            // _shifter->update(in);
-            _pan->update();
+            _pantoufle->update();
         })
     }
 
@@ -66,15 +67,15 @@ namespace cant
     Cantina::
     getNumberHarmonics() const
     {
-        return _pan->getNumberVoices();
+        return _pantoufle->getNumberVoices();
     }
 
     void
     Cantina::
-    receiveNote(const size_m iVoice, const pan::MidiNoteInputData& noteData)
+    receiveNote(const pan::MidiNoteInputData& noteData)
     {
         PANTOUFLE_TRY_RETHROW({
-             _pan->receiveRawNoteData(iVoice, noteData);
+          _pantoufle->receiveInputNoteData(noteData);
         })
     }
 
@@ -83,23 +84,29 @@ namespace cant
     receiveControl(const pan::MidiControlInputData &controlData)
     {
         CANTINA_TRY_RETHROW({
-                _pan->receiveRawControlData(controlData);
+                _pantoufle->receiveRawControlData(controlData);
         })
     }
 
     void
     Cantina::
-    setController(const std::string &type, const pan::byte_m channel, const pan::byte_m controllerId)
+    setController(const std::string &type, const pan::byte_m channel, const Stream <pan::byte_m> &controllerIds)
     {
-        if(type == CONTROLLER_TYPE_DAMPER)
+        if (type == CONTROLLER_TYPE_DAMPER)
         {
             CANTINA_TRY_RETHROW({
-                _pan->setController(pan::MidiDamper::make(getNumberHarmonics(), channel, controllerId));
-            })
+            _pantoufle->setController(pan::MidiDamper::make(getNumberHarmonics(), channel, controllerIds.at(0)));
+                                })
+        }
+        else if (type == CONTROLLER_TYPE_PAN)
+        {
+            CANTINA_TRY_RETHROW({
+            _pantoufle->setController(pan::MidiPan::make(getNumberHarmonics(), channel, controllerIds.at(0)));
+                                })
         }
         else
         {
-            throw CANTINA_EXCEPTION(fmt::format("Controller type not recognised: {0}", type));
+            throw CANTINA_EXCEPTION("Controller type not recognised: " + type);
         }
     }
 

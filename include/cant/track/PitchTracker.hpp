@@ -13,8 +13,6 @@
 #include <cant/pan/common/types.hpp>
 
 
-#include <functional>
-
 namespace cant::track
 {
     class PitchTracker

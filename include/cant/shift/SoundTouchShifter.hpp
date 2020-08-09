@@ -21,12 +21,13 @@ namespace cant::shift
     private:
         std::vector<soundtouch::SoundTouch> _touches;
     private: // unsable here, only in base class
-        void update(size_m iVoice, const sample_m *input, size_m blockSize) override;
-        void clearBuffers(size_m iVoice) override;
-        void shift(size_m iVoice, float_m shiftRatio, const sample_m *input, sample_m *output,
-                   size_m blockSize) override;
+        void update(size_m voice, const sample_m *input, size_m blockSize) override;
+        void clearBuffers(size_m voice) override;
+        void shift(size_m voice, float_m shiftRatio, const sample_m *input, sample_m *output, size_m blockSize) override;
     public:
-        SoundTouchShifter(size_m numberVoices, size_m sampleRate, int_m sequence = m_DEFAULT_SEQUENCE);
+        SoundTouchShifter(size_m numberVoices, int_m sampleRate, int_m sequence = m_DEFAULT_SEQUENCE);
+
+        CANT_NODISCARD size_m getNumberVoices() const;
     };
 }
 

@@ -9,8 +9,13 @@
 
 
 #include <cant/common/types.hpp>
+#include <cant/common/memory.hpp>
 
-#include <cant/pan/pan.hpp>
+#include <cant/common/maths.hpp>
+
+#include <cant/pan/common/types.hpp>
+
+#include <cant/pan/note/MidiNote.hpp>
 
 namespace cant::shift
 {
@@ -23,22 +28,22 @@ namespace cant::shift
     class PitchShifter
     {
     private:
-        virtual void update(size_m iVoice, const sample_m *input, size_m blockSize) = 0;
         virtual void
-        shift(size_m iVoice, pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
+        shift(pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
               sample_m *output, size_m blockSize) = 0;
+
+        virtual void update(size_m voice, const sample_m *input, size_m blockSize) = 0;
     private:
         static float_m velocityToVolumeRatio(pan::vel_m velocity);
         static pan::tone_m freqToTone(float_m freq);
         static void amplify(sample_m *block, size_m blockSize, float_m amp);
     protected:
-        static bool shouldClearBuffers(const pan::MidiNoteOutput &output);
+        static bool shouldClearBuffers(const pan::MidiNoteOutput &note);
 
-        virtual void clearBuffers(size_m iVoice) = 0;
+        virtual void clearBuffers(size_m voice) = 0;
         static float_m toneToShiftRatio(pan::tone_m src, pan::tone_m dest);
     public:
        void apply(
-               size_m iVoice,
                float_m pitch,
                const pan::MidiNoteOutput &note,
                const sample_m *input,

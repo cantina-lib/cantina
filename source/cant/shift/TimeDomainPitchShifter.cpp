@@ -8,19 +8,20 @@ namespace cant::shift
 {
     void
     TimeDomainPitchShifter::
-    shift(size_m iVoice, double src, const pan::MidiNoteOutput &data, const sample_m *input,
+    shift(double src, const pan::MidiNoteOutput &note, const sample_m *input,
           sample_m *output, size_m blockSize)
     {
+        const size_m voice = note.getVoice();
         CANTINA_TRY_RETHROW({
-            if(shouldClearBuffers(data))
+            if(shouldClearBuffers(note))
             {
-                clearBuffers(iVoice);
+                clearBuffers(voice);
             }
             else
             {
-                const pan::tone_m target = data.getTone();
+                const pan::tone_m target = note.getTone();
                 const float_m shiftRatio = toneToShiftRatio(src, target);
-                shift(iVoice, shiftRatio, input, output, blockSize);
+                shift(voice, shiftRatio, input, output, blockSize);
             }
         })
     }

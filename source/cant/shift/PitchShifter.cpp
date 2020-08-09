@@ -11,11 +11,11 @@ namespace cant::shift
 {
     void
     PitchShifter::
-    apply(size_m iVoice, float_m pitch, const pan::MidiNoteOutput &note, const sample_m *input,
+    apply(const float_m pitch, const pan::MidiNoteOutput &note, const sample_m *input,
           sample_m *output, size_m blockSize)
     {
         CANTINA_TRY_RETHROW({
-            shift(iVoice, freqToTone(pitch), note, input, output, blockSize);
+            shift(freqToTone(pitch), note, input, output, blockSize);
             const pan::vel_m velocityPlaying = note.getVelocityPlaying();
             amplify(output, blockSize, velocityToVolumeRatio(velocityPlaying));
         })
@@ -23,9 +23,9 @@ namespace cant::shift
 
     bool
     PitchShifter::
-    shouldClearBuffers(const pan::MidiNoteOutput &output)
+    shouldClearBuffers(const pan::MidiNoteOutput &note)
     {
-        return output.justStopped();
+        return note.justStopped();
     }
 
     float_m
@@ -39,7 +39,7 @@ namespace cant::shift
     PitchShifter::
     amplify(sample_m *block, const size_m blockSize, const float_m amp)
     {
-        std::for_each(block, block + blockSize, [amp](sample_m& s) { return s *= amp; });
+        std::for_each(block, block + blockSize, [amp](sample_m& s) { s *= amp; });
     }
 
     pan::tone_m

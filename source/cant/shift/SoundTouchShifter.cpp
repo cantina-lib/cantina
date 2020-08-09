@@ -7,8 +7,8 @@
 namespace cant::shift
 {
     SoundTouchShifter::
-    SoundTouchShifter(const size_m numberVoices, const size_m sampleRate, const int_m sequence)
-            : _touches(numberVoices)
+    SoundTouchShifter(const size_m numberVoices, const int_m sampleRate, const int_m sequence)
+    : _touches(numberVoices)
     {
         for(auto& touch: _touches)
         {
@@ -39,7 +39,7 @@ namespace cant::shift
     SoundTouchShifter::
     shift(size_m iVoice, float_m shiftRatio, const sample_m *input, sample_m *output, size_m blockSize)
     {
-        update(iVoice, input, blockSize);
+         update(iVoice, input, blockSize);
         auto& touch = _touches.at(iVoice);
         touch.setPitch(shiftRatio);
         touch.receiveSamples(output, blockSize);
@@ -53,5 +53,14 @@ namespace cant::shift
         auto& touch = _touches.at(iVoice);
         touch.putSamples(input, blockSize);
     }
+
+    size_m
+    SoundTouchShifter::
+    getNumberVoices() const
+    {
+        return _touches.size();
+    }
+
+
 }
 

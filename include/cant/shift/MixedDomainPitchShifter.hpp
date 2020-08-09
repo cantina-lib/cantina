@@ -20,10 +20,14 @@ namespace cant::shift
        UPtr<TimeDomainPitchShifter> _auxShifter;
     private:
         void
-        shift(size_m iVoice, pan::tone_m src, const pan::MidiNoteOutput &data, const sample_m *input,
-              sample_m *output, size_m blockSize)
-                override;
-        CANT_NODISCARD virtual bool isReady(size_m iVoice) const = 0;
+        shift(
+                pan::tone_m src,
+                const pan::MidiNoteOutput &note,
+                const sample_m *input,
+                sample_m *output,
+                size_m blockSize
+                ) override;
+        CANT_NODISCARD virtual bool isReady(const pan::MidiNoteOutput& note) const = 0;
     public:
         explicit MixedDomainPitchShifter(UPtr<TimeDomainPitchShifter>&& auxShifter);
     };
