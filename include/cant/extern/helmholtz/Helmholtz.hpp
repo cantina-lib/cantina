@@ -57,6 +57,7 @@ include Ron Mayer's fft or similar functionality. */
 #include <vector>
 
 /***********************************************************************/
+#include <cant/common/macro.hpp>
 namespace helmholtz
 {
     class Helmholtz
@@ -116,4 +117,5 @@ namespace helmholtz
 
 }
 
+#include <cant/common/undef_macro.hpp>
 #endif // #ifndef Helmholtz_H

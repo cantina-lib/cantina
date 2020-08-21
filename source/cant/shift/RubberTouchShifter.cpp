@@ -7,7 +7,7 @@
 namespace cant::shift
 {
     RubberTouchShifter::
-    RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, const sizeint numberVoices, const sizeint sampleRate, const sizeint blockSize)
+    RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, size_m numberVoices, size_m sampleRate, size_m blockSize)
     : MixedDomainPitchShifter(std::move(auxShifter)),
       _bands(
             numberVoices,
@@ -22,7 +22,7 @@ namespace cant::shift
 
     void
     RubberTouchShifter::
-    update(const sizeint iVoice, const sample_m *input, const sizeint blockSize)
+    update(const size_m iVoice, const sample_m *input, const size_m blockSize)
     {
         /* todo */
     }
@@ -30,13 +30,13 @@ namespace cant::shift
 
     void
     RubberTouchShifter::
-    clearBuffers(const sizeint iVoice)
+    clearBuffers(const size_m iVoice)
     {
         _bands.at(iVoice).reset();
     }
     bool
     RubberTouchShifter::
-    isReady(const sizeint iVoice) const
+    isReady(const size_m iVoice) const
     {
         return _bands.at(iVoice).available();
     }

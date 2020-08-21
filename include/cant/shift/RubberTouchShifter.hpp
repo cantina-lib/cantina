@@ -8,19 +8,19 @@
 #pragma once
 
 
-// #include <RubberBandStretcher.h>
+#include <RubberBandStretcher.h>
 
 #include <cant/common/types.hpp>
 
 #include <cant/shift/MixedDomainPitchShifter.hpp>
 
-
+#include <cant/common/macro.hpp>
 namespace cant::shift
 {
     class RubberTouchShifter final : public MixedDomainPitchShifter
     {
     private:
-        static const sizeint m_MAX_PROCESS_BATCH_SIZE = 1024;
+        static const size_m s_maxProcessBatchSize = 1024;
     private:
         std::vector<RubberBand::RubberBandStretcher> _bands;
 
@@ -36,4 +36,5 @@ namespace cant::shift
     };
 }
 
+#include <cant/common/undef_macro.hpp>
 #endif //CANTINA_RUBBERTOUCHSHIFTER_HPP

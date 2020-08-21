@@ -12,12 +12,13 @@
 #include <cant/common/types.hpp>
 #include <cant/shift/TimeDomainPitchShifter.hpp>
 
+#include <cant/common/macro.hpp>
 namespace cant::shift
 {
     class SoundTouchShifter final : public TimeDomainPitchShifter
     {
     private:
-        static constexpr int_m m_DEFAULT_SEQUENCE = 20;
+        static CANT_CONSTEXPR int_m s_defaultSequence = 20;
     private:
         std::vector<soundtouch::SoundTouch> _touches;
     private: // unsable here, only in base class
@@ -25,10 +26,11 @@ namespace cant::shift
         void clearBuffers(size_m voice) override;
         void shift(size_m voice, float_m shiftRatio, const sample_m *input, sample_m *output, size_m blockSize) override;
     public:
-        SoundTouchShifter(size_m numberVoices, int_m sampleRate, int_m sequence = m_DEFAULT_SEQUENCE);
+        SoundTouchShifter(size_m numberVoices, int_m sampleRate, int_m sequence = s_defaultSequence);
 
         CANT_NODISCARD size_m getNumberVoices() const;
     };
 }
 
+#include <cant/common/undef_macro.hpp>
 #endif //CANTINA_SOUNDTOUCHSHIFTER_HPP

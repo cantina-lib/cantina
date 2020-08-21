@@ -4,12 +4,12 @@
 
 #include <cant/Cantina.hpp>
 
-
 #include <cant/pan/controller/controller.hpp>
 
 #include <cant/track/track.hpp>
 #include <cant/shift/shift.hpp>
 
+#include <cant/common/macro.hpp>
 namespace cant
 {
     Cantina::
@@ -109,7 +109,6 @@ namespace cant
             throw CANTINA_EXCEPTION("Controller type not recognised: " + type);
         }
     }
-
-
+#include <cant/common/undef_macro.hpp>
 
 }

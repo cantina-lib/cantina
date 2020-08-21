@@ -8,6 +8,7 @@
 
 #include <algorithm>
 
+#include <cant/common/macro.hpp>
 namespace cant::fft
 {
 
@@ -28,7 +29,7 @@ namespace cant::fft
 
     fftwf_plan
     FFTWPerformer::
-    computeRealPlan(std::vector<sample_m>& inoutBuffer, const fftw_r2r_kind kind)
+    computeRealPlan(Stream<sample_m>& inoutBuffer, const fftw_r2r_kind kind)
     {
         return fftwf_plan_r2r_1d(inoutBuffer.size(), inoutBuffer.data(), inoutBuffer.data(), kind, FFTW_PATIENT);
     }
@@ -43,7 +44,7 @@ namespace cant::fft
 
     void
     FFTWPerformer::
-    performReal(std::vector<sample_m>& inout, const fftwf_plan& realPlan)
+    performReal(Stream<sample_m>& inout, const fftwf_plan& realPlan)
     {
         /*
          * the received sample has not been allocated with fftwf_malloc,
@@ -51,7 +52,7 @@ namespace cant::fft
          * the internal _inoutBuffer
          * then copy the result.
          */
-        CANTINA_ASSERT(inout.size() == getTransformSize());
+        CANTINA_ASSERT(inout.size() == getTransformSize(), "Nope nope nope.");
         std::copy(inout.begin(), inout.end(), _inoutBuffer.begin());
         fftwf_execute(realPlan);
         std::copy(_inoutBuffer.begin(), _inoutBuffer.end(), inout.begin());
@@ -61,7 +62,7 @@ namespace cant::fft
 
     void
     FFTWPerformer::
-    performRealForward(std::vector<sample_m>& inout)
+    performRealForward(Stream<sample_m>& inout)
     {
         performReal(inout, _realForwardPlan);
         for (size_m i = getTransformSize() / 2; i < getTransformSize(); ++i)
@@ -72,7 +73,7 @@ namespace cant::fft
 
     void
     FFTWPerformer::
-    performRealInverse(std::vector<sample_m>& inout)
+    performRealInverse(Stream<sample_m>& inout)
     {
         for (size_m i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {

@@ -11,19 +11,21 @@
 #include <cant/common/types.hpp>
 #include <cant/common/memory.hpp>
 
-#include <cant/common/maths.hpp>
+#include <cant/maths/maths.hpp>
 
 #include <cant/pan/common/types.hpp>
 
 #include <cant/pan/note/MidiNote.hpp>
 
+#include <cant/common/macro.hpp>
 namespace cant::shift
 {
-    static constexpr int_m NUMBER_CHANNELS = 1;
+    static CANT_CONSTEXPR int_m       s_numberChannels = 1;
 
-    static constexpr float_m FREQ_A440 = 440.;
-    static constexpr pan::tone_m TONE_A440 = 69.;
-    static const float_m TWELTH_ROOT_TWO = std::pow(2., 1./12.);
+    static CANT_CONSTEXPR float_m     s_freqA440 = 440.;
+    static CANT_CONSTEXPR pan::tone_m s_toneA440 = 69.;
+
+    static const          float_m      s_twelthRootTwo = std::pow(2., 1. / 12.);
 
     class PitchShifter
     {
@@ -56,4 +58,5 @@ namespace cant::shift
 
 }
 
+#include <cant/common/undef_macro.hpp>
 #endif //CANTINA_PITCHSHIFTER_HPP

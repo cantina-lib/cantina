@@ -13,7 +13,7 @@ namespace cant::shift
         for(auto& touch: _touches)
         {
             touch.setSampleRate(sampleRate);
-            touch.setChannels(NUMBER_CHANNELS);
+            touch.setChannels(s_numberChannels);
             touch.setSetting(SETTING_USE_QUICKSEEK, 1);
             touch.setSetting(SETTING_USE_AA_FILTER, 1);
             /* relative to sequence */

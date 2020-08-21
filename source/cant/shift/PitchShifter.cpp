@@ -7,6 +7,7 @@
 #include <cmath>
 #include <algorithm>
 
+#include <cant/common/macro.hpp>
 namespace cant::shift
 {
     void
@@ -25,6 +26,13 @@ namespace cant::shift
     PitchShifter::
     shouldClearBuffers(const pan::MidiNoteOutput &note)
     {
+        /**
+         * BIG TO-DO here!!
+         * This ain't good, SoundTouch needs memory of large range of shifting, otherwise it keeps poppin'!!
+         * I should clear the buffers ONLY when the output is too far behind the input.
+         * First step is to find out how to mesure this latency!!
+         **/
+        // return false;
         return note.justStopped();
     }
 
@@ -46,14 +54,14 @@ namespace cant::shift
     PitchShifter::
     freqToTone(const float_m freq)
     {
-        return 12. * (std::log(freq / FREQ_A440) / std::log(2)) + TONE_A440;
+        return 12. * (std::log(freq / s_freqA440) / std::log(2)) + s_toneA440;
     }
 
     float_m
     PitchShifter::
     toneToShiftRatio(const pan::tone_m src, const pan::tone_m dest)
     {
-        return std::pow(TWELTH_ROOT_TWO, dest - src);
+        return std::pow(s_twelthRootTwo, dest - src);
     }
 }
 

@@ -17,7 +17,7 @@
 #include <cant/track/PitchTracker.hpp>
 #include <cant/shift/TimeDomainPitchShifter.hpp>
 
-
+#include <cant/common/macro.hpp>
 namespace cant
 {
 
@@ -52,4 +52,5 @@ namespace cant
 }
 
 
+#include <cant/common/undef_macro.hpp>
 #endif //LIB_CANTINA_HPP

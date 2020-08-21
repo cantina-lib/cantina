@@ -7,12 +7,11 @@
 
 #pragma once
 
-
-#include <cant/common/macro.hpp>
-
+#include <cant/common/types.hpp>
 #include <cant/pan/common/types.hpp>
 
 
+#include <cant/common/macro.hpp>
 namespace cant::track
 {
     class PitchTracker
@@ -29,4 +28,5 @@ namespace cant::track
     };
 }
 
+#include <cant/common/undef_macro.hpp>
 #endif //CANTINA_PITCHTRACKER_HPP

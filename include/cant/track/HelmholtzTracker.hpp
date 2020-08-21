@@ -13,6 +13,7 @@
 #include <cant/common/types.hpp>
 #include <cant/track/PitchTracker.hpp>
 
+#include <cant/common/macro.hpp>
 namespace cant::track
 {
 
@@ -46,4 +47,5 @@ namespace cant::track
     };
 }
 
+#include <cant/common/undef_macro.hpp>
 #endif //CANTINA_HELMHOLTZTRACKER_HPP

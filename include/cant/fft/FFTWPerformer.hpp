@@ -13,9 +13,9 @@ extern "C"
 };
 
 #include <cant/common/types.hpp>
+#include <cant/common/memory.hpp>
 
-#include <vector>
-
+#include <cant/common/macro.hpp>
 namespace cant::fft
 {
     class FFTWPerformer
@@ -23,17 +23,17 @@ namespace cant::fft
     private:
         fftwf_plan _realForwardPlan, _realInversePlan;
 
-        std::vector<sample_m> _inoutBuffer;
+        Stream<sample_m> _inoutBuffer;
     private:
         void performReal(std::vector<sample_m>& inout, const fftwf_plan& realPlan);
 
-        static fftwf_plan computeRealPlan(std::vector<sample_m>& inOutBuffer, fftw_r2r_kind kind);
+        static fftwf_plan computeRealPlan(Stream<sample_m>& inOutBuffer, fftw_r2r_kind kind);
 
     public:
         CANT_EXPLICIT FFTWPerformer(size_m transformSize);
         ~FFTWPerformer();
-        void performRealForward(std::vector<sample_m>& inout);
-        void performRealInverse(std::vector<sample_m>& inout);
+        void performRealForward(Stream<sample_m>& inout);
+        void performRealInverse(Stream<sample_m>& inout);
 
         CANT_NODISCARD size_m getTransformSize() const { return _inoutBuffer.size(); }
 
@@ -41,4 +41,5 @@ namespace cant::fft
 
 }
 
+#include <cant/common/undef_macro.hpp>
 #endif //CANTINA_FFTWANALYSIS_HPP
