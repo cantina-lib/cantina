@@ -4,11 +4,13 @@
 
 #include <cant/shift/SoundTouchShifter.hpp>
 
+#include <cant/common/macro.hpp>
 namespace cant::shift
 {
     SoundTouchShifter::
     SoundTouchShifter(const size_m numberVoices, const int_m sampleRate, const int_m sequence)
-    : _touches(numberVoices)
+    : _sampleRate(sampleRate),
+    _touches(numberVoices)
     {
         for(auto& touch: _touches)
         {
@@ -30,16 +32,39 @@ namespace cant::shift
 
     void
     SoundTouchShifter::
-    clearBuffers(const size_m iVoice)
+    clearBuffers(const size_m voice)
     {
-        _touches.at(iVoice).clear();
+        _touches.at(voice).clear();
+    }
+
+    void
+    SoundTouchShifter::
+    trimBuffers(const size_m voice, const size_m numberSamples)
+    {
+        // std::cout << "yeah " << getNumberSamplesAvailable(voice);
+        CANT_MAYBEUNUSED const size_m trimmedBufferSize = _touches.at(voice).adjustAmountOfSamples(numberSamples);
+        // std::cout << "no " << trimmedBufferSize << std::endl;
+    }
+
+    size_m
+    SoundTouchShifter::
+    getNumberSamplesAvailable(const size_m voice) const
+    {
+        return _touches.at(voice).numSamples();
+    }
+
+    size_m
+    SoundTouchShifter::
+    getSampleRate() const
+    {
+        return _sampleRate;
     }
 
     void
     SoundTouchShifter::
     shift(size_m iVoice, float_m shiftRatio, const sample_m *input, sample_m *output, size_m blockSize)
     {
-         update(iVoice, input, blockSize);
+        update(iVoice, input, blockSize);
         auto& touch = _touches.at(iVoice);
         touch.setPitch(shiftRatio);
         touch.receiveSamples(output, blockSize);

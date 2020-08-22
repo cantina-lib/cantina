@@ -12,18 +12,10 @@ namespace cant::shift
     shift(double src, const pan::MidiNoteOutput &note, const sample_m *input,
           sample_m *output, size_m blockSize)
     {
-        const size_m voice = note.getVoice();
         CANTINA_TRY_RETHROW({
-            if(shouldClearBuffers(note))
-            {
-                clearBuffers(voice);
-            }
-            else
-            {
-                const pan::tone_m target = note.getTone();
-                const float_m shiftRatio = toneToShiftRatio(src, target);
-                shift(voice, shiftRatio, input, output, blockSize);
-            }
+            const pan::tone_m target = note.getTone();
+            const float_m shiftRatio = toneToShiftRatio(src, target);
+            shift(note.getVoice(), shiftRatio, input, output, blockSize);
         })
     }
 }

@@ -9,6 +9,7 @@
 
 #include <cant/shift/PitchShifter.hpp>
 
+#include <cant/common/macro.hpp>
 namespace cant::shift
 {
     class TimeDomainPitchShifter : public PitchShifter
@@ -21,9 +22,15 @@ namespace cant::shift
         shift(size_m voice, float_m shiftRatio, const sample_m *input, sample_m *output, size_m blockSize) = 0;
 
         void clearBuffers(size_m voice) override = 0;
+        void trimBuffers(size_m voice, size_m numberSamples) override = 0;
     private:
         void update(size_m voice, const sample_m *input, size_m blockSize) override = 0;
+    protected:
+        CANT_NODISCARD size_m getNumberSamplesAvailable(size_m voice) const override = 0;
+
+        CANT_NODISCARD size_m getSampleRate() const override = 0;
     };
 }
 
+#include <cant/common/undef_macro.hpp>
 #endif //CANTINA_TIMEDOMAINPITCHSHIFTER_HPP

@@ -20,12 +20,15 @@
 #include <cant/common/macro.hpp>
 namespace cant::shift
 {
-    static CANT_CONSTEXPR int_m       s_numberChannels = 1;
+    static CANT_CONSTEXPR int_m       s_numberChannels    = 1;
 
-    static CANT_CONSTEXPR float_m     s_freqA440 = 440.;
-    static CANT_CONSTEXPR pan::tone_m s_toneA440 = 69.;
+    static CANT_CONSTEXPR float_m     s_freqA440          = 440.;
+    static CANT_CONSTEXPR pan::tone_m s_toneA440          = 69.;
 
-    static const          float_m      s_twelthRootTwo = std::pow(2., 1. / 12.);
+    static const          float_m      s_twelthRootTwo    = std::pow(2., 1. / 12.);
+
+    static CANT_CONSTEXPR pan::time_m  s_maxLatency       =  40.; // milliseconds
+    static CANT_CONSTEXPR pan::time_m  s_preferredLatency =  20.; // milliseconds
 
     class PitchShifter
     {
@@ -35,15 +38,29 @@ namespace cant::shift
               sample_m *output, size_m blockSize) = 0;
 
         virtual void update(size_m voice, const sample_m *input, size_m blockSize) = 0;
+
+        virtual void clearBuffers(size_m voice) = 0;
+        virtual void trimBuffers(size_m voice, size_m numberSamples) = 0;
     private:
         static float_m velocityToVolumeRatio(pan::vel_m velocity);
         static pan::tone_m freqToTone(float_m freq);
         static void amplify(sample_m *block, size_m blockSize, float_m amp);
     protected:
-        static bool shouldClearBuffers(const pan::MidiNoteOutput &note);
+        CANT_NODISCARD bool shouldClearBuffers(const pan::MidiNoteOutput &note) const;
+        CANT_NODISCARD bool shouldTrimBuffers(const pan::MidiNoteOutput &note, pan::time_m maxLatency) const;
 
-        virtual void clearBuffers(size_m voice) = 0;
+
         static float_m toneToShiftRatio(pan::tone_m src, pan::tone_m dest);
+
+        // In milliseconds
+        CANT_NODISCARD pan::time_m getLatencyAvailable(size_m voice) const;
+
+        // In milliseconds again
+        CANT_NODISCARD size_m timeToNumberSamples(pan::time_m t) const;
+
+        CANT_NODISCARD virtual size_m getNumberSamplesAvailable(size_m voice) const = 0;
+
+        CANT_NODISCARD virtual size_m getSampleRate() const = 0;
     public:
        void apply(
                float_m pitch,

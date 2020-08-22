@@ -16,7 +16,18 @@ namespace cant::shift
           sample_m *output, size_m blockSize)
     {
         CANTINA_TRY_RETHROW({
-            shift(freqToTone(pitch), note, input, output, blockSize);
+            if (shouldClearBuffers(note))
+            {
+                    clearBuffers(note.getVoice());
+            }
+            else
+            {
+                if (shouldTrimBuffers(note, s_maxLatency))
+                {
+                    trimBuffers(note.getVoice(), timeToNumberSamples(s_preferredLatency));
+                }
+                shift(freqToTone(pitch), note, input, output, blockSize);
+            }
             const pan::vel_m velocityPlaying = note.getVelocityPlaying();
             amplify(output, blockSize, velocityToVolumeRatio(velocityPlaying));
         })
@@ -24,7 +35,7 @@ namespace cant::shift
 
     bool
     PitchShifter::
-    shouldClearBuffers(const pan::MidiNoteOutput &note)
+    shouldClearBuffers(const pan::MidiNoteOutput &note) const
     {
         /**
          * BIG TO-DO here!!
@@ -32,8 +43,29 @@ namespace cant::shift
          * I should clear the buffers ONLY when the output is too far behind the input.
          * First step is to find out how to mesure this latency!!
          **/
-        // return false;
-        return note.justStopped();
+        return false;
+        // return note.justStopped() && shouldTrimBuffers(note);
+    }
+
+    bool
+    PitchShifter::
+    shouldTrimBuffers(const pan::MidiNoteOutput &note, pan::time_m maxLatency) const
+    {
+        return note.justStopped() && (getLatencyAvailable(note.getVoice()) > maxLatency);
+    }
+
+    pan::time_m
+    PitchShifter::
+    getLatencyAvailable(size_m voice) const
+    {
+        return static_cast<pan::time_m>(1000 * getNumberSamplesAvailable(voice)) / static_cast<pan::time_m>(getSampleRate());
+    }
+
+    size_m
+    PitchShifter::
+    timeToNumberSamples(pan::time_m t) const
+    {
+        return (t / static_cast<pan::time_m>(1000)) * getSampleRate();
     }
 
     float_m
