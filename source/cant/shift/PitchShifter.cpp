@@ -43,6 +43,8 @@ namespace cant::shift
          * I should clear the buffers ONLY when the output is too far behind the input.
          * First step is to find out how to mesure this latency!!
          **/
+         // Well, really not a good idea to clear whole buffers.
+         // From now on they'll be trimmed.
         return false;
         // return note.justStopped() && shouldTrimBuffers(note);
     }
@@ -51,7 +53,7 @@ namespace cant::shift
     PitchShifter::
     shouldTrimBuffers(const pan::MidiNoteOutput &note, pan::time_m maxLatency) const
     {
-        return note.justStopped() && (getLatencyAvailable(note.getVoice()) > maxLatency);
+        return !note.isPlaying() && (getLatencyAvailable(note.getVoice()) > maxLatency);
     }
 
     pan::time_m
