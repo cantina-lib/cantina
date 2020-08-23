@@ -16,20 +16,28 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "-fPIC")
 
 #fftw
-# set(FFTW3_DIR ${THIRDPARTY_DIR}/fftw-3.3.8)
-# set(FFTW3_LIBRARY_DIR ${FFTW3_DIR}/.libs)
+set(FFTW3_DIR ${THIRDPARTY_DIR}/fftw-3.3.8)
 # not working currently, will have to ./configure by hand WITH -fPIC !!
 # ./configure --enable-float CFLAGS="-fPIC"
-option(ENABLE_FLOAT "Enable 32-bit float version of FFTW3 (fftw3f)" ON)
-option(BUILD_SHARED_LIBS "Build shared library version of FFTW3" ON)
+option(ENABLE_FLOAT      "Enable 32-bit float version of FFTW3 (fftw3f)" ON)
+option(ENABLE_THREADS    "Enable multithreading part of FFTW3"           ON)
+option(BUILD_SHARED_LIBS "Build shared library version of FFTW3"         ON)
+option(BUILD_TESTS       "Build test benchmarks for FFTW3"               ON)
 set(ENABLE_FLOAT ON)
+set(ENABLE_THREADS OFF) # for now.
 set(BUILD_SHARED_LIBS OFF)
-# add_subdirectory(${FFTW3_DIR})
+set(BUILD_TESTS OFF)
 # now adding the generated cmake
+cmake_policy(SET CMP0074 OLD)
+# cmake_policy(SET CMP0075 OLD)
+add_subdirectory(${FFTW3_DIR})
+
+# Setting vars recognised by FindFFTW3
+set(FFTW_ROOT ${FFTW3_DIR})
+# find it!
 find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB)
-
-message(STATUS ${PROJECT_BINARY_DIR})
-
+# set(FFTW_INCLUDE_DIRS ${FFTW3_DIR})
+# set(FFTW_LIBRARIES fftw3f)
 
 # soundtouch
 set(SOUNDTOUCH_DIR ${THIRDPARTY_DIR}/soundtouch)
@@ -56,7 +64,7 @@ set(CANTINA_INCLUDE_DIRS
         ${SOUNDTOUCH_DIR}/include
         ${HELMHOLTZ_DIR}/include
         ${RUBBERBAND_DIR}/rubberband
-        ${FFTW3_DIR}
+        ${FFTW_INCLUDE_DIRS}
         CACHE INTERNAL
         "List of include directories for Cantina"
         )
