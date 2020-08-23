@@ -247,7 +247,7 @@ AVX_CFLAGS =
 AWK = mawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -fPIC
+CFLAGS = -O3 -fomit-frame-pointer -mtune=native -malign-double -fstrict-aliasing -fno-schedule-insns
 CHECK_PL_OPTS = 
 CPP = gcc -E
 CPPFLAGS = 

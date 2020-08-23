@@ -31,12 +31,15 @@ rank0-rdft2.lo: rank0-rdft2.c /usr/include/stdc-predef.h ../rdft/rdft.h \
  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+ /usr/include/x86_64-linux-gnu/bits/select2.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/9/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/9/include/syslimits.h \
@@ -53,7 +56,9 @@ rank0-rdft2.lo: rank0-rdft2.c /usr/include/stdc-predef.h ../rdft/rdft.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- ../rdft/codelet-rdft.h /usr/include/string.h /usr/include/strings.h
+ ../rdft/codelet-rdft.h /usr/include/string.h /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h
 
 /usr/include/stdc-predef.h:
 
@@ -131,6 +136,8 @@ rank0-rdft2.lo: rank0-rdft2.c /usr/include/stdc-predef.h ../rdft/rdft.h \
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
+/usr/include/x86_64-linux-gnu/bits/select2.h:
+
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h:
 
 /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
@@ -143,7 +150,11 @@ rank0-rdft2.lo: rank0-rdft2.c /usr/include/stdc-predef.h ../rdft/rdft.h \
 
 /usr/include/alloca.h:
 
+/usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
+
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdlib.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/9/include/stdarg.h:
 
@@ -190,3 +201,7 @@ rank0-rdft2.lo: rank0-rdft2.c /usr/include/stdc-predef.h ../rdft/rdft.h \
 /usr/include/string.h:
 
 /usr/include/strings.h:
+
+/usr/include/x86_64-linux-gnu/bits/strings_fortified.h:
+
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:

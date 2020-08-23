@@ -9,6 +9,7 @@ set(CANTINA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 
 set(CANTINA_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/third-party)
+set(THIRDPARTY_PROXY_DIR ${PROJECT_SOURCE_DIR}/third-party_proxy)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -16,32 +17,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS "-fPIC")
 
 #fftw
-set(FFTW3_DIR ${THIRDPARTY_DIR}/fftw-3.3.8)
-# not working currently, will have to ./configure by hand WITH -fPIC !!
-# ./configure --enable-float CFLAGS="-fPIC"
-option(ENABLE_FLOAT      "Enable 32-bit float version of FFTW3 (fftw3f)" ON)
-option(ENABLE_THREADS    "Enable multithreading part of FFTW3"           ON)
-option(BUILD_SHARED_LIBS "Build shared library version of FFTW3"         ON)
-option(BUILD_TESTS       "Build test benchmarks for FFTW3"               ON)
-set(ENABLE_FLOAT ON)
-set(ENABLE_THREADS OFF) # for now.
-set(BUILD_SHARED_LIBS OFF)
-set(BUILD_TESTS OFF)
-# now adding the generated cmake
-cmake_policy(SET CMP0074 OLD)
-# cmake_policy(SET CMP0075 OLD)
-add_subdirectory(${FFTW3_DIR})
-
-# Setting vars recognised by FindFFTW3
-set(FFTW_ROOT ${FFTW3_DIR})
-# find it!
-find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB)
-# set(FFTW_INCLUDE_DIRS ${FFTW3_DIR})
-# set(FFTW_LIBRARIES fftw3f)
+set(FFTW3_PROXY_DIR ${THIRDPARTY_PROXY_DIR}/fftw-3.3.8)
+add_subdirectory(${FFTW3_PROXY_DIR})
 
 # soundtouch
-set(SOUNDTOUCH_DIR ${THIRDPARTY_DIR}/soundtouch)
-add_subdirectory(${SOUNDTOUCH_DIR})
+set(SOUNDTOUCH_PROXY_DIR ${THIRDPARTY_PROXY_DIR}/soundtouch)
+add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 
 
 # RUBBERBAND
@@ -61,10 +42,10 @@ add_subdirectory(${PANTOUFLE_DIR})
 set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INCLUDE_DIR}
         ${PANTOUFLE_INCLUDE_DIRS}
-        ${SOUNDTOUCH_DIR}/include
+        ${SOUNDTOUCH_INCLUDE_DIRS}
         ${HELMHOLTZ_DIR}/include
         ${RUBBERBAND_DIR}/rubberband
-        ${FFTW_INCLUDE_DIRS}
+        ${FFTW3_INCLUDE_DIRS}
         CACHE INTERNAL
         "List of include directories for Cantina"
         )
@@ -72,7 +53,6 @@ set(CANTINA_INCLUDE_DIRS
 include_directories(
        ${CANTINA_INCLUDE_DIRS}
 )
-
 
 set(CANTINA_FILES
         # Cantina lib
@@ -125,15 +105,15 @@ set(CANTINA_DEP_LIBS
         ${PANTOUFLE_LIBRARIES}
         #pitch-trackers
         # pitch-shifters
-        soundtouch
+        ${SOUNDTOUCH_LIBRARIES}
         #${RUBBERBAND_LIBRARIES}
         # fftw, with 32-bit float sample support
         # fftw3f
-        ${FFTW_LIBRARIES}
+        ${FFTW3_LIBRARIES}
         )
 
 
-add_library(cantina ${CANTINA_FILES})
+add_library(cantina STATIC ${CANTINA_FILES})
 
 set(CANTINA_LIBRARIES cantina ${CANTINA_DEP_LIBS} PARENT_SCOPE)
 
