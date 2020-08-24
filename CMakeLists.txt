@@ -61,6 +61,7 @@ set(CANTINA_FILES
         ## headers
         ${CANTINA_INCLUDE_DIR}/cant/Cantina.hpp
         ${CANTINA_INCLUDE_DIR}/cant/cant.hpp
+        ${CANTINA_INCLUDE_DIR}/cant/cant_forward.hpp
 
         #fft lib
         ## source

@@ -4,10 +4,14 @@
 
 #include <cant/Cantina.hpp>
 
-#include <cant/pan/controller/controller.hpp>
+#include <cant/pan/pan.hpp>
 
 #include <cant/track/track.hpp>
 #include <cant/shift/shift.hpp>
+
+#include <cant/pan/controller/controller.hpp>
+
+#include <cant/common/CantinaException.hpp>
 
 #include <cant/common/macro.hpp>
 namespace cant
@@ -16,7 +20,7 @@ namespace cant
     Cantina(const size_m numberHarmonics,
             const int_m sampleRate,
             const pan::byte_m channelId)
-    : _pantoufle(UPtr<pan::Pantoufle>(new pan::Pantoufle(numberHarmonics, channelId))),
+    : _pantoufle(std::make_unique<pan::Pantoufle>(numberHarmonics, channelId)),
       _tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
       _shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
     {

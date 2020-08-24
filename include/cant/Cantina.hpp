@@ -13,13 +13,27 @@
 
 #include <cant/pan/common/types.hpp>
 
-#include <cant/pan/Pantoufle.hpp>
-#include <cant/track/PitchTracker.hpp>
-#include <cant/shift/TimeDomainPitchShifter.hpp>
+#include <cant/cant_forward.hpp>
 
 #include <cant/common/macro.hpp>
 namespace cant
 {
+
+    namespace pan
+    {
+        class Pantoufle;
+    }
+
+    namespace track
+    {
+        class PitchTracker;
+
+    }
+
+    namespace shift
+    {
+        class TimeDomainPitchShifter;
+    }
 
     class Cantina
     {
@@ -41,7 +55,7 @@ namespace cant
                         );
         CANT_NODISCARD size_m getNumberHarmonics() const;
         void setController(const std::string &type, pan::byte_m channel, const Stream <pan::byte_m> &controllerIds);
-        void receiveNote(const pan::MidiNoteInputData& noteData);
+        void receiveNote(const pan::MidiNoteData<pan::tone_mint, pan::vel_mint>& noteData);
         void receiveControl(const pan::MidiControlData &controlData);
 
 
