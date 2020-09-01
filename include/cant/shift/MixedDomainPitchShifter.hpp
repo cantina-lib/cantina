@@ -17,9 +17,12 @@ namespace cant::shift
 {
     class MixedDomainPitchShifter : public PitchShifter
     {
+    public:
+        /** -- methods -- **/
+        CANT_EXPLICIT
+        MixedDomainPitchShifter(UPtr<TimeDomainPitchShifter>&& auxShifter);
     private:
-       UPtr<TimeDomainPitchShifter> _auxShifter;
-    private:
+        /** -- methods -- **/
         void
         shift(
                 pan::tone_m src,
@@ -27,10 +30,12 @@ namespace cant::shift
                 const sample_m *input,
                 sample_m *output,
                 size_m blockSize
-                ) override;
+        ) override;
+
         CANT_NODISCARD virtual bool isReady(const pan::MidiNoteOutput& note) const = 0;
-    public:
-        explicit MixedDomainPitchShifter(UPtr<TimeDomainPitchShifter>&& auxShifter);
+
+        /** -- fields -- **/
+        UPtr<TimeDomainPitchShifter> _auxShifter;
     };
 }
 

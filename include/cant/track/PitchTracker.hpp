@@ -16,15 +16,18 @@ namespace cant::track
 {
     class PitchTracker
     {
-    protected:
-        static constexpr float_m m_DEFAULT_MIN_FIDELITY = 0.9;
     public:
+        /** -- methods -- **/
         virtual void update(const sample_m *in, size_m blockSize) = 0;
 
         CANT_NODISCARD virtual float_m getPitchFreq() const = 0;
         CANT_NODISCARD virtual float_m getFidelity() const = 0;
 
         CANT_NODISCARD virtual bool isPitchAcceptable() const = 0;
+    protected:
+        /** -- fields -- **/
+        // constants
+        static CANT_CONSTEXPR float_m c_defaultMinFidelity = 0.9;
     };
 }
 

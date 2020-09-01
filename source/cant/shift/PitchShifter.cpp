@@ -7,9 +7,20 @@
 #include <cmath>
 #include <algorithm>
 
+#include <cant/common/CantinaException.hpp>
+
 #include <cant/common/macro.hpp>
 namespace cant::shift
 {
+
+    static CANT_CONSTEXPR float_m     s_freqA440          = 440.;
+    static CANT_CONSTEXPR pan::tone_m s_toneA440          = 69.;
+
+    static const          float_m      s_twelthRootTwo    = std::pow(2., 1. / 12.);
+
+    static CANT_CONSTEXPR pan::time_m  s_maxLatency       =  40.; // milliseconds
+    static CANT_CONSTEXPR pan::time_m  s_preferredLatency =  20.; // milliseconds
+
     void
     PitchShifter::
     apply(const float_m pitch, const pan::MidiNoteOutput &note, const sample_m *input,

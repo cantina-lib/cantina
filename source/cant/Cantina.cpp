@@ -3,13 +3,13 @@
 //
 
 #include <cant/Cantina.hpp>
+#include <cant/common/config.hpp>
 
 #include <cant/pan/pan.hpp>
+#include <cant/pan/time/MidiTimer.hpp>
 
-#include <cant/track/track.hpp>
-#include <cant/shift/shift.hpp>
-
-#include <cant/pan/controller/controller.hpp>
+#include <cant/track/HelmholtzTracker.hpp>
+#include <cant/shift/SoundTouchShifter.hpp>
 
 #include <cant/common/CantinaException.hpp>
 
@@ -78,7 +78,7 @@ namespace cant
     Cantina::
     receiveNote(const pan::MidiNoteInputData& noteData)
     {
-        PANTOUFLE_TRY_RETHROW({
+        CANTINA_TRY_RETHROW({
           _pantoufle->receiveInputNoteData(noteData);
         })
     }
@@ -113,6 +113,4 @@ namespace cant
             throw CANTINA_EXCEPTION("Controller type not recognised: " + type);
         }
     }
-#include <cant/common/undef_macro.hpp>
-
 }

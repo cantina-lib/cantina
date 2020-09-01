@@ -68,6 +68,7 @@ set(CANTINA_FILES
         ${CANTINA_SOURCE_DIR}/cant/fft/FFTWPerformer.cpp
         ## headers
         ${CANTINA_INCLUDE_DIR}/cant/fft/FFTWPerformer.hpp
+        ${CANTINA_INCLUDE_DIR}/cant/fft/FFTWPerformer.inl
         ${CANTINA_INCLUDE_DIR}/cant/fft/fft.hpp
 
         # track lib

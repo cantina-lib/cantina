@@ -9,8 +9,12 @@
 
 namespace cant
 {
+    namespace track { class PitchTracker; }
+    namespace shift { class TimeDomainPitchShifter; }
+
     namespace pan
     {
+        class Pantoufle;
         class MidiControlData;
         template <typename T, typename V>
         class MidiNoteData;

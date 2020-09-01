@@ -4,6 +4,8 @@
 
 #include <cant/shift/MixedDomainPitchShifter.hpp>
 
+#include <cant/common/CantinaException.hpp>
+
 #include <cant/common/macro.hpp>
 namespace cant::shift
 {

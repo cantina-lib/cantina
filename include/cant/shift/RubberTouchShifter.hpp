@@ -17,22 +17,25 @@
 #include <cant/common/macro.hpp>
 namespace cant::shift
 {
+    class TimeDomainPitchShifter;
+
     class RubberTouchShifter final : public MixedDomainPitchShifter
     {
-    private:
-        static const size_m s_maxProcessBatchSize = 1024;
-    private:
+    public:
+        /** -- methods -- **/
+        RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, sizeint numberVoices, sizeint sampleRate, sizeint blockSize);
+    protected:
+        /** -- methods -- **/
+        void clearBuffers(sizeint iVoice) override;
+        void update(size_m iVoice, const sample_m *input, size_m blockSize) override;
+
+        CANT_NODISCARD bool isReady(size_m iVoice) const override;
+
+        /** -- fields -- **/
         std::vector<RubberBand::RubberBandStretcher> _bands;
 
-    private:
-        CANT_NODISCARD bool isReady(sizeint iVoice) const override;
-    private:
-        void update(sizeint iVoice, const sample_m *input, sizeint blockSize) override;
-    protected:
-        void clearBuffers(sizeint iVoice) override;
-    public:
-        RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, sizeint numberVoices, sizeint sampleRate, sizeint blockSize);
-
+        // static fields
+        static CANT_CONSTEXPR size_m s_maxProcessBatchSize = 1024;
     };
 }
 
