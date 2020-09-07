@@ -22,21 +22,21 @@ namespace cant
     class Cantina
     {
     public:
-        CANT_EXPLICIT Cantina(size_m numberHarmonics,
-                              int_m sampleRate,
-                              pan::byte_m channelId=0
+        CANT_EXPLICIT Cantina(size_u numberHarmonics,
+                              type_i sampleRate,
+                              pan::id_u8 channelId=0
         );
-        CANT_NODISCARD size_m getNumberHarmonics() const;
-        void setController(const std::string &type, pan::byte_m channel, const Stream <pan::byte_m> &controllerIds);
-        void receiveNote(const pan::MidiNoteData<pan::tone_mint, pan::vel_mint>& noteData);
+        CANT_NODISCARD size_u getNumberHarmonics() const;
+        void setController(const std::string &type, pan::id_u8 channel, const Stream <pan::id_u8> &controllerIds);
+        void receiveNote(const pan::MidiNoteData<pan::tone_u8, pan::vel_u8>& noteData);
         void receiveControl(const pan::MidiControlData &controlData);
 
 
         /* @brief: assumes numberHarmonics() elements in outVoices */
-        void perform(const sample_m* in, sample_m* outSeed, sample_m** outHarmonics, size_m blockSize);
+        void perform(const sample_f* in, sample_f* outSeed, sample_f** outHarmonics, size_u blockSize);
     private:
         /** -- methods -- **/
-        void update(const sample_m *in, size_m blockSize);
+        void update(const sample_f *in, size_u blockSize);
 
         /** -- fields -- **/
         UPtr<pan::Pantoufle> _pantoufle;

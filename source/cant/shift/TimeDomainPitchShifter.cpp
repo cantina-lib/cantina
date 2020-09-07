@@ -11,12 +11,12 @@ namespace cant::shift
 {
     void
     TimeDomainPitchShifter::
-    shift(double src, const pan::MidiNoteOutput &note, const sample_m *input,
-          sample_m *output, size_m blockSize)
+    shift(double src, const pan::MidiNoteOutput &note, const sample_f *input,
+          sample_f *output, size_u blockSize)
     {
         CANTINA_TRY_RETHROW({
-            const pan::tone_m target = note.getTone();
-            const float_m shiftRatio = toneToShiftRatio(src, target);
+            const pan::tone_d target = note.getTone();
+            const type_d shiftRatio = toneToShiftRatio(src, target);
             shift(note.getVoice(), shiftRatio, input, output, blockSize);
         })
     }

@@ -18,16 +18,16 @@ namespace cant::track
     {
     public:
         /** -- methods -- **/
-        virtual void update(const sample_m *in, size_m blockSize) = 0;
+        virtual void update(const sample_f *in, size_u blockSize) = 0;
 
-        CANT_NODISCARD virtual float_m getPitchFreq() const = 0;
-        CANT_NODISCARD virtual float_m getFidelity() const = 0;
+        CANT_NODISCARD virtual type_d getPitchFreq() const = 0;
+        CANT_NODISCARD virtual type_d getFidelity() const = 0;
 
         CANT_NODISCARD virtual bool isPitchAcceptable() const = 0;
     protected:
         /** -- fields -- **/
         // constants
-        static CANT_CONSTEXPR float_m c_defaultMinFidelity = 0.9;
+        static CANT_CONSTEXPR type_d c_defaultMinFidelity = 0.9;
     };
 }
 

@@ -22,22 +22,22 @@ namespace cant::fft
     {
     public:
         /** -- methods -- **/
-        CANT_EXPLICIT FFTWPerformer(size_m transformSize);
+        CANT_EXPLICIT FFTWPerformer(size_u transformSize);
         ~FFTWPerformer();
-        void performRealForward(Stream<sample_m>& inout);
-        void performRealInverse(Stream<sample_m>& inout);
+        void performRealForward(Stream<sample_f>& inout);
+        void performRealInverse(Stream<sample_f>& inout);
 
-        CANT_NODISCARD size_m getTransformSize() const;
+        CANT_NODISCARD size_u getTransformSize() const;
     private:
         /** -- methods -- **/
-        void performReal(std::vector<sample_m>& inout, const fftwf_plan& realPlan);
+        void performReal(std::vector<sample_f>& inout, const fftwf_plan& realPlan);
 
         // static methods
-        static fftwf_plan computeRealPlan(Stream<sample_m>& inOutBuffer, fftw_r2r_kind kind);
+        static fftwf_plan computeRealPlan(Stream<sample_f>& inOutBuffer, fftw_r2r_kind kind);
 
         /** -- fields -- **/
         fftwf_plan _realForwardPlan, _realInversePlan;
-        Stream<sample_m> _inoutBuffer;
+        Stream<sample_f> _inoutBuffer;
     };
 
 }

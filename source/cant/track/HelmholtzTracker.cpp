@@ -7,7 +7,7 @@
 namespace cant::track
 {
     HelmholtzTracker::
-    HelmholtzTracker(const int_m sampleRate, const int_m frameSize, const int_m overlap, const float_m minFidelity)
+    HelmholtzTracker(const type_i sampleRate, const type_i frameSize, const type_i overlap, const type_d minFidelity)
     : _helm(frameSize, overlap), _sampleRate(sampleRate), _minFidelity(minFidelity), _pitch(), _fidelity()
     {
 
@@ -15,25 +15,25 @@ namespace cant::track
 
     void
     HelmholtzTracker::
-    update(const sample_m *in, const size_m blockSize)
+    update(const sample_f *in, const size_u blockSize)
     {
         _helm.inSamples(in, blockSize);
-        const float_m updatedFidelity = _helm.getFidelity();
+        const type_d updatedFidelity = _helm.getFidelity();
         if(isPitchAcceptable(updatedFidelity))
         {
-            _pitch = (float_m)_sampleRate / _helm.getPeriod();
+            _pitch = (type_d)_sampleRate / _helm.getPeriod();
             _fidelity = updatedFidelity;
         }
     }
 
-    float_m
+    type_d
     HelmholtzTracker::
     getPitchFreq() const
     {
         return _pitch;
     }
 
-    float_m
+    type_d
     HelmholtzTracker::
     getFidelity() const
     {
@@ -42,7 +42,7 @@ namespace cant::track
 
     bool
     HelmholtzTracker::
-    isPitchAcceptable(const float_m fidelity) const
+    isPitchAcceptable(const type_d fidelity) const
     {
         return fidelity > _minFidelity;
     }

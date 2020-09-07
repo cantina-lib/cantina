@@ -25,11 +25,11 @@ namespace cant::shift
         /** -- methods -- **/
         void
         shift(
-                pan::tone_m src,
+                pan::tone_d src,
                 const pan::MidiNoteOutput &note,
-                const sample_m *input,
-                sample_m *output,
-                size_m blockSize
+                const sample_f *input,
+                sample_f *output,
+                size_u blockSize
         ) override;
 
         CANT_NODISCARD virtual bool isReady(const pan::MidiNoteOutput& note) const = 0;

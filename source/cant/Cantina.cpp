@@ -17,9 +17,9 @@
 namespace cant
 {
     Cantina::
-    Cantina(const size_m numberHarmonics,
-            const int_m sampleRate,
-            const pan::byte_m channelId)
+    Cantina(const size_u numberHarmonics,
+            const type_i sampleRate,
+            const pan::id_u8 channelId)
     : _pantoufle(std::make_unique<pan::Pantoufle>(numberHarmonics, channelId)),
       _tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
       _shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
@@ -29,7 +29,7 @@ namespace cant
 
     void
     Cantina::
-    perform(const sample_m *in, sample_m *outSeed, sample_m **outHarmonics, const size_m blockSize)
+    perform(const sample_f *in, sample_f *outSeed, sample_f **outHarmonics, const size_u blockSize)
     {
         /* UPDATING CANT */
         CANTINA_TRY_RETHROW({
@@ -43,13 +43,13 @@ namespace cant
             /* do not do anything, return. */
             return;
         }
-        float_m pitch = _tracker->getPitchFreq();
+        type_d pitch = _tracker->getPitchFreq();
         /* getting stream of processed notes */
         const Stream<pan::MidiNoteOutput>& processedNoteOutput = _pantoufle->getProcessedOutputData();
-        for(size_m i=0; i < getNumberHarmonics(); ++i)
+        for(size_u i=0; i < getNumberHarmonics(); ++i)
         {
             const auto& note = processedNoteOutput.at(i);
-            sample_m* outHarmonic = outHarmonics[i];
+            sample_f* outHarmonic = outHarmonics[i];
             CANTINA_TRY_RETHROW({
                 _shifter->apply(pitch, note, in, outHarmonic, blockSize);
             })
@@ -58,7 +58,7 @@ namespace cant
 
     void
     Cantina::
-    update(const sample_m* in, const size_m blockSize)
+    update(const sample_f* in, const size_u blockSize)
     {
 
         CANTINA_TRY_RETHROW({
@@ -67,7 +67,7 @@ namespace cant
         })
     }
 
-    size_m
+    size_u
     Cantina::
     getNumberHarmonics() const
     {
@@ -94,7 +94,7 @@ namespace cant
 
     void
     Cantina::
-    setController(const std::string &type, const pan::byte_m channel, const Stream <pan::byte_m> &controllerIds)
+    setController(const std::string &type, const pan::id_u8 channel, const Stream <pan::id_u8> &controllerIds)
     {
         if (type == CONTROLLER_TYPE_DAMPER)
         {

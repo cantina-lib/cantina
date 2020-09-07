@@ -13,18 +13,18 @@
 namespace cant::shift
 {
 
-    static CANT_CONSTEXPR float_m     s_freqA440          = 440.;
-    static CANT_CONSTEXPR pan::tone_m s_toneA440          = 69.;
+    static CANT_CONSTEXPR type_d     s_freqA440          = 440.;
+    static CANT_CONSTEXPR pan::tone_d s_toneA440          = 69.;
 
-    static const          float_m      s_twelthRootTwo    = std::pow(2., 1. / 12.);
+    static const          type_d      s_twelthRootTwo    = std::pow(2., 1. / 12.);
 
-    static CANT_CONSTEXPR pan::time_m  s_maxLatency       =  40.; // milliseconds
-    static CANT_CONSTEXPR pan::time_m  s_preferredLatency =  20.; // milliseconds
+    static CANT_CONSTEXPR pan::time_d  s_maxLatency       =  40.; // milliseconds
+    static CANT_CONSTEXPR pan::time_d  s_preferredLatency =  20.; // milliseconds
 
     void
     PitchShifter::
-    apply(const float_m pitch, const pan::MidiNoteOutput &note, const sample_m *input,
-          sample_m *output, size_m blockSize)
+    apply(const type_d pitch, const pan::MidiNoteOutput &note, const sample_f *input,
+          sample_f *output, size_u blockSize)
     {
         CANTINA_TRY_RETHROW({
             if (shouldClearBuffers(note))
@@ -39,7 +39,7 @@ namespace cant::shift
                 }
                 shift(freqToTone(pitch), note, input, output, blockSize);
             }
-            const pan::vel_m velocityPlaying = note.getVelocityPlaying();
+            const pan::vel_d velocityPlaying = note.getVelocityPlaying();
             amplify(output, blockSize, velocityToVolumeRatio(velocityPlaying));
         })
     }
@@ -62,49 +62,49 @@ namespace cant::shift
 
     bool
     PitchShifter::
-    shouldTrimBuffers(const pan::MidiNoteOutput &note, pan::time_m maxLatency) const
+    shouldTrimBuffers(const pan::MidiNoteOutput &note, pan::time_d maxLatency) const
     {
         return !note.isPlaying() && (getLatencyAvailable(note.getVoice()) > maxLatency);
     }
 
-    pan::time_m
+    pan::time_d
     PitchShifter::
-    getLatencyAvailable(size_m voice) const
+    getLatencyAvailable(size_u voice) const
     {
-        return static_cast<pan::time_m>(1000 * getNumberSamplesAvailable(voice)) / static_cast<pan::time_m>(getSampleRate());
+        return static_cast<pan::time_d>(1000 * getNumberSamplesAvailable(voice)) / static_cast<pan::time_d>(getSampleRate());
     }
 
-    size_m
+    size_u
     PitchShifter::
-    timeToNumberSamples(pan::time_m t) const
+    timeToNumberSamples(pan::time_d t) const
     {
-        return (t / static_cast<pan::time_m>(1000)) * getSampleRate();
+        return (t / static_cast<pan::time_d>(1000)) * getSampleRate();
     }
 
-    float_m
+    type_d
     PitchShifter::
-    velocityToVolumeRatio(const pan::vel_m velocity)
+    velocityToVolumeRatio(const pan::vel_d velocity)
     {
-        return (float_m)velocity / pan::MIDI_MAX_VELOCITY;
+        return (type_d)velocity / pan::MIDI_MAX_VELOCITY;
     }
 
     void
     PitchShifter::
-    amplify(sample_m *block, const size_m blockSize, const float_m amp)
+    amplify(sample_f *block, const size_u blockSize, const type_d amp)
     {
-        std::for_each(block, block + blockSize, [amp](sample_m& s) { s *= amp; });
+        std::for_each(block, block + blockSize, [amp](sample_f& s) { s *= amp; });
     }
 
-    pan::tone_m
+    pan::tone_d
     PitchShifter::
-    freqToTone(const float_m freq)
+    freqToTone(const type_d freq)
     {
         return 12. * (std::log(freq / s_freqA440) / std::log(2)) + s_toneA440;
     }
 
-    float_m
+    type_d
     PitchShifter::
-    toneToShiftRatio(const pan::tone_m src, const pan::tone_m dest)
+    toneToShiftRatio(const pan::tone_d src, const pan::tone_d dest)
     {
         return std::pow(s_twelthRootTwo, dest - src);
     }

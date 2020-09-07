@@ -18,20 +18,20 @@ namespace cant::shift
 
     protected:
         /** -- methods -- **/
-        CANT_NODISCARD size_m getNumberSamplesAvailable(size_m voice) const override = 0;
-        CANT_NODISCARD size_m getSampleRate() const override = 0;
+        CANT_NODISCARD size_u getNumberSamplesAvailable(size_u voice) const override = 0;
+        CANT_NODISCARD size_u getSampleRate() const override = 0;
     private:
         /** -- methods -- **/
         // private inheritance
-        void update(size_m voice, const sample_m *input, size_m blockSize) override = 0;
+        void update(size_u voice, const sample_f *input, size_u blockSize) override = 0;
         void
-        shift(pan::tone_m src, const pan::MidiNoteOutput &note, const sample_m *input,
-              sample_m *output, size_m blockSize) override;
+        shift(pan::tone_d src, const pan::MidiNoteOutput &note, const sample_f *input,
+              sample_f *output, size_u blockSize) override;
         virtual void
-        shift(size_m voice, float_m shiftRatio, const sample_m *input, sample_m *output, size_m blockSize) = 0;
+        shift(size_u voice, type_d shiftRatio, const sample_f *input, sample_f *output, size_u blockSize) = 0;
 
-        void clearBuffers(size_m voice) override = 0;
-        void trimBuffers(size_m voice, size_m numberSamples) override = 0;
+        void clearBuffers(size_u voice) override = 0;
+        void trimBuffers(size_u voice, size_u numberSamples) override = 0;
     };
 }
 

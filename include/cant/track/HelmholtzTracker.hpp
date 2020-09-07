@@ -22,31 +22,31 @@ namespace cant::track
     public:
         /** -- methods -- **/
         CANT_EXPLICIT HelmholtzTracker(
-                int_m sampleRate,
-                int_m frameSize = c_defaultFrameSize,
-                int_m overlap = c_defaultOverlap,
-                float_m minFidelity = PitchTracker::c_defaultMinFidelity
+                type_i sampleRate,
+                type_i frameSize = c_defaultFrameSize,
+                type_i overlap = c_defaultOverlap,
+                type_d minFidelity = PitchTracker::c_defaultMinFidelity
         );
 
-        void update(const sample_m *in, size_m blockSize) override;
+        void update(const sample_f *in, size_u blockSize) override;
 
-        CANT_NODISCARD float_m getPitchFreq() const override;
-        CANT_NODISCARD float_m getFidelity() const override;
+        CANT_NODISCARD type_d getPitchFreq() const override;
+        CANT_NODISCARD type_d getFidelity() const override;
         CANT_NODISCARD bool isPitchAcceptable() const override;
     private:
         /** -- methods -- **/
-        CANT_NODISCARD bool isPitchAcceptable(float_m fidelity) const;
+        CANT_NODISCARD bool isPitchAcceptable(type_d fidelity) const;
 
         /** -- fields **/
         helmholtz::Helmholtz _helm;
-        int_m _sampleRate;
-        float_m _minFidelity;
-        float_m _pitch;
-        float_m _fidelity;
+        type_i _sampleRate;
+        type_d _minFidelity;
+        type_d _pitch;
+        type_d _fidelity;
 
         // constants
-        static CANT_CONSTEXPR int_m c_defaultFrameSize = 1024;
-        static CANT_CONSTEXPR int_m c_defaultOverlap = 2;
+        static CANT_CONSTEXPR type_i c_defaultFrameSize = 1024;
+        static CANT_CONSTEXPR type_i c_defaultOverlap = 2;
     };
 }
 

@@ -22,11 +22,11 @@ namespace cant::shift
 
     void
     MixedDomainPitchShifter::
-    shift(const cant::float_m src,
+    shift(const cant::type_d src,
           const pan::MidiNoteOutput &data,
-          const sample_m *input,
-          sample_m *output,
-          const size_m blockSize)
+          const sample_f *input,
+          sample_f *output,
+          const size_u blockSize)
     {
         /*
         auto& band = _bands.at(iVoice);

@@ -16,7 +16,7 @@ Katja Vetter, Feb 2012.
 
 namespace helmholtz
 {
-    Helmholtz::Helmholtz(const int frameSize, const int overlap, const cant::sample_m bias)
+    Helmholtz::Helmholtz(const int frameSize, const int overlap, const cant::sample_f bias)
     : _fftPerformer(2 * frameSize),
     _timeIndex(0),
     _periodIndex(0),
@@ -32,9 +32,9 @@ namespace helmholtz
         setBias(bias);
 
 
-        _inputBuffer   = std::vector<cant::sample_m>(_frameSize, 0.);
-        _inputBuffer2  = std::vector<cant::sample_m>(_frameSize, 0.);
-        _processBuffer = std::vector<cant::sample_m>(2 * _frameSize, 0.);
+        _inputBuffer   = std::vector<cant::sample_f>(_frameSize, 0.);
+        _inputBuffer2  = std::vector<cant::sample_f>(_frameSize, 0.);
+        _processBuffer = std::vector<cant::sample_f>(2 * _frameSize, 0.);
     }
 
 
@@ -43,7 +43,7 @@ namespace helmholtz
 /*********************************************************************************/
 
 
-    void Helmholtz::inSamples(const cant::sample_m *in, int size)
+    void Helmholtz::inSamples(const cant::sample_f *in, int size)
     {
         int mask = _frameSize - 1;
 
@@ -59,7 +59,7 @@ namespace helmholtz
             _timeIndex &= mask;
         }
     }
-    void Helmholtz::inOutSamples(const cant::sample_m *in, cant::sample_m *out, int size)
+    void Helmholtz::inOutSamples(const cant::sample_f *in, cant::sample_f *out, int size)
     {
         int mask = _frameSize - 1;
         int outIndex = 0;
@@ -120,7 +120,7 @@ namespace helmholtz
     }
 
 
-    void Helmholtz::setBias(cant::sample_m bias)
+    void Helmholtz::setBias(cant::sample_f bias)
     {
         if(bias > 1.) bias = 1.;
         if(bias < 0.) bias = 0.;
@@ -128,7 +128,7 @@ namespace helmholtz
     }
 
 
-    void Helmholtz::setMinRMS(cant::sample_m rms)
+    void Helmholtz::setMinRMS(cant::sample_f rms)
     {
         if(rms > 1.) rms = 1.;
         if(rms < 0.) rms = 0.;
@@ -136,13 +136,13 @@ namespace helmholtz
     }
 
 
-    cant::sample_m Helmholtz::getPeriod() const
+    cant::sample_f Helmholtz::getPeriod() const
     {
         return _periodLength;
     }
 
 
-    cant::sample_m Helmholtz::getFidelity() const
+    cant::sample_f Helmholtz::getFidelity() const
     {
         return _fidelity;
     }
@@ -158,7 +158,7 @@ namespace helmholtz
     {
         int n, tindex = _timeIndex;
         int mask = _frameSize - 1;
-        cant::sample_m norm = 1. / sqrt(cant::sample_m(2 * _frameSize));
+        cant::sample_f norm = 1. / sqrt(cant::sample_f(2 * _frameSize));
 
         // copy input to processing buffer
         for(n=0; n<_frameSize; n++)
@@ -210,13 +210,13 @@ namespace helmholtz
     {
         int n;
         int seek = static_cast<int>(std::floor(_frameSize * m_SEEK));
-        cant::sample_m signal1, signal2;
+        cant::sample_f signal1, signal2;
 
         // minimum RMS implemented as minimum autocorrelation at index 0
         // effectively this means possible white noise addition
-        cant::sample_m rms = _minRMS / sqrt(1. / (cant::sample_m)_frameSize);
-        cant::sample_m minrzero = rms * rms;
-        cant::sample_m rzero = _processBuffer[0];
+        cant::sample_f rms = _minRMS / sqrt(1. / (cant::sample_f)_frameSize);
+        cant::sample_f minrzero = rms * rms;
+        cant::sample_f rzero = _processBuffer[0];
         if(rzero < minrzero)
         {
             rzero = minrzero;
@@ -230,7 +230,7 @@ namespace helmholtz
             signal1 = _inputBuffer2[n-1];
             signal2 = _inputBuffer2[_frameSize-n];
             normintegral -= (double)(signal1 * signal1 + signal2 * signal2);
-            _processBuffer[n] /= (cant::sample_m)normintegral * 0.5;
+            _processBuffer[n] /= (cant::sample_f)normintegral * 0.5;
         }
 
         // flush instable function tail
@@ -242,10 +242,10 @@ namespace helmholtz
     void Helmholtz::pickPeak()
     {
         int n, peakIndex=0;
-        int seek = static_cast<int>(std::floor(static_cast<cant::sample_m>(_frameSize)* m_SEEK));
-        cant::sample_m maxValue = 0.;
-        cant::sample_m bias = _biasFactor / static_cast<cant::sample_m>(_frameSize);    // user-controlled bias
-        cant::sample_m realPeak;
+        int seek = static_cast<int>(std::floor(static_cast<cant::sample_f>(_frameSize) * m_SEEK));
+        cant::sample_f maxValue = 0.;
+        cant::sample_f bias = _biasFactor / static_cast<cant::sample_f>(_frameSize);    // user-controlled bias
+        cant::sample_f realPeak;
 
         // skip main lobe
         n = std::distance(
@@ -269,7 +269,7 @@ namespace helmholtz
                 /* local peak */
                 realPeak = interpolate3max(_processBuffer.data(), n);
 
-                if((realPeak * (1. - (cant::sample_m)n * bias)) > maxValue)
+                if((realPeak * (1. - (cant::sample_f)n * bias)) > maxValue)
                 {
                     maxValue = realPeak;
                     peakIndex = n;
@@ -284,7 +284,7 @@ namespace helmholtz
     {
         if(_periodIndex)
         {
-            _periodLength = static_cast<cant::sample_m>(_periodIndex) + interpolate3phase(_processBuffer.data(), _periodIndex);
+            _periodLength = static_cast<cant::sample_f>(_periodIndex) + interpolate3phase(_processBuffer.data(), _periodIndex);
             _fidelity = interpolate3max(_processBuffer.data(), _periodIndex);
         }
     }
@@ -295,13 +295,13 @@ namespace helmholtz
 /*********************************************************************************/
 
 
-    inline cant::sample_m Helmholtz::interpolate3max(cant::sample_m *buf, int peakIndex)
+    inline cant::sample_f Helmholtz::interpolate3max(cant::sample_f *buf, int peakIndex)
     {
-        cant::sample_m realpeak;
+        cant::sample_f realpeak;
 
-        cant::sample_m a = buf[peakIndex - 1];
-        cant::sample_m b = buf[peakIndex];
-        cant::sample_m c = buf[peakIndex + 1];
+        cant::sample_f a = buf[peakIndex - 1];
+        cant::sample_f b = buf[peakIndex];
+        cant::sample_f c = buf[peakIndex + 1];
 
         realpeak = b + 0.5 * (0.5 * ((c - a) * (c - a)))
                        / (2 * b - a - c);
@@ -311,13 +311,13 @@ namespace helmholtz
     }
 
 
-    inline cant::sample_m Helmholtz::interpolate3phase(cant::sample_m *buf, int peakIndex)
+    inline cant::sample_f Helmholtz::interpolate3phase(cant::sample_f *buf, int peakIndex)
     {
-        cant::sample_m fraction;
+        cant::sample_f fraction;
 
-        cant::sample_m a = buf[peakIndex - 1];
-        cant::sample_m b = buf[peakIndex];
-        cant::sample_m c = buf[peakIndex + 1];
+        cant::sample_f a = buf[peakIndex - 1];
+        cant::sample_f b = buf[peakIndex];
+        cant::sample_f c = buf[peakIndex + 1];
 
         fraction = (0.5 * (c - a)) / ( 2. * b - a - c);
 

@@ -11,7 +11,7 @@
 namespace cant::fft
 {
     CANT_NODISCARD CANT_INLINE
-    size_m
+    size_u
     FFTWPerformer::
     getTransformSize() const
     { return _inoutBuffer.size(); }

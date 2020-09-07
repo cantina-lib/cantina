@@ -69,17 +69,17 @@ namespace helmholtz
         static constexpr double m_SEEK = 0.85;              // seek-length as ratio of framesize
 
     public:
-        Helmholtz(int periodarg, int overlaparg = m_DEFOVERLAP, cant::sample_m biasarg = m_DEFBIAS);
+        Helmholtz(int periodarg, int overlaparg = m_DEFOVERLAP, cant::sample_f biasarg = m_DEFBIAS);
 
         ~Helmholtz() = default;
-        void inOutSamples(const cant::sample_m *in, cant::sample_m *out, int size);
-        void inSamples(const cant::sample_m *in, int size);
+        void inOutSamples(const cant::sample_f *in, cant::sample_f *out, int size);
+        void inSamples(const cant::sample_f *in, int size);
         void setFrameSize(int frame);
         void setOverlap(int lap);
-        void setBias(cant::sample_m bias);
-        void setMinRMS(cant::sample_m rms);
-        CANT_NODISCARD cant::sample_m getPeriod() const;
-        CANT_NODISCARD cant::sample_m getFidelity() const;
+        void setBias(cant::sample_f bias);
+        void setMinRMS(cant::sample_f rms);
+        CANT_NODISCARD cant::sample_f getPeriod() const;
+        CANT_NODISCARD cant::sample_f getFidelity() const;
         CANT_NODISCARD int getFrameSize() const;
 
     private:
@@ -92,8 +92,8 @@ namespace helmholtz
         void periodAndFidelity();
 
         // functions
-        cant::sample_m interpolate3max(cant::sample_m *buf, int peakIndex);
-        cant::sample_m interpolate3phase(cant::sample_m *buf, int peakIndex);
+        cant::sample_f interpolate3max(cant::sample_f *buf, int peakIndex);
+        cant::sample_f interpolate3phase(cant::sample_f *buf, int peakIndex);
 
         // state variables
         int _frameSize;
@@ -101,18 +101,18 @@ namespace helmholtz
         int _overlap;
         int _periodIndex;
 
-        cant::sample_m _biasFactor;
-        cant::sample_m _minRMS;
+        cant::sample_f _biasFactor;
+        cant::sample_f _minRMS;
 
         // buffers
-        std::vector<cant::sample_m> _inputBuffer;
-        std::vector<cant::sample_m> _inputBuffer2;
-        std::vector<cant::sample_m> _processBuffer;
+        std::vector<cant::sample_f> _inputBuffer;
+        std::vector<cant::sample_f> _inputBuffer2;
+        std::vector<cant::sample_f> _processBuffer;
 
 
         // output
-        cant::sample_m _periodLength;
-        cant::sample_m _fidelity;
+        cant::sample_f _periodLength;
+        cant::sample_f _fidelity;
     };
 
 }

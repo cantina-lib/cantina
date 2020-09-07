@@ -13,10 +13,10 @@ namespace cant::fft
 {
 
     FFTWPerformer::
-    FFTWPerformer(const size_m transformSize)
+    FFTWPerformer(const size_u transformSize)
     : _inoutBuffer()
     {
-        const sample_m* inout = fftwf_alloc_real(transformSize);
+        const sample_f* inout = fftwf_alloc_real(transformSize);
         if (!inout)
         {
             throw CANTINA_EXCEPTION("Could not initialise buffer.");
@@ -29,7 +29,7 @@ namespace cant::fft
 
     fftwf_plan
     FFTWPerformer::
-    computeRealPlan(Stream<sample_m>& inoutBuffer, const fftw_r2r_kind kind)
+    computeRealPlan(Stream<sample_f>& inoutBuffer, const fftw_r2r_kind kind)
     {
         return fftwf_plan_r2r_1d(inoutBuffer.size(), inoutBuffer.data(), inoutBuffer.data(), kind, FFTW_PATIENT);
     }
@@ -44,7 +44,7 @@ namespace cant::fft
 
     void
     FFTWPerformer::
-    performReal(Stream<sample_m>& inout, const fftwf_plan& realPlan)
+    performReal(Stream<sample_f>& inout, const fftwf_plan& realPlan)
     {
         /*
          * the received sample has not been allocated with fftwf_malloc,
@@ -62,10 +62,10 @@ namespace cant::fft
 
     void
     FFTWPerformer::
-    performRealForward(Stream<sample_m>& inout)
+    performRealForward(Stream<sample_f>& inout)
     {
         performReal(inout, _realForwardPlan);
-        for (size_m i = getTransformSize() / 2; i < getTransformSize(); ++i)
+        for (size_u i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {
             inout[i] = - inout[i];
         }
@@ -73,9 +73,9 @@ namespace cant::fft
 
     void
     FFTWPerformer::
-    performRealInverse(Stream<sample_m>& inout)
+    performRealInverse(Stream<sample_f>& inout)
     {
-        for (size_m i = getTransformSize() / 2; i < getTransformSize(); ++i)
+        for (size_u i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {
             inout[i] = - inout[i];
         }
