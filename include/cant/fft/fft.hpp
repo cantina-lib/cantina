@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "FFTWAllocator.hpp"
 #include "FFTWPerformer.hpp"
 
 #endif //CANTINA_TILDE_FFT_HPP

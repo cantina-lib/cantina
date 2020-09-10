@@ -14,37 +14,29 @@ namespace cant::fft
 
     FFTWPerformer::
     FFTWPerformer(const size_u transformSize)
-    : _inoutBuffer()
+        : m_inoutBuffer(transformSize),
+        m_realForwardPlan(computeRealPlan(m_inoutBuffer, FFTW_R2HC)),
+        m_realInversePlan(computeRealPlan(m_inoutBuffer, FFTW_HC2R))
     {
-        const sample_f* inout = fftwf_alloc_real(transformSize);
-        if (!inout)
-        {
-            throw CANTINA_EXCEPTION("Could not initialise buffer.");
-        }
-        _inoutBuffer.assign(inout, inout + transformSize);
-
-        _realForwardPlan = computeRealPlan(_inoutBuffer, FFTW_R2HC);
-        _realInversePlan = computeRealPlan(_inoutBuffer, FFTW_HC2R);
     }
 
     fftwf_plan
     FFTWPerformer::
-    computeRealPlan(Stream<sample_f>& inoutBuffer, const fftw_r2r_kind kind)
+    computeRealPlan(FFTW3FBlock &inOutBuffer, fftw_r2r_kind kind)
     {
-        return fftwf_plan_r2r_1d(inoutBuffer.size(), inoutBuffer.data(), inoutBuffer.data(), kind, FFTW_PATIENT);
+        return fftwf_plan_r2r_1d(inOutBuffer.size(), inOutBuffer.data(), inOutBuffer.data(), kind, FFTW_PATIENT);
     }
 
     FFTWPerformer::
     ~FFTWPerformer()
     {
-        fftwf_destroy_plan(_realForwardPlan);
-        fftwf_destroy_plan(_realInversePlan);
-        fftwf_free(_inoutBuffer.data());
+        fftwf_destroy_plan(m_realForwardPlan);
+        fftwf_destroy_plan(m_realInversePlan);
     }
 
     void
     FFTWPerformer::
-    performReal(Stream<sample_f>& inout, const fftwf_plan& realPlan)
+    performReal(Stream <sample_f> &inout, const fftwf_plan& realPlan)
     {
         /*
          * the received sample has not been allocated with fftwf_malloc,
@@ -53,33 +45,33 @@ namespace cant::fft
          * then copy the result.
          */
         CANTINA_ASSERT(inout.size() == getTransformSize(), "Nope nope nope.");
-        std::copy(inout.begin(), inout.end(), _inoutBuffer.begin());
+        std::copy(inout.begin(), inout.end(), m_inoutBuffer.begin());
         fftwf_execute(realPlan);
-        std::copy(_inoutBuffer.begin(), _inoutBuffer.end(), inout.begin());
+        std::copy(m_inoutBuffer.begin(), m_inoutBuffer.end(), inout.begin());
     }
 
 
 
     void
     FFTWPerformer::
-    performRealForward(Stream<sample_f>& inout)
+    performRealForward(Stream <sample_f> &inout)
     {
-        performReal(inout, _realForwardPlan);
+        performReal(inout, m_realForwardPlan);
         for (size_u i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {
-            inout[i] = - inout[i];
+            inout.at(i) = - inout.at(i);
         }
     }
 
     void
     FFTWPerformer::
-    performRealInverse(Stream<sample_f>& inout)
+    performRealInverse(Stream <sample_f> &inout)
     {
         for (size_u i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {
-            inout[i] = - inout[i];
+            inout.at(i) = - inout.at(i);
         }
-        performReal(inout, _realInversePlan);
+        performReal(inout, m_realInversePlan);
     }
 
 }

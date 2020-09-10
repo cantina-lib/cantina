@@ -62,16 +62,15 @@ namespace helmholtz
 {
     class Helmholtz
     {
-        static constexpr int m_DEFFRAMESIZE = 1024;      // default analysis framesize
-        static constexpr int m_DEFOVERLAP = 1;            // default overlap
-        static constexpr double m_DEFBIAS = 0.2;             // default bias
-        static constexpr double m_DEFMINRMS = 0.003;        // default minimum RMS
-        static constexpr double m_SEEK = 0.85;              // seek-length as ratio of framesize
 
     public:
-        Helmholtz(int periodarg, int overlaparg = m_DEFOVERLAP, cant::sample_f biasarg = m_DEFBIAS);
+        /** -- methods  -- **/
+        CANT_EXPLICIT Helmholtz(
+                int period,
+                int overlap = c_defaultOverlap,
+                cant::sample_f bias = c_defaultBias
+                );
 
-        ~Helmholtz() = default;
         void inOutSamples(const cant::sample_f *in, cant::sample_f *out, int size);
         void inSamples(const cant::sample_f *in, int size);
         void setFrameSize(int frame);
@@ -83,7 +82,7 @@ namespace helmholtz
         CANT_NODISCARD int getFrameSize() const;
 
     private:
-        cant::fft::FFTWPerformer _fftPerformer;
+        /** -- methods  -- **/
         // procedures
         void analyzeFrame();
         void autoCorrelation();
@@ -95,24 +94,34 @@ namespace helmholtz
         cant::sample_f interpolate3max(cant::sample_f *buf, int peakIndex);
         cant::sample_f interpolate3phase(cant::sample_f *buf, int peakIndex);
 
-        // state variables
-        int _frameSize;
-        int _timeIndex;
-        int _overlap;
-        int _periodIndex;
+        /** -- fields -- **/
+        cant::fft::FFTWPerformer m_fftPerformer;
 
-        cant::sample_f _biasFactor;
-        cant::sample_f _minRMS;
+        // state variables
+        int m_frameSize;
+        int m_timeIndex;
+        int m_overlap;
+        int m_periodIndex;
+
+        double m_biasFactor;
+        double m_minRMS;
 
         // buffers
-        std::vector<cant::sample_f> _inputBuffer;
-        std::vector<cant::sample_f> _inputBuffer2;
-        std::vector<cant::sample_f> _processBuffer;
+        std::vector<cant::sample_f> m_inputBuffer;
+        std::vector<cant::sample_f> m_inputBuffer2;
+        std::vector<cant::sample_f> m_processBuffer;
 
 
         // output
-        cant::sample_f _periodLength;
-        cant::sample_f _fidelity;
+        cant::type_d m_periodLength;
+        cant::type_d m_fidelity;
+
+        // constants
+        static CANT_CONSTEXPR int c_defaultFrameSize          = 1024;      // default analysis framesize
+        static CANT_CONSTEXPR int c_defaultOverlap            = 1;            // default overlap
+        static CANT_CONSTEXPR double c_defaultBias            = 0.2;             // default bias
+        static CANT_CONSTEXPR double c_defaultMinRMS          = 0.003;        // default minimum RMS
+        static CANT_CONSTEXPR double c_defaultSeekLengthRatio = 0.85;              // seek-length as ratio of framesize
     };
 
 }

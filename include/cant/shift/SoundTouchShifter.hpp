@@ -38,8 +38,8 @@ namespace cant::shift
 
 
         /** -- fields -- **/
-        size_u _sampleRate;
-        std::vector<soundtouch::SoundTouch> _touches;
+        size_u m_sampleRate;
+        std::vector<soundtouch::SoundTouch> m_touches;
 
         // constants
         static CANT_CONSTEXPR type_i c_defaultSequence = 20;

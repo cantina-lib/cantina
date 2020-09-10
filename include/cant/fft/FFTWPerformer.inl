@@ -14,7 +14,7 @@ namespace cant::fft
     size_u
     FFTWPerformer::
     getTransformSize() const
-    { return _inoutBuffer.size(); }
+    { return m_inoutBuffer.size(); }
 
 }
 

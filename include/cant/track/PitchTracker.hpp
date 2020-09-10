@@ -18,6 +18,7 @@ namespace cant::track
     {
     public:
         /** -- methods -- **/
+        virtual ~PitchTracker() = default;
         virtual void update(const sample_f *in, size_u blockSize) = 0;
 
         CANT_NODISCARD virtual type_d getPitchFreq() const = 0;

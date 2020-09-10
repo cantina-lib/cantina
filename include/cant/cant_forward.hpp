@@ -7,19 +7,15 @@
 
 #pragma once
 
+#include <cant/pan/note/note_forward.hpp>
+#include <cant/pan/control/control_forward.hpp>
+
 namespace cant
 {
     namespace track { class PitchTracker; }
     namespace shift { class TimeDomainPitchShifter; }
 
-    namespace pan
-    {
-        class Pantoufle;
-        class MidiControlData;
-        template <typename T, typename V>
-        class MidiNoteData;
-        class MidiNoteOutput;
-    }
+    namespace pan { class Pantoufle; }
 }
 
 #endif //CANTINA_TILDE_CANT_FORWARD_H

@@ -6,6 +6,8 @@
 
 #include <cant/common/CantinaException.hpp>
 
+#include <cant/pan/note/MidiNote.hpp>
+
 #include <cant/common/macro.hpp>
 namespace cant::shift
 {

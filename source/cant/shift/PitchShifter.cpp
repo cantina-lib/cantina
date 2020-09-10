@@ -9,6 +9,8 @@
 
 #include <cant/common/CantinaException.hpp>
 
+#include <cant/pan/note/MidiNote.hpp>
+
 #include <cant/common/macro.hpp>
 namespace cant::shift
 {
@@ -39,14 +41,14 @@ namespace cant::shift
                 }
                 shift(freqToTone(pitch), note, input, output, blockSize);
             }
-            const pan::vel_d velocityPlaying = note.getVelocityPlaying();
+            const volatile pan::vel_d velocityPlaying = note.getVelocityPlaying();
             amplify(output, blockSize, velocityToVolumeRatio(velocityPlaying));
         })
     }
 
     bool
     PitchShifter::
-    shouldClearBuffers(const pan::MidiNoteOutput &note) const
+    shouldClearBuffers(CANT_MAYBEUNUSED const pan::MidiNoteOutput &note) const
     {
         /**
          * BIG TO-DO here!!
@@ -71,7 +73,8 @@ namespace cant::shift
     PitchShifter::
     getLatencyAvailable(size_u voice) const
     {
-        return static_cast<pan::time_d>(1000 * getNumberSamplesAvailable(voice)) / static_cast<pan::time_d>(getSampleRate());
+        return static_cast<pan::time_d>(1000 * getNumberSamplesAvailable(voice))
+            / static_cast<pan::time_d>(getSampleRate());
     }
 
     size_u
@@ -85,7 +88,7 @@ namespace cant::shift
     PitchShifter::
     velocityToVolumeRatio(const pan::vel_d velocity)
     {
-        return (type_d)velocity / pan::MIDI_MAX_VELOCITY;
+        return velocity / static_cast<type_d>(pan::c_midiMaxVelocity);
     }
 
     void

@@ -8,9 +8,9 @@ set(SOUNDTOUCH_SOURCE_DIR   ${SOUNDTOUCH_DIR}/source/SoundTouch)
 set(SOUNDTOUCH_INCLUDE_DIR  ${SOUNDTOUCH_DIR}/include)
 set(SOUNDTOUCH_INCLUDE_DIRS "${SOUNDTOUCH_INCLUDE_DIR}" "${SOUNDTOUCH_SOURCE_DIR}" PARENT_SCOPE)
 
-message(STATUS ${SOUNDTOUCH_INCLUDE_DIR})
-
 project(soundtouch)
+# FLAGS FOR LIBS
+set(CMAKE_CXX_FLAGS ${CANTINA_THIRDPARTY_CXX_FLAGS})
 
 #
 # in order to avoid clicks when the target pitch is close to 1

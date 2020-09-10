@@ -15,7 +15,7 @@
 
 #include <cant/pan/common/types.hpp>
 
-#include <cant/pan/note/MidiNote.hpp>
+#include <cant/pan/note/note_forward.hpp>
 
 #include <cant/common/macro.hpp>
 namespace cant::shift
@@ -25,6 +25,8 @@ namespace cant::shift
     {
     public:
         /** -- methods -- **/
+        virtual ~PitchShifter() = default;
+
         void apply(
                 type_d pitch,
                 const pan::MidiNoteOutput &note,

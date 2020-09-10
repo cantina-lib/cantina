@@ -21,7 +21,7 @@ namespace cant::track
         const type_d updatedFidelity = _helm.getFidelity();
         if(isPitchAcceptable(updatedFidelity))
         {
-            _pitch = (type_d)_sampleRate / _helm.getPeriod();
+            _pitch = static_cast<type_d>(_sampleRate / _helm.getPeriod());
             _fidelity = updatedFidelity;
         }
     }

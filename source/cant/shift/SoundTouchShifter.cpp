@@ -9,10 +9,10 @@ namespace cant::shift
 {
     SoundTouchShifter::
     SoundTouchShifter(const size_u numberVoices, const type_i sampleRate, const type_i sequence)
-    : _sampleRate(sampleRate),
-    _touches(numberVoices)
+    : m_sampleRate(sampleRate),
+      m_touches(numberVoices)
     {
-        for(auto& touch: _touches)
+        for(auto& touch: m_touches)
         {
             touch.setSampleRate(sampleRate);
             touch.setChannels(c_numberChannels);
@@ -34,30 +34,28 @@ namespace cant::shift
     SoundTouchShifter::
     clearBuffers(const size_u voice)
     {
-        _touches.at(voice).clear();
+        m_touches.at(voice).clear();
     }
 
     void
     SoundTouchShifter::
     trimBuffers(const size_u voice, const size_u numberSamples)
     {
-        // std::cout << "yeah " << getNumberSamplesAvailable(voice);
-        CANT_MAYBEUNUSED const size_u trimmedBufferSize = _touches.at(voice).adjustAmountOfSamples(numberSamples);
-        // std::cout << "no " << trimmedBufferSize << std::endl;
+        m_touches.at(voice).adjustAmountOfSamples(numberSamples);
     }
 
     size_u
     SoundTouchShifter::
     getNumberSamplesAvailable(const size_u voice) const
     {
-        return _touches.at(voice).numSamples();
+        return m_touches.at(voice).numSamples();
     }
 
     size_u
     SoundTouchShifter::
     getSampleRate() const
     {
-        return _sampleRate;
+        return m_sampleRate;
     }
 
     void
@@ -65,7 +63,7 @@ namespace cant::shift
     shift(size_u iVoice, type_d shiftRatio, const sample_f *input, sample_f *output, size_u blockSize)
     {
         update(iVoice, input, blockSize);
-        auto& touch = _touches.at(iVoice);
+        auto& touch = m_touches.at(iVoice);
         touch.setPitch(shiftRatio);
         touch.receiveSamples(output, blockSize);
     }
@@ -75,7 +73,7 @@ namespace cant::shift
     update(size_u iVoice, const sample_f *input, const size_u blockSize)
     {
         /** ?? **/
-        auto& touch = _touches.at(iVoice);
+        auto& touch = m_touches.at(iVoice);
         touch.putSamples(input, blockSize);
     }
 
@@ -83,7 +81,7 @@ namespace cant::shift
     SoundTouchShifter::
     getNumberVoices() const
     {
-        return _touches.size();
+        return m_touches.size();
     }
 
 

@@ -28,7 +28,7 @@ namespace cant
         );
         CANT_NODISCARD size_u getNumberHarmonics() const;
         void setController(const std::string &type, pan::id_u8 channel, const Stream <pan::id_u8> &controllerIds);
-        void receiveNote(const pan::MidiNoteData<pan::tone_u8, pan::vel_u8>& noteData);
+        void receiveNote(const pan::MidiNoteInputData& noteData);
         void receiveControl(const pan::MidiControlData &controlData);
 
 
@@ -39,13 +39,13 @@ namespace cant
         void update(const sample_f *in, size_u blockSize);
 
         /** -- fields -- **/
-        UPtr<pan::Pantoufle> _pantoufle;
-        UPtr<track::PitchTracker> _tracker;
+        UPtr<pan::Pantoufle> m_pantoufle;
+        UPtr<track::PitchTracker> m_tracker;
         /*
          * Cantina needs an unconstrained shifter for its main function,
          * so a mixed-domain pitch-shifter can't be used.
          */
-        UPtr<shift::TimeDomainPitchShifter> _shifter;
+        UPtr<shift::TimeDomainPitchShifter> m_shifter;
 
     };
 
