@@ -13,6 +13,12 @@ set(THIRDPARTY_PROXY_DIR ${PROJECT_SOURCE_DIR}/third-party_proxy)
 
 
 
+# internal
+set(PANTOUFLE_DIR ${PROJECT_SOURCE_DIR}/pantoufle)
+
+# add before so that cantina can use pantoufle_include_dirs
+add_subdirectory(${PANTOUFLE_DIR})
+
 #fftw
 set(FFTW3_PROXY_DIR ${THIRDPARTY_PROXY_DIR}/fftw-3.3.8)
 add_subdirectory(${FFTW3_PROXY_DIR})
@@ -28,12 +34,6 @@ add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 # bad bad bad
 #set(RUBBERBAND_LIBRARIES ${RUBBERBAND_LIB_DIR}/librubberband.a)
 
-
-# internal
-set(PANTOUFLE_DIR ${PROJECT_SOURCE_DIR}/pantoufle)
-
-# add before so that cantina can use pantoufle_include_dirs
-add_subdirectory(${PANTOUFLE_DIR})
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS ${CANTINA_MAIN_CXX_FLAGS})

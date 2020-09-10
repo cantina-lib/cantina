@@ -22,7 +22,7 @@ The following variables will be checked by the module:
 This package supports the following components:
 - `FLOAT_LIB`
 - `DOUBLE_LIB`
-- `LONGDOUBLE_LIB`
+- `LONGDOU``BLE_LIB`
 - `FLOAT_THREADS_LIB`
 - `DOUBLE_THREADS_LIB`
 - `LONGDOUBLE_THREADS_LIB`
