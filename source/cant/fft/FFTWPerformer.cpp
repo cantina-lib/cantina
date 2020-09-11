@@ -24,7 +24,13 @@ namespace cant::fft
     FFTWPerformer::
     computeRealPlan(FFTW3FBlock &inOutBuffer, fftw_r2r_kind kind)
     {
-        return fftwf_plan_r2r_1d(inOutBuffer.size(), inOutBuffer.data(), inOutBuffer.data(), kind, FFTW_PATIENT);
+        return fftwf_plan_r2r_1d(
+                static_cast<int>(inOutBuffer.size()),
+                inOutBuffer.data(),
+                inOutBuffer.data(),
+                kind,
+                FFTW_PATIENT
+                );
     }
 
     FFTWPerformer::

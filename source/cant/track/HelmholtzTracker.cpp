@@ -17,7 +17,7 @@ namespace cant::track
     HelmholtzTracker::
     update(const sample_f *in, const size_u blockSize)
     {
-        _helm.inSamples(in, blockSize);
+        _helm.inSamples(in, static_cast<int>(blockSize));
         const type_d updatedFidelity = _helm.getFidelity();
         if(isPitchAcceptable(updatedFidelity))
         {

@@ -17,7 +17,7 @@ namespace cant
     fftw3f_allocator<T>::
     allocate(fftw3f_allocator::size_type n, const void *)
     {
-        pointer p  = fftwf_alloc_real(n);
+        pointer p  = reinterpret_cast<pointer>(fftwf_alloc_real(n));
         if (!p)
         {
             throw CANTINA_EXCEPTION("Could not allocate memory.");
@@ -52,9 +52,8 @@ namespace cant
     template <typename T>
     template <typename U>
     fftw3f_allocator<T>::
-    fftw3f_allocator(const fftw3f_allocator<U>& a) CANT_NOEXCEPT
-    {
-    }
+    fftw3f_allocator(const fftw3f_allocator<U>&) CANT_NOEXCEPT
+    { }
 }
 #include <cant/common/undef_macro.hpp>
 

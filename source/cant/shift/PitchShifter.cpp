@@ -81,7 +81,13 @@ namespace cant::shift
     PitchShifter::
     timeToNumberSamples(pan::time_d t) const
     {
-        return (t / static_cast<pan::time_d>(1000)) * getSampleRate();
+        return
+            static_cast<size_u>(
+                    std::round(
+                    (t / static_cast<pan::time_d>(1000))
+                    * static_cast<pan::time_d>(getSampleRate())
+                    )
+            );
     }
 
     type_d
@@ -95,7 +101,10 @@ namespace cant::shift
     PitchShifter::
     amplify(sample_f *block, const size_u blockSize, const type_d amp)
     {
-        std::for_each(block, block + blockSize, [amp](sample_f& s) { s *= amp; });
+        std::for_each(
+                block,
+               block + blockSize,
+               [amp](sample_f& s) { s *= static_cast<sample_f>(amp); });
     }
 
     pan::tone_d

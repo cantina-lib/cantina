@@ -91,8 +91,8 @@ namespace helmholtz
         void periodAndFidelity();
 
         // functions
-        cant::sample_f interpolate3max(cant::sample_f *buf, int peakIndex);
-        cant::sample_f interpolate3phase(cant::sample_f *buf, int peakIndex);
+        cant::sample_f interpolate3max(const cant::sample_f *buf, int peakIndex);
+        cant::sample_f interpolate3phase(const cant::sample_f *buf, int peakIndex);
 
         /** -- fields -- **/
         cant::fft::FFTWPerformer m_fftPerformer;

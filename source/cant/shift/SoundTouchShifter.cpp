@@ -41,7 +41,9 @@ namespace cant::shift
     SoundTouchShifter::
     trimBuffers(const size_u voice, const size_u numberSamples)
     {
-        m_touches.at(voice).adjustAmountOfSamples(numberSamples);
+        m_touches.at(voice).adjustAmountOfSamples(
+                static_cast<uint>(numberSamples)
+                );
     }
 
     size_u
@@ -60,21 +62,21 @@ namespace cant::shift
 
     void
     SoundTouchShifter::
-    shift(size_u iVoice, type_d shiftRatio, const sample_f *input, sample_f *output, size_u blockSize)
+    shift(size_u voice, type_d shiftRatio, const sample_f *input, sample_f *output, size_u blockSize)
     {
-        update(iVoice, input, blockSize);
-        auto& touch = m_touches.at(iVoice);
+        update(voice, input, blockSize);
+        auto& touch = m_touches.at(voice);
         touch.setPitch(shiftRatio);
-        touch.receiveSamples(output, blockSize);
+        touch.receiveSamples(output, static_cast<uint>(blockSize));
     }
 
     void
     SoundTouchShifter::
-    update(size_u iVoice, const sample_f *input, const size_u blockSize)
+    update(size_u voice, const sample_f *input, const size_u blockSize)
     {
         /** ?? **/
-        auto& touch = m_touches.at(iVoice);
-        touch.putSamples(input, blockSize);
+        auto& touch = m_touches.at(voice);
+        touch.putSamples(input, static_cast<uint>(blockSize));
     }
 
     size_u

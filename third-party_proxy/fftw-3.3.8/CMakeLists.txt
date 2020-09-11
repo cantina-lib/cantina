@@ -20,18 +20,14 @@ cmake_policy(SET CMP0074 OLD)
 # add_subdirectory(${FFTW3_DIR})
 
 execute_process(
-        COMMAND ./configure --enable-float
-        COMMAND make CFLAGS="-fPIC"
+        COMMAND configure --enable-float --quiet
+        COMMAND make CFLAGS=${CANTINA_THIRDPARTY_CXX_FLAGS}
         WORKING_DIRECTORY ${FFTW_DIR}
-        OUTPUT_QUIET
 )
 
 # Setting vars recognised by FindFFTW3
 set(FFTW_ROOT ${FFTW_DIR})
 set(FFTW_USE_STATIC_LIBS ON)
-# find it!
 find_package(FFTW REQUIRED COMPONENTS FLOAT_LIB)
 set(FFTW3_INCLUDE_DIRS ${FFTW_INCLUDE_DIRS} PARENT_SCOPE)
 set(FFTW3_LIBRARIES ${FFTW_LIBRARIES} PARENT_SCOPE)
-
-message(STATUS ${FFTW_LIBRARIES})
