@@ -116,7 +116,6 @@ set(CANTINA_DEP_LIBS
         ${FFTW3_LIBRARIES}
         )
 
-
 add_library(cantina STATIC ${CANTINA_FILES})
 
 set(CANTINA_LIBRARIES cantina ${CANTINA_DEP_LIBS} PARENT_SCOPE)

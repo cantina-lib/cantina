@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libfftwf-3.3", "libfftwf-3.3.vcxproj", "{2482251C-2F99-4779-B61D-B091852B4A36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+		Static-Debug|x64 = Static-Debug|x64
+		Static-Debug|x86 = Static-Debug|x86
+		Static-Release|x64 = Static-Release|x64
+		Static-Release|x86 = Static-Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Debug|x64.ActiveCfg = Debug|x64
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Debug|x64.Build.0 = Debug|x64
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Debug|x86.ActiveCfg = Debug|Win32
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Debug|x86.Build.0 = Debug|Win32
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Release|x64.ActiveCfg = Release|x64
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Release|x64.Build.0 = Release|x64
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Release|x86.ActiveCfg = Release|Win32
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Release|x86.Build.0 = Release|Win32
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Static-Debug|x64.ActiveCfg = Static-Debug|x64
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Static-Debug|x64.Build.0 = Static-Debug|x64
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Static-Debug|x86.ActiveCfg = Static-Debug|Win32
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Static-Debug|x86.Build.0 = Static-Debug|Win32
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Static-Release|x64.ActiveCfg = Static-Release|x64
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Static-Release|x64.Build.0 = Static-Release|x64
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Static-Release|x86.ActiveCfg = Static-Release|Win32
+		{2482251C-2F99-4779-B61D-B091852B4A36}.Static-Release|x86.Build.0 = Static-Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD52F5D9-46F6-420F-94B5-C0343DD297E8}
+	EndGlobalSection
+EndGlobal
