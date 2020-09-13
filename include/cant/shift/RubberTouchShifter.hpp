@@ -23,19 +23,19 @@ namespace cant::shift
     {
     public:
         /** -- methods -- **/
-        RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, sizeint numberVoices, sizeint sampleRate, sizeint blockSize);
+        RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, size_u numberVoices, size_u sampleRate, size_u blockSize);
     protected:
         /** -- methods -- **/
-        void clearBuffers(sizeint iVoice) override;
-        void update(size_m iVoice, const sample_m *input, size_m blockSize) override;
+        void clearBuffers(size_u voice) override;
+        void update(size_u voice, const sample_f *input, size_u blockSize) override;
 
-        CANT_NODISCARD bool isReady(size_m iVoice) const override;
+        CANT_NODISCARD bool isReady(size_u voice) const override;
 
         /** -- fields -- **/
-        std::vector<RubberBand::RubberBandStretcher> _bands;
+        std::vector<RubberBand::RubberBandStretcher> m_bands;
 
-        // static fields
-        static CANT_CONSTEXPR size_m s_maxProcessBatchSize = 1024;
+        // constants
+        static CANT_CONSTEXPR size_u c_maxProcessBatchSize = 1024;
     };
 }
 

@@ -18,7 +18,7 @@ namespace cant
 {
     Cantina::
     Cantina(const size_u numberHarmonics,
-            const type_i sampleRate,
+            const size_u sampleRate,
             const pan::id_u8 channelId)
     : m_pantoufle(std::make_unique<pan::Pantoufle>(numberHarmonics, channelId)),
       m_tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),

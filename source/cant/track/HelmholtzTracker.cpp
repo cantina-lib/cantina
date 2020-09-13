@@ -7,8 +7,8 @@
 namespace cant::track
 {
     HelmholtzTracker::
-    HelmholtzTracker(const type_i sampleRate, const type_i frameSize, const type_i overlap, const type_d minFidelity)
-    : _helm(frameSize, overlap), _sampleRate(sampleRate), _minFidelity(minFidelity), _pitch(), _fidelity()
+    HelmholtzTracker(const size_u sampleRate, const size_u frameSize, const type_i overlap, const type_d minFidelity)
+    : m_helm(frameSize, overlap), m_sampleRate(sampleRate), m_minFidelity(minFidelity), m_pitch(), m_fidelity()
     {
 
     }
@@ -17,12 +17,12 @@ namespace cant::track
     HelmholtzTracker::
     update(const sample_f *in, const size_u blockSize)
     {
-        _helm.inSamples(in, static_cast<int>(blockSize));
-        const type_d updatedFidelity = _helm.getFidelity();
+        m_helm.inSamples(in, static_cast<int>(blockSize));
+        const type_d updatedFidelity = m_helm.getFidelity();
         if(isPitchAcceptable(updatedFidelity))
         {
-            _pitch = static_cast<type_d>(_sampleRate / _helm.getPeriod());
-            _fidelity = updatedFidelity;
+            m_pitch = static_cast<type_d>(static_cast<cant::type_i>(m_sampleRate) / m_helm.getPeriod());
+            m_fidelity = updatedFidelity;
         }
     }
 
@@ -30,28 +30,28 @@ namespace cant::track
     HelmholtzTracker::
     getPitchFreq() const
     {
-        return _pitch;
+        return m_pitch;
     }
 
     type_d
     HelmholtzTracker::
     getFidelity() const
     {
-        return _fidelity;
+        return m_fidelity;
     }
 
     bool
     HelmholtzTracker::
     isPitchAcceptable(const type_d fidelity) const
     {
-        return fidelity > _minFidelity;
+        return fidelity > m_minFidelity;
     }
 
     bool
     HelmholtzTracker::
     isPitchAcceptable() const
     {
-        return isPitchAcceptable(_fidelity);
+        return isPitchAcceptable(m_fidelity);
     }
 }
 

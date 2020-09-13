@@ -28,16 +28,7 @@ namespace cant::shift
           CANT_MAYBEUNUSED sample_f *output,
           CANT_MAYBEUNUSED const size_u blockSize)
     {
-        /*
-        auto& band = _bands.at(iVoice);
-        band.setPitchScale(shiftRatio);
 
-        band.process(&input, blockSize, true);
-        if(band.available())
-        {
-            band.retrieve(&output, blockSize);
-        }
-        */
     }
 
 }

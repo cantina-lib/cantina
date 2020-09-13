@@ -23,7 +23,7 @@ namespace cant
     {
     public:
         CANT_EXPLICIT Cantina(size_u numberHarmonics,
-                              type_i sampleRate,
+                              size_u sampleRate,
                               pan::id_u8 channelId=0
         );
         CANT_NODISCARD size_u getNumberHarmonics() const;

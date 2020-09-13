@@ -7,14 +7,20 @@
 namespace cant::shift
 {
     RubberTouchShifter::
-    RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, size_m numberVoices, size_m sampleRate, size_m blockSize)
+    RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, size_u numberVoices, size_u sampleRate, size_u blockSize)
     : MixedDomainPitchShifter(std::move(auxShifter)),
-      _bands(
+      m_bands(
             numberVoices,
-            std::move(RubberBand::RubberBandStretcher(sampleRate, NUMBER_CHANNELS, RubberBand::RubberBandStretcher::OptionProcessRealTime))
+            std::move(
+                    RubberBand::RubberBandStretcher(
+                            sampleRate,
+                            c_numberChannels,
+                            RubberBand::RubberBandStretcher::OptionProcessRealTime
+                            )
+            )
     )
     {
-        for(auto& band: _bands)
+        for(auto& band: m_bands)
         {
             band.setMaxProcessSize(blockSize);
         }
@@ -22,7 +28,7 @@ namespace cant::shift
 
     void
     RubberTouchShifter::
-    update(const size_m iVoice, const sample_m *input, const size_m blockSize)
+    update(const size_u voice, const sample_f *input, const size_u blockSize)
     {
         /* todo */
     }
@@ -30,15 +36,15 @@ namespace cant::shift
 
     void
     RubberTouchShifter::
-    clearBuffers(const size_m iVoice)
+    clearBuffers(const size_u voice)
     {
-        _bands.at(iVoice).reset();
+        m_bands.at(voice).reset();
     }
     bool
     RubberTouchShifter::
-    isReady(const size_m iVoice) const
+    isReady(const size_u voice) const
     {
-        return _bands.at(iVoice).available();
+        return m_bands.at(voice).available();
     }
 }
 

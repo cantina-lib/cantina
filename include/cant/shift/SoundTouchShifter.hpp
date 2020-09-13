@@ -20,7 +20,7 @@ namespace cant::shift
     {
     public:
         /** -- methods -- **/
-        SoundTouchShifter(size_u numberVoices, type_i sampleRate, type_i sequence = c_defaultSequence);
+        SoundTouchShifter(const size_u numberVoices, const size_u sampleRate, const type_i sequence = c_defaultSequence);
 
         CANT_NODISCARD size_u getNumberVoices() const;
     protected:

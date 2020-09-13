@@ -4,9 +4,7 @@
 
 #include <cant/fft/FFTWPerformer.hpp>
 
-#include <cant/common/CantinaException.hpp>
-
-#include <algorithm>
+#include <cant/maths/maths.hpp>
 
 #include <cant/common/macro.hpp>
 namespace cant::fft
@@ -63,20 +61,24 @@ namespace cant::fft
     performRealForward(Stream <sample_f> &inout)
     {
         performReal(inout, m_realForwardPlan);
+        /*
         for (size_u i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {
             inout.at(i) = - inout.at(i);
         }
+        */
     }
 
     void
     FFTWPerformer::
     performRealInverse(Stream <sample_f> &inout)
     {
+        /*
         for (size_u i = getTransformSize() / 2; i < getTransformSize(); ++i)
         {
             inout.at(i) = - inout.at(i);
         }
+         */
         performReal(inout, m_realInversePlan);
     }
 

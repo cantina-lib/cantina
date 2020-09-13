@@ -22,10 +22,10 @@ namespace cant::track
     public:
         /** -- methods -- **/
         CANT_EXPLICIT HelmholtzTracker(
-                type_i sampleRate,
-                type_i frameSize = c_defaultFrameSize,
-                type_i overlap = c_defaultOverlap,
-                type_d minFidelity = PitchTracker::c_defaultMinFidelity
+                const size_u sampleRate,
+                const size_u frameSize = c_defaultFrameSize,
+                const type_i overlap = c_defaultOverlap,
+                const type_d minFidelity = PitchTracker::c_defaultMinFidelity
         );
 
         void update(const sample_f *in, size_u blockSize) override;
@@ -38,11 +38,11 @@ namespace cant::track
         CANT_NODISCARD bool isPitchAcceptable(type_d fidelity) const;
 
         /** -- fields **/
-        helmholtz::Helmholtz _helm;
-        type_i _sampleRate;
-        type_d _minFidelity;
-        type_d _pitch;
-        type_d _fidelity;
+        helmholtz::Helmholtz m_helm;
+        size_u m_sampleRate;
+        type_d m_minFidelity;
+        type_d m_pitch;
+        type_d m_fidelity;
 
         // constants
         static CANT_CONSTEXPR type_i c_defaultFrameSize = 1024;

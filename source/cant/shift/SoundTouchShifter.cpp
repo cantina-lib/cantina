@@ -8,13 +8,13 @@
 namespace cant::shift
 {
     SoundTouchShifter::
-    SoundTouchShifter(const size_u numberVoices, const type_i sampleRate, const type_i sequence)
+    SoundTouchShifter(const size_u numberVoices, const size_u sampleRate, const type_i sequence)
     : m_sampleRate(sampleRate),
       m_touches(numberVoices)
     {
         for(auto& touch: m_touches)
         {
-            touch.setSampleRate(sampleRate);
+            touch.setSampleRate(static_cast<unsigned int>(sampleRate));
             touch.setChannels(c_numberChannels);
             touch.setSetting(SETTING_USE_QUICKSEEK, 1);
             touch.setSetting(SETTING_USE_AA_FILTER, 1);
