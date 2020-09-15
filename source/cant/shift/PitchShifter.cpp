@@ -4,9 +4,7 @@
 
 #include <cant/shift/PitchShifter.hpp>
 
-#include <cmath>
-#include <algorithm>
-
+#include <cant/maths/utils.hpp>
 #include <cant/common/CantinaException.hpp>
 
 #include <cant/pan/note/MidiNote.hpp>
@@ -15,13 +13,13 @@
 namespace cant::shift
 {
 
-    static CANT_CONSTEXPR type_d     s_freqA440          = 440.;
-    static CANT_CONSTEXPR pan::tone_d s_toneA440          = 69.;
+    static CANT_CONSTEXPR type_d       c_freqA440          = 440.;
+    static CANT_CONSTEXPR pan::tone_d  c_toneA440          = 69.;
 
-    static const          type_d      s_twelthRootTwo    = std::pow(2., 1. / 12.);
+    static const          type_d       c_twelthRootTwo    = std::pow(2., 1. / 12.);
 
-    static CANT_CONSTEXPR pan::time_d  s_maxLatency       =  40.; // milliseconds
-    static CANT_CONSTEXPR pan::time_d  s_preferredLatency =  20.; // milliseconds
+    static CANT_CONSTEXPR pan::time_d  c_maxLatency       =  40.; // milliseconds
+    static CANT_CONSTEXPR pan::time_d  c_preferredLatency =  20.; // milliseconds
 
     void
     PitchShifter::
@@ -35,9 +33,9 @@ namespace cant::shift
             }
             else
             {
-                if (shouldTrimBuffers(note, s_maxLatency))
+                if (shouldTrimBuffers(note, c_maxLatency))
                 {
-                    trimBuffers(note.getVoice(), timeToNumberSamples(s_preferredLatency));
+                    trimBuffers(note.getVoice(), timeToNumberSamples(c_preferredLatency));
                 }
                 shift(freqToTone(pitch), note, input, output, blockSize);
             }
@@ -101,24 +99,26 @@ namespace cant::shift
     PitchShifter::
     amplify(sample_f *block, const size_u blockSize, const type_d amp)
     {
-        std::for_each(
+        std::transform
+        (
                 block,
                block + blockSize,
-               [amp](sample_f& s) { s *= static_cast<sample_f>(amp); });
+               block,
+               [amp](const sample_f& s) { return s * static_cast<sample_f>(amp); }
+       );
     }
 
     pan::tone_d
     PitchShifter::
     freqToTone(const type_d freq)
     {
-        return 12. * (std::log(freq / s_freqA440) / std::log(2)) + s_toneA440;
+        return 12. * std::log2(freq / c_freqA440) + c_toneA440;
     }
 
     type_d
     PitchShifter::
     toneToShiftRatio(const pan::tone_d src, const pan::tone_d dest)
     {
-        return std::pow(s_twelthRootTwo, dest - src);
+        return std::pow(c_twelthRootTwo, dest - src);
     }
 }
-

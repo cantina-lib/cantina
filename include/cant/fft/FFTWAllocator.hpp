@@ -48,6 +48,6 @@ namespace cant
 }
 #include <cant/common/undef_macro.hpp>
 
-#include "FFTWAllocator.inl"
+#include <cant/fft/FFTWAllocator.inl>
 
 #endif //CANTINA_TILDE_FFTWALLOCATOR_HPP

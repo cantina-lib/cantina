@@ -5,8 +5,16 @@
 #include <cant/Cantina.hpp>
 #include <cant/common/config.hpp>
 
-#include <cant/pan/pan.hpp>
 #include <cant/pan/time/MidiTimer.hpp>
+#include <cant/pan/note/MidiNote.hpp>
+#include <cant/pan/controller/controller.hpp>
+#include <cant/pan/Pantoufle.hpp>
+// todo: I shouldn't have to include the headers to processors and layer classes.
+// because Cantina is not in charge of constructing MidiInputPoly, MidiControllerChain and MidiEnvelopePair
+// however the compiler complains that these classes are incomplete (as though it were trying to construct them?)
+// (don't have a compile-time error when constructing another Pantoufle object inside the Pantoufle class
+#include <cant/pan/processor/processor.hpp>
+#include <cant/pan/layer/layer.hpp>
 
 #include <cant/track/HelmholtzTracker.hpp>
 #include <cant/shift/SoundTouchShifter.hpp>
@@ -20,31 +28,30 @@ namespace cant
     Cantina(const size_u numberHarmonics,
             const size_u sampleRate,
             const pan::id_u8 channelId)
-    : m_pantoufle(std::make_unique<pan::Pantoufle>(numberHarmonics, channelId)),
-      m_tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
-      m_shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
+        : m_pantoufle(std::make_unique<pan::Pantoufle>(numberHarmonics, channelId)),
+          m_tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
+          m_shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
     {
-
     }
 
     void
     Cantina::
     perform(const sample_f *in, sample_f *outSeed, sample_f **outHarmonics, const size_u blockSize)
     {
-        /* UPDATING CANT */
+        // first update Pantoufle and pitch tracker.
         CANTINA_TRY_RETHROW({
                 update(in, blockSize);
             })
-        /* seed */
+        // seed
         std::copy(in, in + blockSize, outSeed);
-        /* getting current pitch */
+        // getting current pitch
         if(!m_tracker->isPitchAcceptable())
         {
-            /* do not do anything, return. */
+            // tracker isn't ready, return.
             return;
         }
         type_d pitch = m_tracker->getPitchFreq();
-        /* getting stream of processed notes */
+        // getting stream of processed notes
         const Stream<pan::MidiNoteOutput>& processedNoteOutput = m_pantoufle->getProcessedOutputData();
         for(size_u i=0; i < getNumberHarmonics(); ++i)
         {
@@ -67,6 +74,7 @@ namespace cant
         })
     }
 
+    CANT_NODISCARD
     size_u
     Cantina::
     getNumberHarmonics() const

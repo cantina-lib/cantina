@@ -42,6 +42,6 @@ namespace cant::fft
 
 #include <cant/common/undef_macro.hpp>
 
-#include "FFTWPerformer.inl"
+#include <cant/fft/FFTWPerformer.inl>
 
 #endif //CANTINA_FFTWANALYSIS_HPP

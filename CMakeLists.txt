@@ -6,6 +6,8 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
 set(CANTINA_SOURCE_DIR ${PROJECT_SOURCE_DIR}/source)
 set(CANTINA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+set(CANTINA_INLINE_DIR ${PROJECT_SOURCE_DIR}/inline)
+
 
 set(CANTINA_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/third-party)
@@ -40,6 +42,7 @@ set(CMAKE_CXX_FLAGS ${CANTINA_MAIN_CXX_FLAGS})
 
 set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INCLUDE_DIR}
+        ${CANTINA_INLINE_DIR}
         ${PANTOUFLE_INCLUDE_DIRS}
         ${SOUNDTOUCH_INCLUDE_DIRS}
         ${HELMHOLTZ_DIR}/include
@@ -66,11 +69,12 @@ set(CANTINA_FILES
         #fft lib
         ## source
         ${CANTINA_SOURCE_DIR}/cant/fft/FFTWPerformer.cpp
+        ## inline
+        ${CANTINA_INLINE_DIR}/cant/fft/FFTWPerformer.inl
+        ${CANTINA_INLINE_DIR}/cant/fft/FFTWAllocator.inl
         ## headers
         ${CANTINA_INCLUDE_DIR}/cant/fft/FFTWPerformer.hpp
-        ${CANTINA_INCLUDE_DIR}/cant/fft/FFTWPerformer.inl
         ${CANTINA_INCLUDE_DIR}/cant/fft/FFTWAllocator.hpp
-        ${CANTINA_INCLUDE_DIR}/cant/fft/FFTWAllocator.inl
         ${CANTINA_INCLUDE_DIR}/cant/fft/fft.hpp
 
         # track lib
@@ -80,6 +84,8 @@ set(CANTINA_FILES
         ${CANTINA_INCLUDE_DIR}/cant/track/track.hpp
         ${CANTINA_INCLUDE_DIR}/cant/track/PitchTracker.hpp
         ${CANTINA_INCLUDE_DIR}/cant/track/HelmholtzTracker.hpp
+        ## inline
+        ${CANTINA_INLINE_DIR}/cant/track/HelmholtzTracker.inl
 
         # shift lib
         ## source

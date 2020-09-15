@@ -22,10 +22,10 @@ namespace cant::track
     public:
         /** -- methods -- **/
         CANT_EXPLICIT HelmholtzTracker(
-                const size_u sampleRate,
-                const size_u frameSize = c_defaultFrameSize,
-                const type_i overlap = c_defaultOverlap,
-                const type_d minFidelity = PitchTracker::c_defaultMinFidelity
+                size_u sampleRate,
+                size_u frameSize = c_defaultFrameSize,
+                type_i overlap = c_defaultOverlap,
+                type_d minFidelity = PitchTracker::c_defaultMinFidelity
         );
 
         void update(const sample_f *in, size_u blockSize) override;
@@ -49,6 +49,8 @@ namespace cant::track
         static CANT_CONSTEXPR type_i c_defaultOverlap = 2;
     };
 }
-
 #include <cant/common/undef_macro.hpp>
+
+#include <cant/track/HelmholtzTracker.inl>
+
 #endif //CANTINA_HELMHOLTZTRACKER_HPP
