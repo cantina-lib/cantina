@@ -40,8 +40,8 @@ namespace cant
     {
         // first update Pantoufle and pitch tracker.
         CANTINA_TRY_RETHROW({
-                update(in, blockSize);
-            })
+            update(in, blockSize);
+        })
         // seed
         std::copy(in, in + blockSize, outSeed);
         // getting current pitch
@@ -107,14 +107,14 @@ namespace cant
         if (type == CONTROLLER_TYPE_DAMPER)
         {
             CANTINA_TRY_RETHROW({
-            m_pantoufle->setController(pan::MidiDamper::make(getNumberHarmonics(), channel, controllerIds.at(0)));
-                                })
+                m_pantoufle->setController(pan::MidiDamper::make(getNumberHarmonics(), channel, controllerIds.at(0)));
+            })
         }
         else if (type == CONTROLLER_TYPE_PAN)
         {
             CANTINA_TRY_RETHROW({
-            m_pantoufle->setController(pan::MidiPan::make(getNumberHarmonics(), channel, controllerIds.at(0)));
-                                })
+                m_pantoufle->setController(pan::MidiPan::make(getNumberHarmonics(), channel, controllerIds.at(0)));
+            })
         }
         else
         {
