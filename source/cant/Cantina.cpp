@@ -52,52 +52,18 @@ namespace cant
         }
         type_d pitch = m_tracker->getPitchFreq();
         // getting stream of processed notes
-        const Stream<pan::MidiNoteOutput>& processedNoteOutput = m_pantoufle->getProcessedOutputData();
+        const Stream<pan::MidiNoteOutput>& processedNoteOutput = m_pantoufle->getProcessedNoteOutput();
         for(size_u i=0; i < getNumberHarmonics(); ++i)
         {
             const auto& note = processedNoteOutput.at(i);
-            sample_f* outHarmonic = outHarmonics[i];
-            CANTINA_TRY_RETHROW({
-                m_shifter->apply(pitch, note, in, outHarmonic, blockSize);
-            })
+            if (note.isSet())
+            {
+                sample_f* outHarmonic = outHarmonics[i];
+                CANTINA_TRY_RETHROW({
+                                        m_shifter->apply(pitch, note, in, outHarmonic, blockSize);
+                                    })
+            }
         }
-    }
-
-    void
-    Cantina::
-    update(const sample_f* in, const size_u blockSize)
-    {
-
-        CANTINA_TRY_RETHROW({
-            m_tracker->update(in, blockSize);
-            m_pantoufle->update();
-        })
-    }
-
-    CANT_NODISCARD
-    size_u
-    Cantina::
-    getNumberHarmonics() const
-    {
-        return m_pantoufle->getNumberVoices();
-    }
-
-    void
-    Cantina::
-    receiveNote(const pan::MidiNoteInputData& noteData)
-    {
-        CANTINA_TRY_RETHROW({
-          m_pantoufle->receiveInputNoteData(noteData);
-        })
-    }
-
-    void
-    Cantina::
-    receiveControl(const pan::MidiControlInputData &controlData)
-    {
-        CANTINA_TRY_RETHROW({
-                m_pantoufle->receiveRawControlData(controlData);
-        })
     }
 
     void
