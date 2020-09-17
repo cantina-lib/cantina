@@ -4,10 +4,11 @@
 
 #include <cant/track/HelmholtzTracker.hpp>
 
-namespace cant::track
-{
+#include <cant/common/macro.hpp>
+CANTINA_CANT_NAMESPACE_BEGIN
+
     HelmholtzTracker::
-    HelmholtzTracker(const size_u sampleRate, const size_u frameSize, const type_i overlap, const type_d minFidelity)
+    HelmholtzTracker(const type_i sampleRate, const size_u frameSize, const type_i overlap, const type_d minFidelity)
         : m_helm(frameSize, overlap),
         m_sampleRate(sampleRate),
         m_minFidelity(minFidelity),
@@ -27,5 +28,5 @@ namespace cant::track
             m_fidelity = updatedFidelity;
         }
     }
-}
 
+CANTINA_CANT_NAMESPACE_END

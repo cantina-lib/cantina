@@ -58,28 +58,28 @@ include Ron Mayer's fft or similar functionality. */
 
 /***********************************************************************/
 #include <cant/common/macro.hpp>
-namespace helmholtz
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     class Helmholtz
     {
 
     public:
         /** -- methods  -- **/
         CANT_EXPLICIT Helmholtz(
-                cant::size_u frameSize,
-                cant::type_i overlap = c_defaultOverlap,
-                cant::type_d bias = c_defaultBias
+                size_u frameSize,
+                type_i overlap = c_defaultOverlap,
+                type_d bias = c_defaultBias
                 );
 
-        void inOutSamples(const cant::sample_f *in, cant::sample_f *out, int size);
-        void inSamples(const cant::sample_f *in, int size);
-        void setFrameSize(cant::size_u frameSize);
-        void setOverlap(cant::type_i overlap);
-        void setBias(cant::type_d bias);
-        void setMinRMS(cant::type_d rms);
-        CANT_NODISCARD cant::type_d getPeriod() const;
-        CANT_NODISCARD cant::type_d getFidelity() const;
-        CANT_NODISCARD cant::size_u getFrameSize() const;
+        void inOutSamples(const sample_f *in, sample_f *out, size_u blockSize);
+        void inSamples(const sample_f *in, size_u blockSize);
+        void setFrameSize(size_u frameSize);
+        void setOverlap(type_i overlap);
+        void setBias(type_d bias);
+        void setMinRMS(type_d rms);
+        CANT_NODISCARD type_d getPeriod() const;
+        CANT_NODISCARD type_d getFidelity() const;
+        CANT_NODISCARD size_u getFrameSize() const;
 
     private:
         /** -- methods  -- **/
@@ -91,40 +91,40 @@ namespace helmholtz
         void periodAndFidelity();
 
         // functions
-        CANT_NODISCARD static cant::sample_f interpolate3max  (const cant::sample_f *buf, cant::size_u peakIndex);
-        CANT_NODISCARD static cant::sample_f interpolate3phase(const cant::sample_f *buf, cant::size_u peakIndex);
+        CANT_NODISCARD static sample_f interpolate3max  (const sample_f *buf, size_u peakIndex);
+        CANT_NODISCARD static sample_f interpolate3phase(const sample_f *buf, size_u peakIndex);
 
         /** -- fields -- **/
-        cant::fft::FFTWPerformer m_fftPerformer;
+        FFTWPerformer m_fftPerformer;
 
         // state variables
-        cant::size_u m_frameSize;
-        cant::size_u m_timeIndex;
-        cant::type_i m_overlap;
-        cant::size_u m_periodIndex;
+        size_u m_frameSize;
+        size_u m_timeIndex;
+        type_i m_overlap;
+        size_u m_periodIndex;
 
-        cant::type_d m_biasFactor;
-        cant::type_d m_minRMS;
+        type_d m_biasFactor;
+        type_d m_minRMS;
 
         // buffers
-        std::vector<cant::sample_f> m_inputBuffer;
-        std::vector<cant::sample_f> m_inputBuffer2;
-        std::vector<cant::sample_f> m_processBuffer;
+        Stream<cant::sample_f> m_inputBuffer;
+        Stream<cant::sample_f> m_inputBuffer2;
+        Stream<cant::sample_f> m_processBuffer;
 
 
         // output
-        cant::type_d m_periodLength;
-        cant::type_d m_fidelity;
+        type_d m_periodLength;
+        type_d m_fidelity;
 
         // constants
-        static CANT_CONSTEXPR cant::type_i c_defaultFrameSize          = 1024;      // default analysis framesize
-        static CANT_CONSTEXPR cant::type_i c_defaultOverlap            = 1;            // default overlap
-        static CANT_CONSTEXPR cant::type_d c_defaultBias            = 0.2;             // default bias
-        static CANT_CONSTEXPR cant::type_d c_defaultMinRMS          = 0.003;        // default minimum RMS
-        static CANT_CONSTEXPR cant::type_d c_defaultSeekLengthRatio = 0.85;              // seek-length as ratio of framesize
+        static CANT_CONSTEXPR type_i c_defaultFrameSize          = 1024;      // default analysis framesize
+        static CANT_CONSTEXPR type_i c_defaultOverlap            = 1;            // default overlap
+        static CANT_CONSTEXPR type_d c_defaultBias            = 0.2;             // default bias
+        static CANT_CONSTEXPR type_d c_defaultMinRMS          = 0.003;        // default minimum RMS
+        static CANT_CONSTEXPR type_d c_defaultSeekLengthRatio = 0.85;              // seek-length as ratio of framesize
     };
 
-}
-
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
+
 #endif // #ifndef Helmholtz_H

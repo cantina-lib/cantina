@@ -14,19 +14,19 @@
 #include <cant/shift/TimeDomainPitchShifter.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::shift
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     class SoundTouchShifter final : public TimeDomainPitchShifter
     {
     public:
         /** -- methods -- **/
-        SoundTouchShifter(const size_u numberVoices, const size_u sampleRate, const type_i sequence = c_defaultSequence);
+        SoundTouchShifter(size_u numberVoices, type_i sampleRate, const type_i sequence = c_defaultSequence);
 
         CANT_NODISCARD size_u getNumberVoices() const;
     protected:
         /** -- methods -- **/
         CANT_NODISCARD size_u getNumberSamplesAvailable(size_u voice) const override;
-        CANT_NODISCARD size_u getSampleRate() const override;
+        CANT_NODISCARD type_i getSampleRate() const override;
 
     private: // unsable here, only in base class
         /** -- methods -- **/
@@ -38,13 +38,14 @@ namespace cant::shift
 
 
         /** -- fields -- **/
-        size_u m_sampleRate;
+        type_i m_sampleRate;
         std::vector<soundtouch::SoundTouch> m_touches;
 
         // constants
         static CANT_CONSTEXPR type_i c_defaultSequence = 20;
     };
-}
 
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
+
 #endif //CANTINA_SOUNDTOUCHSHIFTER_HPP

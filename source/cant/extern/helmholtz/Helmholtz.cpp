@@ -15,10 +15,10 @@ Katja Vetter, Feb 2012.
 #include <algorithm>
 
 #include <cant/common/macro.hpp>
-namespace helmholtz
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     Helmholtz::
-    Helmholtz(cant::size_u frameSize, cant::type_i overlap, cant::type_d bias)
+    Helmholtz(size_u frameSize, type_i overlap, type_d bias)
     : m_fftPerformer(2 * frameSize),
       m_timeIndex(0),
       m_periodIndex(0),
@@ -34,9 +34,9 @@ namespace helmholtz
         setBias(bias);
 
 
-        m_inputBuffer   = std::vector<cant::sample_f>(static_cast<cant::size_u>(m_frameSize), 0.);
-        m_inputBuffer2  = std::vector<cant::sample_f>(static_cast<cant::size_u>(m_frameSize), 0.);
-        m_processBuffer = std::vector<cant::sample_f>(2 * static_cast<cant::size_u>(m_frameSize), 0.);
+        m_inputBuffer   = std::vector<sample_f>(static_cast<size_u>(m_frameSize), 0.);
+        m_inputBuffer2  = std::vector<sample_f>(static_cast<size_u>(m_frameSize), 0.);
+        m_processBuffer = std::vector<sample_f>(2 * static_cast<size_u>(m_frameSize), 0.);
     }
 
 
@@ -47,9 +47,10 @@ namespace helmholtz
 
     void
     Helmholtz::
-    inSamples(const cant::sample_f *in, int size)
+    inSamples(const sample_f *in, size_u blockSize)
     {
         int mask = static_cast<int>(m_frameSize) - 1;
+        int size = static_cast<int>(blockSize);
 
         // call analysis function when it is time
         if(!(m_timeIndex && ((static_cast<int>(m_frameSize) / m_overlap) - 1)))
@@ -60,14 +61,15 @@ namespace helmholtz
         {
             m_inputBuffer[m_timeIndex] = *in++;
             ++m_timeIndex;
-            m_timeIndex &= static_cast<cant::size_u>(mask);
+            m_timeIndex &= static_cast<size_u>(mask);
         }
     }
     void
     Helmholtz::
-    inOutSamples(const cant::sample_f *in, cant::sample_f *out, int size)
+    inOutSamples(const sample_f *in, sample_f *out, size_u blockSize)
     {
         int mask = static_cast<int>(m_frameSize) - 1;
+        int size = static_cast<int>(blockSize);
         int outIndex = 0;
 
         // call analysis function when it is time
@@ -80,13 +82,13 @@ namespace helmholtz
         {
             m_inputBuffer[m_timeIndex] = *in++;
             out[outIndex++] = m_processBuffer[m_timeIndex++];
-            m_timeIndex &= static_cast<cant::size_u>(mask);
+            m_timeIndex &= static_cast<size_u>(mask);
         }
     }
 
     void
     Helmholtz::
-    setFrameSize(cant::size_u frameSize)
+    setFrameSize(size_u frameSize)
     {
         if(!(
                 (frameSize==128)
@@ -108,7 +110,7 @@ namespace helmholtz
     }
 
     CANT_NODISCARD
-    cant::size_u
+    size_u
     Helmholtz::
     getFrameSize() const
     {
@@ -135,7 +137,7 @@ namespace helmholtz
 
     void
     Helmholtz::
-    setBias(cant::type_d bias)
+    setBias(type_d bias)
     {
         if(bias > 1.) bias = 1.;
         if(bias < 0.) bias = 0.;
@@ -145,7 +147,7 @@ namespace helmholtz
 
     void
     Helmholtz::
-    setMinRMS(cant::type_d rms)
+    setMinRMS(type_d rms)
     {
         if(rms > 1.) rms = 1.;
         if(rms < 0.) rms = 0.;
@@ -154,19 +156,19 @@ namespace helmholtz
 
 
     CANT_NODISCARD
-    cant::type_d
+    type_d
     Helmholtz::
     getPeriod() const
     {
-        return static_cast<cant::sample_f>(m_periodLength);
+        return static_cast<sample_f>(m_periodLength);
     }
 
     CANT_NODISCARD
-    cant::type_d
+    type_d
     Helmholtz::
     getFidelity() const
     {
-        return static_cast<cant::sample_f>(m_fidelity);
+        return static_cast<sample_f>(m_fidelity);
     }
 
 
@@ -180,27 +182,27 @@ namespace helmholtz
     Helmholtz::
     analyzeFrame()
     {
-        cant::size_u n;
+        size_u n;
         int tindex = static_cast<int>(m_timeIndex);
         int mask = static_cast<int>(m_frameSize) - 1;
-        const auto norm = static_cast<cant::sample_f>(1. / sqrt(cant::sample_f(2 * m_frameSize)));
+        const auto norm = static_cast<sample_f>(1. / sqrt(sample_f(2 * m_frameSize)));
 
         // copy input to processing buffer
         for(n=0; n < m_frameSize; n++)
         {
-            m_processBuffer.at(n) = m_inputBuffer.at(static_cast<cant::size_u>(tindex++ & mask)) * norm;
+            m_processBuffer.at(n) = m_inputBuffer.at(static_cast<size_u>(tindex++ & mask)) * norm;
         }
 
         // copy for normalization function
         for(n=0; n < m_frameSize; n++)
         {
-            m_inputBuffer2.at(n) = m_inputBuffer.at(static_cast<cant::size_u>(tindex++ & mask));
+            m_inputBuffer2.at(n) = m_inputBuffer.at(static_cast<size_u>(tindex++ & mask));
         }
         // zeropadding
         std::fill(
                 m_processBuffer.begin() + static_cast<long int>(m_frameSize),
                 m_processBuffer.end(),
-                static_cast<cant::sample_f>(0.)
+                static_cast<sample_f>(0.)
                 );
 
         // call analysis procedures
@@ -214,7 +216,7 @@ namespace helmholtz
     Helmholtz::
     autoCorrelation()
     {
-        cant::size_u n;
+        size_u n;
         int fftsize = static_cast<int>(m_frameSize) * 2;
 
         m_fftPerformer.performRealForward(m_processBuffer);
@@ -225,11 +227,11 @@ namespace helmholtz
 
         for(n=1; n < m_frameSize; n++)
         {
-            const auto convIndex = static_cast<cant::size_u>(fftsize - static_cast<int>(n));
+            const auto convIndex = static_cast<size_u>(fftsize - static_cast<int>(n));
             m_processBuffer[n] = m_processBuffer.at(n) * m_processBuffer.at(n)
                                  + m_processBuffer.at(convIndex)
                                     * m_processBuffer.at(convIndex); // imag coefficients appear reversed
-            m_processBuffer.at(convIndex) = static_cast<cant::sample_f>(0.);
+            m_processBuffer.at(convIndex) = static_cast<sample_f>(0.);
 
         }
 
@@ -240,20 +242,20 @@ namespace helmholtz
     Helmholtz::
     normalize()
     {
-        const auto seek = static_cast<cant::size_u>(
-                std::floor(static_cast<cant::type_d>(m_frameSize) * c_defaultSeekLengthRatio)
+        const auto seek = static_cast<size_u>(
+                std::floor(static_cast<type_d>(m_frameSize) * c_defaultSeekLengthRatio)
                 );
 
-        cant::type_d normIntegral;
+        type_d normIntegral;
         {
             // minimum RMS implemented as minimum autocorrelation at index 0
             // effectively this means possible white noise addition
             const auto rms =
-                    static_cast<cant::sample_f>(
-                            m_minRMS / std::sqrt(1. / static_cast<cant::sample_f>(m_frameSize))
+                    static_cast<sample_f>(
+                            m_minRMS / std::sqrt(1. / static_cast<sample_f>(m_frameSize))
                     );
-            const cant::sample_f minRZero = rms * rms;
-            cant::sample_f rZero = m_processBuffer.at(0);
+            const sample_f minRZero = rms * rms;
+            sample_f rZero = m_processBuffer.at(0);
             if(rZero < minRZero)
             {
                 rZero = minRZero;
@@ -263,35 +265,35 @@ namespace helmholtz
 
         // normalize biased autocorrelation function
         m_processBuffer[0] = 1.;
-        for(cant::size_u n = 1; n < seek; n++)
+        for(size_u n = 1; n < seek; n++)
         {
-            cant::sample_f signal1 = m_inputBuffer2.at(static_cast<cant::size_u>(n - 1));
-            cant::sample_f signal2 = m_inputBuffer2.at(m_frameSize - n);
+            sample_f signal1 = m_inputBuffer2.at(static_cast<size_u>(n - 1));
+            sample_f signal2 = m_inputBuffer2.at(m_frameSize - n);
             normIntegral -= static_cast<double>(signal1 * signal1 + signal2 * signal2);
-            m_processBuffer.at(n)  /= static_cast<cant::sample_f>(normIntegral * 0.5);
+            m_processBuffer.at(n)  /= static_cast<sample_f>(normIntegral * 0.5);
         }
 
         // flush unstable function tail
         std::fill(
                 m_processBuffer.begin() + static_cast<unsigned int>(seek),
                 m_processBuffer.begin() + static_cast<unsigned int>(m_frameSize),
-                static_cast<cant::sample_f>(0.)
+                static_cast<sample_f>(0.)
                 );
     }
 
-// select the peak which most probably represents period length
+    // select the peak which most probably represents period length
     void
     Helmholtz::
     pickPeak()
     {
-        const auto seek = static_cast<cant::size_u>(std::floor(static_cast<cant::sample_f>(m_frameSize) * c_defaultSeekLengthRatio));
+        const auto seek = static_cast<size_u>(std::floor(static_cast<sample_f>(m_frameSize) * c_defaultSeekLengthRatio));
         const auto bias =
-                static_cast<cant::sample_f>(
-                        m_biasFactor / static_cast<cant::sample_f>(m_frameSize)
+                static_cast<sample_f>(
+                        m_biasFactor / static_cast<sample_f>(m_frameSize)
                         );    // user-controlled bias
 
         // skip main lobe
-        auto n = static_cast<cant::size_u>(
+        auto n = static_cast<size_u>(
                 std::round(
                 std::distance(
                 m_processBuffer.begin(),
@@ -305,9 +307,9 @@ namespace helmholtz
         // find interpolated / biased maximum in specially normalized autocorrelation function
         // interpolation finds the 'real maximum'
         // biasing favours the first candidate
-        cant::sample_f maxValue = 0.;
-        cant::sample_f realPeak;
-        cant::size_u peakIndex=0;
+        sample_f maxValue = 0.;
+        sample_f realPeak;
+        size_u peakIndex=0;
         for(; n < seek-1; n++)
         {
             if(
@@ -318,7 +320,7 @@ namespace helmholtz
                 /* local peak */
                 realPeak = interpolate3max(m_processBuffer.data(), n);
 
-                if((realPeak * (1. - static_cast<cant::sample_f>(static_cast<cant::type_d>(n) * bias))) > maxValue)
+                if((realPeak * (1. - static_cast<sample_f>(static_cast<type_d>(n) * bias))) > maxValue)
                 {
                     maxValue = realPeak;
                     peakIndex = n;
@@ -334,7 +336,7 @@ namespace helmholtz
     {
         if(m_periodIndex)
         {
-            m_periodLength = static_cast<cant::sample_f>(m_periodIndex) + interpolate3phase(m_processBuffer.data(), m_periodIndex);
+            m_periodLength = static_cast<sample_f>(m_periodIndex) + interpolate3phase(m_processBuffer.data(), m_periodIndex);
             m_fidelity = interpolate3max(m_processBuffer.data(), m_periodIndex);
         }
     }
@@ -346,17 +348,17 @@ namespace helmholtz
 
 
     CANT_NODISCARD
-    cant::sample_f
+    sample_f
     Helmholtz::
-    interpolate3max(const cant::sample_f *buf, cant::size_u peakIndex)
+    interpolate3max(const sample_f *buf, size_u peakIndex)
     {
-        cant::sample_f realpeak;
+        sample_f realpeak;
 
-        cant::sample_f a = buf[peakIndex - 1];
-        cant::sample_f b = buf[peakIndex];
-        cant::sample_f c = buf[peakIndex + 1];
+        sample_f a = buf[peakIndex - 1];
+        sample_f b = buf[peakIndex];
+        sample_f c = buf[peakIndex + 1];
 
-        realpeak = static_cast<cant::sample_f>(
+        realpeak = static_cast<sample_f>(
                 b + 0.5 * (0.5 * ((c - a) * (c - a)))
                        / (2 * b - a - c)
         );
@@ -364,20 +366,19 @@ namespace helmholtz
     }
 
     CANT_NODISCARD
-    cant::sample_f
+    sample_f
     Helmholtz::
-    interpolate3phase(const cant::sample_f *buf, cant::size_u peakIndex)
+    interpolate3phase(const sample_f *buf, size_u peakIndex)
     {
-        cant::sample_f fraction;
+        sample_f fraction;
 
-        cant::sample_f a = buf[peakIndex - 1];
-        cant::sample_f b = buf[peakIndex];
-        cant::sample_f c = buf[peakIndex + 1];
+        sample_f a = buf[peakIndex - 1];
+        sample_f b = buf[peakIndex];
+        sample_f c = buf[peakIndex + 1];
 
-        fraction = static_cast<cant::sample_f>((0.5 * (c - a)) / ( 2. * b - a - c));
+        fraction = static_cast<sample_f>((0.5 * (c - a)) / ( 2. * b - a - c));
 
         return fraction;
     }
-}
 
-
+CANTINA_CANT_NAMESPACE_END

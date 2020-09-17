@@ -7,8 +7,7 @@
 #include <cant/maths/maths.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::fft
-{
+CANTINA_CANT_NAMESPACE_BEGIN
 
     FFTWPerformer::
     FFTWPerformer(const size_u transformSize)
@@ -82,4 +81,4 @@ namespace cant::fft
         performReal(inout, m_realInversePlan);
     }
 
-}
+CANTINA_CANT_NAMESPACE_END

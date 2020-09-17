@@ -15,15 +15,15 @@
 #include <cant/shift/MixedDomainPitchShifter.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::shift
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     class TimeDomainPitchShifter;
 
     class RubberTouchShifter final : public MixedDomainPitchShifter
     {
     public:
         /** -- methods -- **/
-        RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, size_u numberVoices, size_u sampleRate, size_u blockSize);
+        RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, size_u numberVoices, type_i sampleRate, size_u blockSize);
     protected:
         /** -- methods -- **/
         void clearBuffers(size_u voice) override;
@@ -37,7 +37,8 @@ namespace cant::shift
         // constants
         static CANT_CONSTEXPR size_u c_maxProcessBatchSize = 1024;
     };
-}
 
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
+
 #endif //CANTINA_RUBBERTOUCHSHIFTER_HPP

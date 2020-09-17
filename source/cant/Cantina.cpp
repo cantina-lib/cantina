@@ -5,16 +5,10 @@
 #include <cant/Cantina.hpp>
 #include <cant/common/config.hpp>
 
-#include <cant/pan/time/MidiTimer.hpp>
+#include <cant/pan/time/time.hpp>
 #include <cant/pan/note/MidiNote.hpp>
 #include <cant/pan/controller/controller.hpp>
 #include <cant/pan/Pantoufle.hpp>
-// todo: I shouldn't have to include the headers to processors and layer classes.
-// because Cantina is not in charge of constructing MidiInputPoly, MidiControllerChain and MidiEnvelopePair
-// however the compiler complains that these classes are incomplete (as though it were trying to construct them?)
-// (don't have a compile-time error when constructing another Pantoufle object inside the Pantoufle class
-#include <cant/pan/processor/processor.hpp>
-#include <cant/pan/layer/layer.hpp>
 
 #include <cant/track/HelmholtzTracker.hpp>
 #include <cant/shift/SoundTouchShifter.hpp>
@@ -22,15 +16,15 @@
 #include <cant/common/CantinaException.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     Cantina::
     Cantina(const size_u numberHarmonics,
-            const size_u sampleRate,
-            const pan::id_u8 channelId)
-        : m_pantoufle(std::make_unique<pan::Pantoufle>(numberHarmonics, channelId)),
-          m_tracker(UPtr<track::PitchTracker>(new track::HelmholtzTracker(sampleRate))),
-          m_shifter(UPtr<shift::TimeDomainPitchShifter>(new shift::SoundTouchShifter(numberHarmonics, sampleRate)))
+            const type_i sampleRate,
+            const CANTINA_PAN_NAMESPACE::id_u8 channelId)
+        : m_pantoufle(std::make_unique<CANTINA_PAN_NAMESPACE::Pantoufle>(numberHarmonics, channelId)),
+          m_tracker(UPtr<PitchTracker>(new HelmholtzTracker(sampleRate))),
+          m_shifter(UPtr<TimeDomainPitchShifter>(new SoundTouchShifter(numberHarmonics, sampleRate)))
     {
     }
 
@@ -38,9 +32,9 @@ namespace cant
     Cantina::
     perform(const sample_f *in, sample_f *outSeed, sample_f **outHarmonics, const size_u blockSize)
     {
-        // first update Pantoufle and pitch tracker.
+        // first update pitch tracker.
         CANTINA_TRY_RETHROW({
-            update(in, blockSize);
+            m_tracker->update(in, blockSize);
         })
         // seed
         std::copy(in, in + blockSize, outSeed);
@@ -52,7 +46,7 @@ namespace cant
         }
         type_d pitch = m_tracker->getPitchFreq();
         // getting stream of processed notes
-        const Stream<pan::MidiNoteOutput>& processedNoteOutput = m_pantoufle->getProcessedNoteOutput();
+        const auto & processedNoteOutput = m_pantoufle->getProcessedNoteOutput();
         for(size_u i=0; i < getNumberHarmonics(); ++i)
         {
             const auto& note = processedNoteOutput.at(i);
@@ -68,18 +62,39 @@ namespace cant
 
     void
     Cantina::
-    setController(const std::string &type, const pan::id_u8 channel, const Stream <pan::id_u8> &controllerIds)
+    setController
+    (
+            const std::string &type,
+            const CANTINA_PAN_NAMESPACE::id_u8 channel,
+            const Stream <CANTINA_PAN_NAMESPACE::id_u8> &controllerIds
+            )
     {
         if (type == CONTROLLER_TYPE_DAMPER)
         {
             CANTINA_TRY_RETHROW({
-                m_pantoufle->setController(pan::MidiDamper::make(getNumberHarmonics(), channel, controllerIds.at(0)));
+                m_pantoufle->setController
+                (
+                        CANTINA_PAN_NAMESPACE::MidiDamper::make
+                        (
+                                getNumberHarmonics(),
+                                channel,
+                                controllerIds.at(0)
+                        )
+                );
             })
         }
         else if (type == CONTROLLER_TYPE_PAN)
         {
             CANTINA_TRY_RETHROW({
-                m_pantoufle->setController(pan::MidiPan::make(getNumberHarmonics(), channel, controllerIds.at(0)));
+                m_pantoufle->setController
+                (
+                        CANTINA_PAN_NAMESPACE::MidiPan::make
+                        (
+                                getNumberHarmonics(),
+                                channel,
+                                controllerIds.at(0)
+                        )
+                );
             })
         }
         else
@@ -87,4 +102,5 @@ namespace cant
             throw CANTINA_EXCEPTION("Controller type not recognised: " + type);
         }
     }
-}
+
+CANTINA_CANT_NAMESPACE_END

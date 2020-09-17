@@ -13,8 +13,8 @@
 #include <cant/shift/TimeDomainPitchShifter.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::shift
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     class MixedDomainPitchShifter : public PitchShifter
     {
     public:
@@ -25,19 +25,20 @@ namespace cant::shift
         /** -- methods -- **/
         void
         shift(
-                pan::tone_d src,
-                const pan::MidiNoteOutput &note,
+                CANTINA_PAN_NAMESPACE::tone_d src,
+                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note,
                 const sample_f *input,
                 sample_f *output,
                 size_u blockSize
         ) override;
 
-        CANT_NODISCARD virtual bool isReady(const pan::MidiNoteOutput& note) const = 0;
+        CANT_NODISCARD virtual bool isReady(const CANTINA_PAN_NAMESPACE::MidiNoteOutput& note) const = 0;
 
         /** -- fields -- **/
         UPtr<TimeDomainPitchShifter> _auxShifter;
     };
-}
 
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
+
 #endif //CANTINA_MIXEDDOMAINPITCHSHIFTER_HPP

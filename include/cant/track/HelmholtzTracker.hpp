@@ -14,15 +14,14 @@
 #include <cant/track/PitchTracker.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::track
-{
+CANTINA_CANT_NAMESPACE_BEGIN
 
     class HelmholtzTracker: public PitchTracker
     {
     public:
         /** -- methods -- **/
         CANT_EXPLICIT HelmholtzTracker(
-                size_u sampleRate,
+                type_i sampleRate,
                 size_u frameSize = c_defaultFrameSize,
                 type_i overlap = c_defaultOverlap,
                 type_d minFidelity = PitchTracker::c_defaultMinFidelity
@@ -38,17 +37,18 @@ namespace cant::track
         CANT_NODISCARD bool isPitchAcceptable(type_d fidelity) const;
 
         /** -- fields **/
-        helmholtz::Helmholtz m_helm;
-        size_u m_sampleRate;
+        Helmholtz m_helm;
+        type_i m_sampleRate;
         type_d m_minFidelity;
         type_d m_pitch;
         type_d m_fidelity;
 
         // constants
-        static CANT_CONSTEXPR type_i c_defaultFrameSize = 1024;
+        static CANT_CONSTEXPR size_u c_defaultFrameSize = 1024;
         static CANT_CONSTEXPR type_i c_defaultOverlap = 2;
     };
-}
+
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
 #include <cant/track/HelmholtzTracker.inl>

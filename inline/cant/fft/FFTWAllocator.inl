@@ -10,8 +10,8 @@
 #include <cant/common/CantinaException.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     template <typename T>
     typename fftw3f_allocator<T>::pointer
     fftw3f_allocator<T>::
@@ -53,8 +53,9 @@ namespace cant
     template <typename U>
     fftw3f_allocator<T>::
     fftw3f_allocator(const fftw3f_allocator<U>&) CANT_NOEXCEPT
-    { }
-}
+    {}
+
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
 #endif //CANTINA_TILDE_FFTWALLOCATOR_INL

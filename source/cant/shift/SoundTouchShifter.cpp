@@ -5,10 +5,10 @@
 #include <cant/shift/SoundTouchShifter.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::shift
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     SoundTouchShifter::
-    SoundTouchShifter(const size_u numberVoices, const size_u sampleRate, const type_i sequence)
+    SoundTouchShifter(const size_u numberVoices, const type_i sampleRate, const type_i sequence)
     : m_sampleRate(sampleRate),
       m_touches(numberVoices)
     {
@@ -53,7 +53,7 @@ namespace cant::shift
         return m_touches.at(voice).numSamples();
     }
 
-    size_u
+    type_i
     SoundTouchShifter::
     getSampleRate() const
     {
@@ -86,6 +86,4 @@ namespace cant::shift
         return m_touches.size();
     }
 
-
-}
-
+CANTINA_CANT_NAMESPACE_END

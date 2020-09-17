@@ -37,7 +37,7 @@ add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 #set(RUBBERBAND_LIBRARIES ${RUBBERBAND_LIB_DIR}/librubberband.a)
 
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD ${CANTINA_CXX_STANDARD})
 set(CMAKE_CXX_FLAGS ${CANTINA_MAIN_CXX_FLAGS})
 
 set(CANTINA_INCLUDE_DIRS
@@ -103,7 +103,6 @@ set(CANTINA_FILES
         ${CANTINA_INCLUDE_DIR}/cant/shift/MixedDomainPitchShifter.hpp
         ${CANTINA_INCLUDE_DIR}/cant/shift/SoundTouchShifter.hpp
         # ${CANTINA_INCLUDE_DIR}/cant/shift/RubberTouchShifter.hpp
-
 
         # External libraries
         ## Helmholtz pitch-tracker by Katja Vetter

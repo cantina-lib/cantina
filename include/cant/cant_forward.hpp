@@ -7,15 +7,17 @@
 
 #pragma once
 
-#include <cant/pan/note/note_forward.hpp>
-#include <cant/pan/control/control_forward.hpp>
+#include <cant/pan/pan_forward.hpp>
 
-namespace cant
-{
-    namespace track { class PitchTracker; }
-    namespace shift { class TimeDomainPitchShifter; }
+#include <cant/common/macro.hpp>
+CANTINA_CANT_NAMESPACE_BEGIN
 
-    namespace pan { class Pantoufle; }
-}
+    class PitchTracker;
+    class TimeDomainPitchShifter;
+
+    class Cantina;
+
+CANTINA_CANT_NAMESPACE_END
+#include <cant/common/undef_macro.hpp>
 
 #endif //CANTINA_TILDE_CANT_FORWARD_H

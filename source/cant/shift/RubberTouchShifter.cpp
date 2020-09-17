@@ -4,10 +4,11 @@
 
 #include <cant/shift/RubberTouchShifter.hpp>
 
-namespace cant::shift
-{
+#include <cant/common/macro.hpp>
+CANTINA_CANT_NAMESPACE_BEGIN
+
     RubberTouchShifter::
-    RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, size_u numberVoices, size_u sampleRate, size_u blockSize)
+    RubberTouchShifter(UPtr<TimeDomainPitchShifter> auxShifter, size_u numberVoices, type_i sampleRate, size_u blockSize)
     : MixedDomainPitchShifter(std::move(auxShifter)),
       m_bands(
             numberVoices,
@@ -46,5 +47,5 @@ namespace cant::shift
     {
         return m_bands.at(voice).available();
     }
-}
 
+CANTINA_CANT_NAMESPACE_END

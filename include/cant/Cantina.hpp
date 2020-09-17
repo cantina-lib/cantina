@@ -12,47 +12,53 @@
 #include <cant/common/option.hpp>
 
 #include <cant/pan/common/types.hpp>
+#include <cant/pan/time/time.hpp>
 
 #include <cant/cant_forward.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     class Cantina
     {
     public:
         CANT_EXPLICIT Cantina(size_u numberHarmonics,
-                              size_u sampleRate,
-                              pan::id_u8 channel
+                              type_i sampleRate,
+                              CANTINA_PAN_NAMESPACE::id_u8 channel
         );
 
+        /** -- methods -- **/
+        void update();
         /* @brief: assumes numberHarmonics() elements in outVoices */
         void perform(const sample_f* in, sample_f* outSeed, sample_f** outHarmonics, size_u blockSize);
 
-        void setController(const std::string &type, pan::id_u8 channel, const Stream <pan::id_u8> &controllerIds);
+        void setController(
+                const std::string &type,
+                CANTINA_PAN_NAMESPACE::id_u8 channel,
+                const Stream <CANTINA_PAN_NAMESPACE::id_u8> &controllerIds
+                );
+        void setCurrentTimeGetter(CANTINA_PAN_NAMESPACE::MidiTimer::CurrentTimeGetter currentTimeGetter);
 
-        Optional <size_u> receiveNote(const pan::MidiNoteInputData& noteData);
-        void              receiveControl(const pan::MidiControlData &controlData);
+        Optional <size_u> receiveNote(const CANTINA_PAN_NAMESPACE::MidiNoteInputData& noteData);
+        void              receiveControl(const CANTINA_PAN_NAMESPACE::MidiControlData &controlData);
 
-        CANT_NODISCARD const pan::MidiNoteOutput& getProcessedVoice(size_u voice) const;
+        CANT_NODISCARD const CANTINA_PAN_NAMESPACE::MidiNoteOutput& getProcessedVoice(size_u voice) const;
 
 
         CANT_NODISCARD size_u getNumberHarmonics() const;
     private:
-        /** -- methods -- **/
-        void update(const sample_f *in, size_u blockSize);
 
         /** -- fields -- **/
-        UPtr<pan::Pantoufle> m_pantoufle;
-        UPtr<track::PitchTracker> m_tracker;
+        UPtr<CANTINA_PAN_NAMESPACE::Pantoufle> m_pantoufle;
+        UPtr<PitchTracker> m_tracker;
         /*
          * Cantina needs an unconstrained shifter for its main function,
          * so a mixed-domain pitch-shifter can't be used.
          */
-        UPtr<shift::TimeDomainPitchShifter> m_shifter;
+        UPtr<TimeDomainPitchShifter> m_shifter;
     };
 
-}
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
 #include <cant/Cantina.inl>

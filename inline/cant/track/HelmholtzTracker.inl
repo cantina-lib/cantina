@@ -10,8 +10,8 @@
 #include <cant/common/types.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::track
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     CANT_INLINE
     type_d
     HelmholtzTracker::
@@ -43,7 +43,8 @@ namespace cant::track
     {
         return isPitchAcceptable(m_fidelity);
     }
-}
+
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
 #endif //CANTINA_TILDE_HELMHOLTZTRACKER_INL

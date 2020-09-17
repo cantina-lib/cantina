@@ -8,15 +8,15 @@
 #pragma once
 
 #include <cant/common/macro.hpp>
-namespace cant::fft
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     CANT_NODISCARD CANT_INLINE
     size_u
     FFTWPerformer::
     getTransformSize() const
     { return m_inoutBuffer.size(); }
 
-}
+CANTINA_CANT_NAMESPACE_END
 
 #include <cant/common/undef_macro.hpp>
 #endif //CANTINA_TILDE_FFTWPERFORMER_INL

@@ -9,18 +9,24 @@
 #include <cant/pan/note/MidiNote.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::shift
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     void
     TimeDomainPitchShifter::
-    shift(double src, const pan::MidiNoteOutput &note, const sample_f *input,
-          sample_f *output, size_u blockSize)
+    shift
+    (
+            type_d src,
+            const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note,
+            const sample_f *input,
+            sample_f *output,
+            size_u blockSize
+    )
     {
         CANTINA_TRY_RETHROW({
-            const pan::tone_d target = note.getTone();
+            const CANTINA_PAN_NAMESPACE::tone_d target = note.getTone();
             const type_d shiftRatio = toneToShiftRatio(src, target);
             shift(note.getVoice(), shiftRatio, input, output, blockSize);
         })
     }
-}
 
+CANTINA_CANT_NAMESPACE_END

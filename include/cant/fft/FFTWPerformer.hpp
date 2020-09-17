@@ -13,8 +13,8 @@
 #include <cant/fft/FFTWAllocator.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::fft
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     class FFTWPerformer
     {
     public:
@@ -38,8 +38,7 @@ namespace cant::fft
         fftwf_plan m_realInversePlan;
     };
 
-}
-
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
 #include <cant/fft/FFTWPerformer.inl>

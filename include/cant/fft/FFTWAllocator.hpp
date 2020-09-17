@@ -15,8 +15,8 @@ extern "C"
 #include <cant/common/memory.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant
-{
+CANTINA_CANT_NAMESPACE_BEGIN
+
     template <typename T>
     class fftw3f_allocator
     {
@@ -45,7 +45,8 @@ namespace cant
     CANT_CONSTEXPR bool operator!=(const fftw3f_allocator<T>&, const fftw3f_allocator<U>&) CANT_NOEXCEPT;
 
     using FFTW3FBlock = std::vector<sample_f, fftw3f_allocator<sample_f>>;
-}
+
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
 #include <cant/fft/FFTWAllocator.inl>

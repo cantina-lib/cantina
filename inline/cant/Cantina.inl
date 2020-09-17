@@ -16,22 +16,19 @@
 #include <cant/common/CantinaException.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant
-{
+CANTINA_CANT_NAMESPACE_BEGIN
 
     CANT_INLINE
     void
     Cantina::
-    update(const sample_f* in, const size_u blockSize)
+    update()
     {
-
         CANTINA_TRY_RETHROW({
-                m_tracker->update(in, blockSize);
                 m_pantoufle->update();
         })
     }
 
-    CANT_NODISCARD CANT_INLINE
+    CANT_INLINE
     size_u
     Cantina::
     getNumberHarmonics() const
@@ -42,7 +39,7 @@ namespace cant
     CANT_INLINE
     Optional<size_u>
     Cantina::
-    receiveNote(const pan::MidiNoteInputData& noteData)
+    receiveNote(const CANTINA_PAN_NAMESPACE::MidiNoteInputData& noteData)
     {
         CANTINA_TRY_RETHROW({
                                     return m_pantoufle->receiveInputNoteData(noteData);
@@ -52,21 +49,30 @@ namespace cant
     CANT_INLINE
     void
     Cantina::
-    receiveControl(const pan::MidiControlInputData &controlData)
+    receiveControl(const CANTINA_PAN_NAMESPACE::MidiControlInputData &controlData)
     {
         CANTINA_TRY_RETHROW({
                                     m_pantoufle->receiveRawControlData(controlData);
                             })
     }
 
-    CANT_NODISCARD CANT_INLINE
-    const pan::MidiNoteOutput&
+    CANT_INLINE
+    const CANTINA_PAN_NAMESPACE::MidiNoteOutput&
     Cantina::
     getProcessedVoice(size_u voice) const
     {
         return m_pantoufle->getProcessedVoice(voice);
     }
-}
+
+    CANT_INLINE
+    void
+    Cantina::
+    setCurrentTimeGetter(CANTINA_PAN_NAMESPACE::MidiTimer::CurrentTimeGetter currentTimeGetter)
+    {
+        m_pantoufle->setCurrentTimeGetter(std::move(currentTimeGetter));
+    }
+
+CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
 #endif //CANTINA_TILDE_CANTINA_INL

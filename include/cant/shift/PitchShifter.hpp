@@ -18,8 +18,7 @@
 #include <cant/pan/note/note_forward.hpp>
 
 #include <cant/common/macro.hpp>
-namespace cant::shift
-{
+CANTINA_CANT_NAMESPACE_BEGIN
 
     class PitchShifter
     {
@@ -29,7 +28,7 @@ namespace cant::shift
 
         void apply(
                 type_d pitch,
-                const pan::MidiNoteOutput &note,
+                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note,
                 const sample_f *input,
                 sample_f *output,
                 size_u blockSize
@@ -37,19 +36,23 @@ namespace cant::shift
 
     protected:
         /** -- methods -- **/
-        CANT_NODISCARD bool shouldClearBuffers(const pan::MidiNoteOutput &note) const;
-        CANT_NODISCARD bool shouldTrimBuffers(const pan::MidiNoteOutput &note, pan::time_d maxLatency) const;
+        CANT_NODISCARD bool shouldClearBuffers(const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note) const;
+        CANT_NODISCARD bool shouldTrimBuffers
+        (
+                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note,
+                CANTINA_PAN_NAMESPACE::time_d maxLatency
+        ) const;
 
         // In milliseconds
-        CANT_NODISCARD pan::time_d getLatencyAvailable(size_u voice) const;
+        CANT_NODISCARD CANTINA_PAN_NAMESPACE::time_d getLatencyAvailable(size_u voice) const;
         // In milliseconds again
-        CANT_NODISCARD size_u timeToNumberSamples(pan::time_d t) const;
+        CANT_NODISCARD size_u timeToNumberSamples(CANTINA_PAN_NAMESPACE::time_d t) const;
 
         CANT_NODISCARD virtual size_u getNumberSamplesAvailable(size_u voice) const = 0;
-        CANT_NODISCARD virtual size_u getSampleRate() const = 0;
+        CANT_NODISCARD virtual type_i getSampleRate() const = 0;
 
         // static methods
-        static type_d toneToShiftRatio(pan::tone_d src, pan::tone_d dest);
+        static type_d toneToShiftRatio(CANTINA_PAN_NAMESPACE::tone_d src, CANTINA_PAN_NAMESPACE::tone_d dest);
 
         /** -- fields --**/
         // constants
@@ -57,8 +60,13 @@ namespace cant::shift
     private:
         /** -- methods -- **/
         virtual void
-        shift(pan::tone_d src, const pan::MidiNoteOutput &data, const sample_f *input,
-              sample_f *output, size_u blockSize) = 0;
+        shift(
+                CANTINA_PAN_NAMESPACE::tone_d src,
+                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &data,
+                const sample_f *input,
+                sample_f *output,
+                size_u blockSize
+                ) = 0;
 
         virtual void update(size_u voice, const sample_f *input, size_u blockSize) = 0;
 
@@ -66,14 +74,12 @@ namespace cant::shift
         virtual void trimBuffers(size_u voice, size_u numberSamples) = 0;
 
         // static methods
-        static type_d velocityToVolumeRatio(pan::vel_d velocity);
-        static pan::tone_d freqToTone(type_d freq);
+        static type_d velocityToVolumeRatio(CANTINA_PAN_NAMESPACE::vel_d velocity);
+        static CANTINA_PAN_NAMESPACE::tone_d freqToTone(type_d freq);
         static void amplify(sample_f *block, size_u blockSize, type_d amp);
     };
 
-
-
-}
+CANTINA_CANT_NAMESPACE_END
 
 #include <cant/common/undef_macro.hpp>
 #endif //CANTINA_PITCHSHIFTER_HPP
