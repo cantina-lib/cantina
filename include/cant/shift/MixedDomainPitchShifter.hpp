@@ -25,17 +25,17 @@ CANTINA_CANT_NAMESPACE_BEGIN
         /** -- methods -- **/
         void
         shift(
-                CANTINA_PAN_NAMESPACE::tone_d src,
-                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note,
+                pan::tone_d src,
+                const pan::MidiNoteOutput &note,
                 const sample_f *input,
                 sample_f *output,
                 size_u blockSize
         ) override;
 
-        CANT_NODISCARD virtual bool isReady(const CANTINA_PAN_NAMESPACE::MidiNoteOutput& note) const = 0;
+        CANT_NODISCARD virtual bool isReady(const pan::MidiNoteOutput& note) const = 0;
 
         /** -- fields -- **/
-        UPtr<TimeDomainPitchShifter> _auxShifter;
+        UPtr<TimeDomainPitchShifter> m_auxShifter;
     };
 
 CANTINA_CANT_NAMESPACE_END

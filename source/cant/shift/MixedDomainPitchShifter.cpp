@@ -11,9 +11,9 @@ CANTINA_CANT_NAMESPACE_BEGIN
 
     MixedDomainPitchShifter::
     MixedDomainPitchShifter(UPtr<TimeDomainPitchShifter>&& auxShifter)
-    : _auxShifter(std::move(auxShifter))
+    : m_auxShifter(std::move(auxShifter))
     {
-        if(!_auxShifter)
+        if(!m_auxShifter)
         {
             throw CANTINA_EXCEPTION("Auxiliary shifter not set.");
         }
@@ -22,7 +22,7 @@ CANTINA_CANT_NAMESPACE_BEGIN
     void
     MixedDomainPitchShifter::
     shift(CANT_MAYBEUNUSED const cant::type_d src,
-          CANT_MAYBEUNUSED const CANTINA_PAN_NAMESPACE::MidiNoteOutput &data,
+          CANT_MAYBEUNUSED const pan::MidiNoteOutput &data,
           CANT_MAYBEUNUSED const sample_f *input,
           CANT_MAYBEUNUSED sample_f *output,
           CANT_MAYBEUNUSED const size_u blockSize)

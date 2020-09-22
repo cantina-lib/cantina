@@ -25,8 +25,8 @@ CANTINA_CANT_NAMESPACE_BEGIN
         // private inheritance
         void update(size_u voice, const sample_f *input, size_u blockSize) override = 0;
         void shift(
-                CANTINA_PAN_NAMESPACE::tone_d src,
-                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note,
+                pan::tone_d src,
+                const pan::MidiNoteOutput &note,
                 const sample_f *input,
                 sample_f *output,
                 size_u blockSize) override;

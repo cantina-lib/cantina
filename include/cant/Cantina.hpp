@@ -2,8 +2,8 @@
 // Created by piptouque on 23/04/2020.
 //
 
-#ifndef LIB_CANTINA_HPP
-#define LIB_CANTINA_HPP
+#ifndef CANTINA_CAN_CANTINA_HPP
+#define CANTINA_CAN_CANTINA_HPP
 
 #pragma once
 
@@ -12,7 +12,7 @@
 #include <cant/common/option.hpp>
 
 #include <cant/pan/common/types.hpp>
-#include <cant/pan/time/time.hpp>
+#include <cant/time/common/types.hpp>
 
 #include <cant/cant_forward.hpp>
 
@@ -24,7 +24,7 @@ CANTINA_CANT_NAMESPACE_BEGIN
     public:
         CANT_EXPLICIT Cantina(size_u numberHarmonics,
                               type_i sampleRate,
-                              CANTINA_PAN_NAMESPACE::id_u8 channel
+                              pan::id_u8 channel
         );
 
         /** -- methods -- **/
@@ -34,22 +34,22 @@ CANTINA_CANT_NAMESPACE_BEGIN
 
         void setController(
                 const std::string &type,
-                CANTINA_PAN_NAMESPACE::id_u8 channel,
-                const Stream <CANTINA_PAN_NAMESPACE::id_u8> &controllerIds
+                pan::id_u8 channel,
+                const Stream <pan::id_u8> &controllerIds
                 );
-        void setCurrentTimeGetter(CANTINA_PAN_NAMESPACE::MidiTimer::CurrentTimeGetter currentTimeGetter);
+        void setCustomClock(time::AbsoluteTimeGetter currentTimeGetter);
 
-        Optional <size_u> receiveNote(const CANTINA_PAN_NAMESPACE::MidiNoteInputData& noteData);
-        void              receiveControl(const CANTINA_PAN_NAMESPACE::MidiControlData &controlData);
+        Optional <size_u> receiveNote(const pan::MidiNoteInputData& noteData);
+        void              receiveControl(const pan::MidiControlData &controlData);
 
-        CANT_NODISCARD const CANTINA_PAN_NAMESPACE::MidiNoteOutput& getProcessedVoice(size_u voice) const;
+        CANT_NODISCARD const pan::MidiNoteOutput& getProcessedVoice(size_u voice) const;
 
 
         CANT_NODISCARD size_u getNumberHarmonics() const;
     private:
 
         /** -- fields -- **/
-        UPtr<CANTINA_PAN_NAMESPACE::Pantoufle> m_pantoufle;
+        UPtr<pan::Pantoufle> m_pantoufle;
         UPtr<PitchTracker> m_tracker;
         /*
          * Cantina needs an unconstrained shifter for its main function,
@@ -61,6 +61,4 @@ CANTINA_CANT_NAMESPACE_BEGIN
 CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
-#include <cant/Cantina.inl>
-
-#endif //LIB_CANTINA_HPP
+#endif //CANTINA_CAN_CANTINA_HPP

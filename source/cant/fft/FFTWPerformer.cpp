@@ -4,8 +4,6 @@
 
 #include <cant/fft/FFTWPerformer.hpp>
 
-#include <cant/maths/maths.hpp>
-
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
 

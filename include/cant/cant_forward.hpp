@@ -7,10 +7,17 @@
 
 #pragma once
 
-#include <cant/pan/pan_forward.hpp>
-
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
+
+    namespace pan
+    {
+        class MidiNoteInputData;
+        class MidiControlData;
+        class MidiNoteOutput;
+
+        class Pantoufle;
+    }
 
     class PitchTracker;
     class TimeDomainPitchShifter;

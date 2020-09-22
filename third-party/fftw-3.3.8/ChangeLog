@@ -3720,7 +3720,7 @@ commit 3ca4f694d0b27bb0b1e84ea028e3dadcfdf5b236
 Author: stevenj <stevenj@fftw.org>
 Date:   Fri Dec 19 15:20:36 2008 -0500
 
-    Macs are no longer ppc-based; thanks to Charles Collicutt for the FAQ update
+    Macs are no longer ppc-based; thanks to Charles Collicutt for the FAQ updateDelta
     [empty commit message]
 
 commit bbfa5e2c5102a5f923eed3b31d37ec7b75616edd
@@ -9502,7 +9502,7 @@ commit 2ac42677bbf31c868ad589a378f93887163910c1
 Author: Steven G. Johnson <stevenj@fftw.org>
 Date:   Fri Jan 28 00:04:58 2005 -0500
 
-    update reference
+    updateCurrent reference
 
 commit 2f3db335dab469a165ed2d9a4f19435371ef9590
 Author: Steven G. Johnson <stevenj@fftw.org>

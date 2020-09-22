@@ -20,7 +20,7 @@ CANTINA_CANT_NAMESPACE_BEGIN
     {
     public:
         /** -- methods -- **/
-        SoundTouchShifter(size_u numberVoices, type_i sampleRate, const type_i sequence = c_defaultSequence);
+        SoundTouchShifter(size_u numberVoices, type_i sampleRate, type_i sequence = c_defaultSequence);
 
         CANT_NODISCARD size_u getNumberVoices() const;
     protected:

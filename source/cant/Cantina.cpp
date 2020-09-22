@@ -3,10 +3,11 @@
 //
 
 #include <cant/Cantina.hpp>
+
 #include <cant/common/config.hpp>
 
-#include <cant/pan/time/time.hpp>
-#include <cant/pan/note/MidiNote.hpp>
+#include <cant/time/Clock.hpp>
+
 #include <cant/pan/controller/controller.hpp>
 #include <cant/pan/Pantoufle.hpp>
 
@@ -21,8 +22,8 @@ CANTINA_CANT_NAMESPACE_BEGIN
     Cantina::
     Cantina(const size_u numberHarmonics,
             const type_i sampleRate,
-            const CANTINA_PAN_NAMESPACE::id_u8 channelId)
-        : m_pantoufle(std::make_unique<CANTINA_PAN_NAMESPACE::Pantoufle>(numberHarmonics, channelId)),
+            const pan::id_u8 channelId)
+        : m_pantoufle(pan::Pantoufle::make(numberHarmonics, channelId)),
           m_tracker(UPtr<PitchTracker>(new HelmholtzTracker(sampleRate))),
           m_shifter(UPtr<TimeDomainPitchShifter>(new SoundTouchShifter(numberHarmonics, sampleRate)))
     {
@@ -32,7 +33,7 @@ CANTINA_CANT_NAMESPACE_BEGIN
     Cantina::
     perform(const sample_f *in, sample_f *outSeed, sample_f **outHarmonics, const size_u blockSize)
     {
-        // first update pitch tracker.
+        // first updateDelta pitch tracker.
         CANTINA_TRY_RETHROW({
             m_tracker->update(in, blockSize);
         })
@@ -65,8 +66,8 @@ CANTINA_CANT_NAMESPACE_BEGIN
     setController
     (
             const std::string &type,
-            const CANTINA_PAN_NAMESPACE::id_u8 channel,
-            const Stream <CANTINA_PAN_NAMESPACE::id_u8> &controllerIds
+            const pan::id_u8 channel,
+            const Stream <pan::id_u8> &controllerIds
             )
     {
         if (type == CONTROLLER_TYPE_DAMPER)
@@ -74,7 +75,7 @@ CANTINA_CANT_NAMESPACE_BEGIN
             CANTINA_TRY_RETHROW({
                 m_pantoufle->setController
                 (
-                        CANTINA_PAN_NAMESPACE::MidiDamper::make
+                        pan::MidiDamper::make
                         (
                                 getNumberHarmonics(),
                                 channel,
@@ -88,7 +89,7 @@ CANTINA_CANT_NAMESPACE_BEGIN
             CANTINA_TRY_RETHROW({
                 m_pantoufle->setController
                 (
-                        CANTINA_PAN_NAMESPACE::MidiPan::make
+                        pan::MidiPan::make
                         (
                                 getNumberHarmonics(),
                                 channel,
@@ -101,6 +102,54 @@ CANTINA_CANT_NAMESPACE_BEGIN
         {
             throw CANTINA_EXCEPTION("Controller type not recognised: " + type);
         }
+    }
+
+    void
+    Cantina::
+    setCustomClock(time::AbsoluteTimeGetter currentTimeGetter)
+    {
+        m_pantoufle->setCustomClock(std::move(currentTimeGetter));
+    }
+
+    void
+    Cantina::
+    update()
+    {
+        CANTINA_TRY_RETHROW({
+            m_pantoufle->update();
+        })
+    }
+
+    size_u
+    Cantina::
+    getNumberHarmonics() const
+    {
+        return m_pantoufle->getNumberVoices();
+    }
+
+    Optional<size_u>
+    Cantina::
+    receiveNote(const pan::MidiNoteInputData& noteData)
+    {
+        CANTINA_TRY_RETHROW({
+                                return m_pantoufle->receiveInputNoteData(noteData);
+                            })
+    }
+
+    void
+    Cantina::
+    receiveControl(const pan::MidiControlInputData &controlData)
+    {
+        CANTINA_TRY_RETHROW({
+                                m_pantoufle->receiveRawControlData(controlData);
+                            })
+    }
+
+    const pan::MidiNoteOutput&
+    Cantina::
+    getProcessedVoice(size_u voice) const
+    {
+        return m_pantoufle->getProcessedVoice(voice);
     }
 
 CANTINA_CANT_NAMESPACE_END

@@ -584,7 +584,7 @@ dnl mangled by Autoconf and run in a shell conditional statement.
 m4_define([_AC_COMPILER_EXEEXT],
 m4_defn([_AC_COMPILER_EXEEXT])[m4_provide([_AM_COMPILER_EXEEXT])])
 
-# When config.status generates a header, we must update the stamp-h file.
+# When config.status generates a header, we must updateDelta the stamp-h file.
 # This file resides in the same directory as the config header
 # that is generated.  The stamp files are numbered to have different names.
 

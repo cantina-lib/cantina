@@ -11,8 +11,6 @@
 #include <cant/common/types.hpp>
 #include <cant/common/memory.hpp>
 
-#include <cant/maths/maths.hpp>
-
 #include <cant/pan/common/types.hpp>
 
 #include <cant/pan/note/note_forward.hpp>
@@ -28,7 +26,7 @@ CANTINA_CANT_NAMESPACE_BEGIN
 
         void apply(
                 type_d pitch,
-                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note,
+                const pan::MidiNoteOutput &note,
                 const sample_f *input,
                 sample_f *output,
                 size_u blockSize
@@ -36,23 +34,23 @@ CANTINA_CANT_NAMESPACE_BEGIN
 
     protected:
         /** -- methods -- **/
-        CANT_NODISCARD bool shouldClearBuffers(const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note) const;
+        CANT_NODISCARD bool shouldClearBuffers(const pan::MidiNoteOutput &note) const;
         CANT_NODISCARD bool shouldTrimBuffers
         (
-                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &note,
-                CANTINA_PAN_NAMESPACE::time_d maxLatency
+                const pan::MidiNoteOutput &note,
+                time_d maxLatency
         ) const;
 
         // In milliseconds
-        CANT_NODISCARD CANTINA_PAN_NAMESPACE::time_d getLatencyAvailable(size_u voice) const;
+        CANT_NODISCARD time_d getLatencyAvailable(size_u voice) const;
         // In milliseconds again
-        CANT_NODISCARD size_u timeToNumberSamples(CANTINA_PAN_NAMESPACE::time_d t) const;
+        CANT_NODISCARD size_u timeToNumberSamples(time_d t) const;
 
         CANT_NODISCARD virtual size_u getNumberSamplesAvailable(size_u voice) const = 0;
         CANT_NODISCARD virtual type_i getSampleRate() const = 0;
 
         // static methods
-        static type_d toneToShiftRatio(CANTINA_PAN_NAMESPACE::tone_d src, CANTINA_PAN_NAMESPACE::tone_d dest);
+        static type_d toneToShiftRatio(pan::tone_d src, pan::tone_d dest);
 
         /** -- fields --**/
         // constants
@@ -61,8 +59,8 @@ CANTINA_CANT_NAMESPACE_BEGIN
         /** -- methods -- **/
         virtual void
         shift(
-                CANTINA_PAN_NAMESPACE::tone_d src,
-                const CANTINA_PAN_NAMESPACE::MidiNoteOutput &data,
+                pan::tone_d src,
+                const pan::MidiNoteOutput &data,
                 const sample_f *input,
                 sample_f *output,
                 size_u blockSize
@@ -74,8 +72,8 @@ CANTINA_CANT_NAMESPACE_BEGIN
         virtual void trimBuffers(size_u voice, size_u numberSamples) = 0;
 
         // static methods
-        static type_d velocityToVolumeRatio(CANTINA_PAN_NAMESPACE::vel_d velocity);
-        static CANTINA_PAN_NAMESPACE::tone_d freqToTone(type_d freq);
+        static type_d velocityToVolumeRatio(pan::vel_d velocity);
+        static pan::tone_d freqToTone(type_d freq);
         static void amplify(sample_f *block, size_u blockSize, type_d amp);
     };
 

@@ -560,7 +560,7 @@ Other enhancements:
   only a limited set of transform sizes/types are required.
 
 * Canonical global wisdom file (/etc/fftw/wisdom) on Unix, along
-  with a command-line tool (fftw-wisdom) to generate/update it.
+  with a command-line tool (fftw-wisdom) to generate/updateDelta it.
 
 * Fortran API can be used with both g77 and non-g77 compilers
   simultaneously.
