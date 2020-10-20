@@ -4,7 +4,7 @@
 
 #include <cant/shift/PitchShifter.hpp>
 
-#include <cant/maths/utils.hpp>
+#include <cant/maths/approx.hpp>
 #include <cant/common/CantinaException.hpp>
 
 #include <cant/pan/note/MidiNoteInternalOutput.hpp>
