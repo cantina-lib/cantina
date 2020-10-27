@@ -1,15 +1,17 @@
 
-### CANTINA
+## Cantina
 
 #### Build
 
-##### dependencies:
+##### State:
 
-	FFTW
-	libsamplerate
-	sndfile
+Working on Linux. Have issues linking to FFTW on Windows.
+
+##### Dependencies:
+
+	FFTW (included)
 	
-###### on debian:
+##### On Debian:
 
 	sudo apt install libsndfile-dev vamp-plugin-sdk
 	sudo apt install libfftw3-dev libsamplerate0-dev

@@ -12,39 +12,23 @@
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
 
-    CANT_INLINE
-    type_d
-    HelmholtzTracker::
-    getPitchFreq() const
-    {
-        return m_pitch;
-    }
+CANT_INLINE
+type_d HelmholtzTracker::getPitchFreq() const { return m_pitch; }
 
-    CANT_INLINE
-    type_d
-    HelmholtzTracker::
-    getFidelity() const
-    {
-        return m_fidelity;
-    }
+CANT_INLINE
+type_d HelmholtzTracker::getFidelity() const { return m_fidelity; }
 
-    CANT_INLINE
-    bool
-    HelmholtzTracker::
-    isPitchAcceptable(const type_d fidelity) const
-    {
-        return fidelity > m_minFidelity;
-    }
+CANT_INLINE
+bool HelmholtzTracker::isPitchAcceptable(const type_d fidelity) const {
+  return fidelity > m_minFidelity;
+}
 
-    CANT_INLINE
-    bool
-    HelmholtzTracker::
-    isPitchAcceptable() const
-    {
-        return isPitchAcceptable(m_fidelity);
-    }
+CANT_INLINE
+bool HelmholtzTracker::isPitchAcceptable() const {
+  return isPitchAcceptable(m_fidelity);
+}
 
 CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
-#endif //CANTINA_TILDE_HELMHOLTZTRACKER_INL
+#endif // CANTINA_TILDE_HELMHOLTZTRACKER_INL
