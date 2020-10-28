@@ -1,15 +1,9 @@
-[submodule "submodules/pure-data"]
-	path = pure-data
-	url = https://github.com/pure-data/pure-data.git
-[submodule "submodules/pd.build"]
-	path = pd.build
-	url = https://github.com/pierreguillot/pd.build
 [submodule "submodules/pantoufle"]
 	path = pantoufle
-	url = https://github.com/piptouque/pantoufle.git
+	url  = https://github.com/cantina-lib/pantoufle.git
 [submodule "submodules/soundtouch"]
 	path = third-party/soundtouch
 	url = https://gitlab.com/soundtouch/soundtouch.git
-[submodule "submodules/rubber-band"]
-	path = third-party/rubber-band
-	url = https://github.com/breakfastquay/rubberband.git
+# [submodule "submodules/rubber-band"]
+#	path = third-party/rubber-band
+#	url = https://github.com/breakfastquay/rubberband.git

@@ -65,14 +65,10 @@ set(CANTINA_FILES
         ${CANTINA_INCLUDE_DIR}/cant/Cantina.hpp
         ${CANTINA_INCLUDE_DIR}/cant/cant.hpp
         ${CANTINA_INCLUDE_DIR}/cant/cant_forward.hpp
-        ## inline
 
         #fft lib
         ## source
         ${CANTINA_SOURCE_DIR}/cant/fft/FFTWPerformer.cpp
-        ## inline
-        ${CANTINA_INLINE_DIR}/cant/fft/FFTWPerformer.inl
-        ${CANTINA_INLINE_DIR}/cant/fft/FFTWAllocator.inl
         ## headers
         ${CANTINA_INCLUDE_DIR}/cant/fft/FFTWPerformer.hpp
         ${CANTINA_INCLUDE_DIR}/cant/fft/FFTWAllocator.hpp
@@ -85,8 +81,6 @@ set(CANTINA_FILES
         ${CANTINA_INCLUDE_DIR}/cant/track/track.hpp
         ${CANTINA_INCLUDE_DIR}/cant/track/PitchTracker.hpp
         ${CANTINA_INCLUDE_DIR}/cant/track/HelmholtzTracker.hpp
-        ## inline
-        ${CANTINA_INLINE_DIR}/cant/track/HelmholtzTracker.inl
 
         # shift lib
         ## source

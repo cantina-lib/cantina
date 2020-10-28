@@ -1,7 +1,6 @@
 
 ## Cantina
 
-
 ### Info
 
 Library for processing signal input through a vocoder controlled by MIDI Input 
@@ -27,7 +26,7 @@ Working on Linux. Have issues linking to FFTW on Windows.
 
 #### Features 
 
-- [ ] Move responsability of MIDI tone <-> frequency conversion to Eurêka when ready.
+- [ ] Move responsibility of MIDI tone <-> frequency conversion to Eurêka when ready.
 - [ ] Add support of phase-based pitch shifting with RubberBand.
 - [ ] Implement mixed pitch shifting for semi-static pitch shifting to harmonics.
 
