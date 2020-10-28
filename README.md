@@ -15,6 +15,7 @@ Working on Linux. Have issues linking to FFTW on Windows.
 
 #### Dependencies:
 
+	Pantoufle  (submodule)
 	FFTW       (included)
 	SoundTouch (included)
 	
