@@ -12,4 +12,4 @@
 #include "SoundTouchShifter.hpp"
 // #include "RubberTouchShifter.hpp"
 
-#endif //CANTINA_SHIFT_HPP
+#endif // CANTINA_SHIFT_HPP

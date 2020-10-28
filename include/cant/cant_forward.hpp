@@ -10,21 +10,20 @@
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
 
-    namespace pan
-    {
-        class MidiNoteInputData;
-        class MidiControlData;
-        class MidiNoteOutput;
+namespace pan {
+class MidiNoteInputData;
+class MidiControlData;
+class MidiNoteOutput;
 
-        class Pantoufle;
-    }
+class Pantoufle;
+} // namespace pan
 
-    class PitchTracker;
-    class TimeDomainPitchShifter;
+class PitchTracker;
+class TimeDomainPitchShifter;
 
-    class Cantina;
+class Cantina;
 
 CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
-#endif //CANTINA_TILDE_CANT_FORWARD_H
+#endif // CANTINA_TILDE_CANT_FORWARD_H

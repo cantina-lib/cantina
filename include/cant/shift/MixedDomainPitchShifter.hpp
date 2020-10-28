@@ -15,30 +15,26 @@
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
 
-    class MixedDomainPitchShifter : public PitchShifter
-    {
-    public:
-        /** -- methods -- **/
-        CANT_EXPLICIT
-        MixedDomainPitchShifter(UPtr<TimeDomainPitchShifter>&& auxShifter);
-    private:
-        /** -- methods -- **/
-        void
-        shift(
-                pan::tone_d src,
-                const pan::MidiNoteOutput &note,
-                const sample_f *input,
-                sample_f *output,
-                size_u blockSize
-        ) override;
+class MixedDomainPitchShifter : public PitchShifter {
+public:
+  /** -- methods -- **/
+  CANT_EXPLICIT
+  MixedDomainPitchShifter(UPtr<TimeDomainPitchShifter> &&auxShifter);
 
-        CANT_NODISCARD virtual bool isReady(const pan::MidiNoteOutput& note) const = 0;
+private:
+  /** -- methods -- **/
+  void shift(pan::tone_d src, const pan::MidiNoteOutput &note,
+             const sample_f *input, sample_f *output,
+             size_u blockSize) override;
 
-        /** -- fields -- **/
-        UPtr<TimeDomainPitchShifter> m_auxShifter;
-    };
+  CANT_NODISCARD virtual bool
+  isReady(const pan::MidiNoteOutput &note) const = 0;
+
+  /** -- fields -- **/
+  UPtr<TimeDomainPitchShifter> m_auxShifter;
+};
 
 CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
-#endif //CANTINA_MIXEDDOMAINPITCHSHIFTER_HPP
+#endif // CANTINA_MIXEDDOMAINPITCHSHIFTER_HPP

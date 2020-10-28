@@ -11,4 +11,4 @@
 
 #include "HelmholtzTracker.hpp"
 
-#endif //CANTINA_TRACK_HPP
+#endif // CANTINA_TRACK_HPP

@@ -9,43 +9,43 @@
 
 #include <SoundTouch.h>
 
-
 #include <cant/common/types.hpp>
 #include <cant/shift/TimeDomainPitchShifter.hpp>
 
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
 
-    class SoundTouchShifter final : public TimeDomainPitchShifter
-    {
-    public:
-        /** -- methods -- **/
-        SoundTouchShifter(size_u numberVoices, type_i sampleRate, type_i sequence = c_defaultSequence);
+class SoundTouchShifter final : public TimeDomainPitchShifter {
+public:
+  /** -- methods -- **/
+  SoundTouchShifter(size_u numberVoices, type_i sampleRate,
+                    type_i sequence = c_defaultSequence);
 
-        CANT_NODISCARD size_u getNumberVoices() const;
-    protected:
-        /** -- methods -- **/
-        CANT_NODISCARD size_u getNumberSamplesAvailable(size_u voice) const override;
-        CANT_NODISCARD type_i getSampleRate() const override;
+  CANT_NODISCARD size_u getNumberVoices() const;
 
-    private: // unsable here, only in base class
-        /** -- methods -- **/
-        // private inheritance
-        void update(size_u voice, const sample_f *input, size_u blockSize) override;
-        void clearBuffers(size_u voice) override;
-        void trimBuffers(size_u voice, size_u numberSamples) override;
-        void shift(size_u voice, type_d shiftRatio, const sample_f *input, sample_f *output, size_u blockSize) override;
+protected:
+  /** -- methods -- **/
+  CANT_NODISCARD size_u getNumberSamplesAvailable(size_u voice) const override;
+  CANT_NODISCARD type_i getSampleRate() const override;
 
+private: // unsable here, only in base class
+  /** -- methods -- **/
+  // private inheritance
+  void update(size_u voice, const sample_f *input, size_u blockSize) override;
+  void clearBuffers(size_u voice) override;
+  void trimBuffers(size_u voice, size_u numberSamples) override;
+  void shift(size_u voice, type_d shiftRatio, const sample_f *input,
+             sample_f *output, size_u blockSize) override;
 
-        /** -- fields -- **/
-        type_i m_sampleRate;
-        std::vector<soundtouch::SoundTouch> m_touches;
+  /** -- fields -- **/
+  type_i m_sampleRate;
+  std::vector<soundtouch::SoundTouch> m_touches;
 
-        // constants
-        static CANT_CONSTEXPR type_i c_defaultSequence = 20;
-    };
+  // constants
+  static CANT_CONSTEXPR type_i c_defaultSequence = 20;
+};
 
 CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
-#endif //CANTINA_SOUNDTOUCHSHIFTER_HPP
+#endif // CANTINA_SOUNDTOUCHSHIFTER_HPP

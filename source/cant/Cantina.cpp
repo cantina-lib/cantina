@@ -11,7 +11,6 @@
 #include <cant/pan/Pantoufle.hpp>
 #include <cant/pan/controller/controller.hpp>
 
-
 #include <cant/common/CantinaException.hpp>
 
 #include <cant/common/macro.hpp>

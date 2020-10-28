@@ -12,50 +12,39 @@
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
 
-    template <typename T>
-    typename fftw3f_allocator<T>::pointer
-    fftw3f_allocator<T>::
-    allocate(fftw3f_allocator::size_type n, const void *)
-    {
-        pointer p  = reinterpret_cast<pointer>(fftwf_alloc_real(n));
-        if (!p)
-        {
-            throw CANTINA_EXCEPTION("Could not allocate memory.");
-        }
-        return p;
-    }
+template <typename T>
+typename fftw3f_allocator<T>::pointer
+fftw3f_allocator<T>::allocate(fftw3f_allocator::size_type n, const void *) {
+  pointer p = reinterpret_cast<pointer>(fftwf_alloc_real(n));
+  if (!p) {
+    throw CANTINA_EXCEPTION("Could not allocate memory.");
+  }
+  return p;
+}
 
-    template <typename T>
-    void
-    fftw3f_allocator<T>::
-    deallocate(pointer p, size_type)
-    {
-        fftwf_free(p);
-    }
+template <typename T>
+void fftw3f_allocator<T>::deallocate(pointer p, size_type) {
+  fftwf_free(p);
+}
 
-    template <typename T, typename U>
-    CANT_CONSTEXPR
-    bool
-    operator==(const fftw3f_allocator<T>& a, const fftw3f_allocator<U>& other) CANT_NOEXCEPT
-    {
-        return std::is_same_v<T, U>;
-    }
+template <typename T, typename U>
+CANT_CONSTEXPR bool operator==(const fftw3f_allocator<T> &a,
+                               const fftw3f_allocator<U> &other) CANT_NOEXCEPT {
+  return std::is_same_v<T, U>;
+}
 
-    template <typename T, typename U>
-    CANT_CONSTEXPR
-    bool
-    operator!=(const fftw3f_allocator<T>& a, const fftw3f_allocator<U>& other) CANT_NOEXCEPT
-    {
-        return !(a == other);
-    }
+template <typename T, typename U>
+CANT_CONSTEXPR bool operator!=(const fftw3f_allocator<T> &a,
+                               const fftw3f_allocator<U> &other) CANT_NOEXCEPT {
+  return !(a == other);
+}
 
-    template <typename T>
-    template <typename U>
-    fftw3f_allocator<T>::
-    fftw3f_allocator(const fftw3f_allocator<U>&) CANT_NOEXCEPT
-    {}
+template <typename T>
+template <typename U>
+fftw3f_allocator<T>::fftw3f_allocator(const fftw3f_allocator<U> &)
+    CANT_NOEXCEPT {}
 
 CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>
 
-#endif //CANTINA_TILDE_FFTWALLOCATOR_INL
+#endif // CANTINA_TILDE_FFTWALLOCATOR_INL
