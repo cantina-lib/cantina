@@ -11,8 +11,6 @@
 #include <cant/pan/Pantoufle.hpp>
 #include <cant/pan/controller/controller.hpp>
 
-#include <cant/shift/SoundTouchShifter.hpp>
-#include <cant/track/HelmholtzTracker.hpp>
 
 #include <cant/common/CantinaException.hpp>
 

@@ -16,6 +16,11 @@
 
 #include <cant/cant_forward.hpp>
 
+// Shoudn't have to include this..
+#include <cant/pan/Pantoufle.hpp>
+#include <cant/shift/SoundTouchShifter.hpp>
+#include <cant/track/HelmholtzTracker.hpp>
+
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
 
