@@ -14,12 +14,12 @@
 #include <cant/pan/common/types.hpp>
 #include <cant/time/common/types.hpp>
 
-#include <cant/cant_forward.hpp>
-
-// Shoudn't have to include this..
 #include <cant/pan/Pantoufle.hpp>
 #include <cant/shift/SoundTouchShifter.hpp>
+#include <cant/time/Clock.hpp>
 #include <cant/track/HelmholtzTracker.hpp>
+
+#include <cant/cant_forward.hpp>
 
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
@@ -35,9 +35,9 @@ public:
   void perform(const sample_f *in, sample_f *outSeed, sample_f **outHarmonics,
                size_u blockSize);
 
-  void setController(const std::string &type, pan::id_u8 channel,
-                     const Stream<pan::id_u8> &controllerIds);
   void setCustomClock(time::AbsoluteTimeGetter currentTimeGetter);
+
+  void addEnvelope(UPtr<pan::MidiEnvelope> envelope);
 
   Optional<size_u> receiveNote(const pan::MidiNoteInputData &noteData);
   void receiveControl(const pan::MidiControlData &controlData);

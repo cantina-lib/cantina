@@ -1,23 +1,15 @@
 cmake_minimum_required(VERSION 3.6)
 
+
 # changing directories.
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/third-party)
 set(SOUNDTOUCH_DIR ${THIRDPARTY_DIR}/soundtouch)
 
+project(soundtouch)
+
 set(SOUNDTOUCH_SOURCE_DIR   ${SOUNDTOUCH_DIR}/source/SoundTouch)
 set(SOUNDTOUCH_INCLUDE_DIR  ${SOUNDTOUCH_DIR}/include)
 set(SOUNDTOUCH_INCLUDE_DIRS "${SOUNDTOUCH_INCLUDE_DIR}" "${SOUNDTOUCH_SOURCE_DIR}" PARENT_SCOPE)
-
-project(soundtouch)
-# FLAGS FOR LIBS
-set(CMAKE_CXX_FLAGS ${CANTINA_THIRDPARTY_CXX_FLAGS})
-
-#
-# in order to avoid clicks when the target pitch is close to 1
-#
-add_compile_definitions(SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER)
-
-include_directories(${SOUNDTOUCH_INCLUDE_DIR})
 
 
 set(SOUNDTOUCH_LIB
@@ -54,5 +46,12 @@ set(SOUNDTOUCH_LIB
         ${SOUNDTOUCH_SOURCE_DIR}/TDStretch.h
         )
 
-add_library(soundtouch STATIC ${SOUNDTOUCH_LIB})
-set(SOUNDTOUCH_LIBRARIES soundtouch PARENT_SCOPE)
+add_library(${PROJECT_NAME} STATIC ${SOUNDTOUCH_LIB})
+
+# in order to avoid clicks when the target pitch is close to 1
+#
+target_compile_definitions(${PROJECT_NAME} PRIVATE SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER)
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${SOUNDTOUCH_INCLUDE_DIR})
+
+set(SOUNDTOUCH_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)

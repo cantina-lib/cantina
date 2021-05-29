@@ -6,9 +6,6 @@
 
 #include <cant/common/config.hpp>
 
-#include <cant/time/Clock.hpp>
-
-#include <cant/pan/Pantoufle.hpp>
 #include <cant/pan/controller/controller.hpp>
 
 #include <cant/common/CantinaException.hpp>
@@ -48,23 +45,6 @@ void Cantina::perform(const sample_f *in, sample_f *outSeed,
   }
 }
 
-void Cantina::setController(const std::string &type, const pan::id_u8 channel,
-                            const Stream<pan::id_u8> &controllerIds) {
-  if (type == CONTROLLER_TYPE_DAMPER) {
-    CANTINA_TRY_RETHROW({
-      m_pantoufle->addController(
-          pan::MidiDamper::make(channel, controllerIds.at(0)));
-    })
-  } else if (type == CONTROLLER_TYPE_PAN) {
-    CANTINA_TRY_RETHROW({
-      m_pantoufle->addController(
-          pan::MidiPan::make(channel, controllerIds.at(0)));
-    })
-  } else {
-    throw CANTINA_EXCEPTION("Controller type not recognised: " + type);
-  }
-}
-
 void Cantina::setCustomClock(time::AbsoluteTimeGetter currentTimeGetter) {
   m_pantoufle->setCustomClock(std::move(currentTimeGetter));
 }
@@ -85,6 +65,9 @@ void Cantina::receiveControl(const pan::MidiControlInputData &controlData) {
 
 const pan::MidiNoteOutput &Cantina::getProcessedVoice(size_u voice) const {
   return m_pantoufle->getProcessedVoice(voice);
+}
+void Cantina::addEnvelope(UPtr<pan::MidiEnvelope> envelope) {
+  m_pantoufle->addEnvelope(std::move(envelope));
 }
 
 CANTINA_CANT_NAMESPACE_END

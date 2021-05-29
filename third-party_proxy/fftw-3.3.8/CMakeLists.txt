@@ -21,7 +21,7 @@ cmake_policy(SET CMP0074 OLD)
 
 execute_process(
         COMMAND configure --enable-float --quiet
-        COMMAND make CFLAGS=${CANTINA_THIRDPARTY_CXX_FLAGS}
+        COMMAND make
         WORKING_DIRECTORY ${FFTW_DIR}
 )
 

@@ -9,7 +9,6 @@ set(CANTINA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(CANTINA_INLINE_DIR ${PROJECT_SOURCE_DIR}/inline)
 
 
-set(CANTINA_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/third-party)
 set(THIRDPARTY_PROXY_DIR ${PROJECT_SOURCE_DIR}/third-party_proxy)
 
@@ -40,8 +39,6 @@ set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INLINE_DIR}
         ${PANTOUFLE_INCLUDE_DIRS}
         ${SOUNDTOUCH_INCLUDE_DIRS}
-        ${HELMHOLTZ_DIR}/include
-        ${RUBBERBAND_DIR}/rubberband
         ${FFTW3_INCLUDE_DIRS})
 
 
@@ -107,16 +104,13 @@ set(CANTINA_DEP_LIBS
 
 add_library(${PROJECT_NAME} STATIC ${CANTINA_FILES})
 
-target_compile_options(
-        ${PROJECT_NAME} PRIVATE
-        ${CANTINA_CXX_FLAGS}
-)
+target_compile_options(${PROJECT_NAME} PRIVATE ${CANTINA_CXX_FLAGS})
 
 target_compile_features(${PROJECT_NAME} PUBLIC ${CANTINA_CXX_STANDARD})
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${CANTINA_INCLUDE_DIRS})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CANTINA_INCLUDE_DIRS})
 
-target_link_libraries(${PROJECT_NAME} ${PANTOUFLE_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${PANTOUFLE_LIBRARIES})
 
 set(CANTINA_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
 
