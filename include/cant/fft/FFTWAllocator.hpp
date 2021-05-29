@@ -42,7 +42,7 @@ template <typename T, typename U>
 CANT_CONSTEXPR bool operator!=(const fftw3f_allocator<T> &,
                                const fftw3f_allocator<U> &) CANT_NOEXCEPT;
 
-using FFTW3FBlock = std::vector<sample_f, fftw3f_allocator<sample_f>>;
+typedef std::vector<sample_f, fftw3f_allocator<sample_f>> FFTW3FBlock;
 
 CANTINA_CANT_NAMESPACE_END
 #include <cant/common/undef_macro.hpp>

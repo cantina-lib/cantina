@@ -18,10 +18,11 @@ CANTINA_CANT_NAMESPACE_BEGIN
 
 Cantina::Cantina(const size_u numberHarmonics, const type_i sampleRate,
                  const pan::id_u8 channelId)
-    : m_pantoufle(pan::Pantoufle::make(numberHarmonics, channelId)),
-      m_tracker(UPtr<PitchTracker>(new HelmholtzTracker(sampleRate))),
-      m_shifter(UPtr<TimeDomainPitchShifter>(
-          new SoundTouchShifter(numberHarmonics, sampleRate))) {}
+    : m_pantoufle(std::make_unique<pan::Pantoufle>(numberHarmonics, channelId)),
+      m_tracker(static_cast<UPtr<PitchTracker>>(
+          std::make_unique<HelmholtzTracker>(sampleRate))),
+      m_shifter(static_cast<UPtr<TimeDomainPitchShifter>>(
+          std::make_unique<SoundTouchShifter>(numberHarmonics, sampleRate))) {}
 
 void Cantina::perform(const sample_f *in, sample_f *outSeed,
                       sample_f **outHarmonics, const size_u blockSize) {
@@ -51,13 +52,13 @@ void Cantina::setController(const std::string &type, const pan::id_u8 channel,
                             const Stream<pan::id_u8> &controllerIds) {
   if (type == CONTROLLER_TYPE_DAMPER) {
     CANTINA_TRY_RETHROW({
-      m_pantoufle->setController(pan::MidiDamper::make(
-          getNumberHarmonics(), channel, controllerIds.at(0)));
+      m_pantoufle->addController(
+          pan::MidiDamper::make(channel, controllerIds.at(0)));
     })
   } else if (type == CONTROLLER_TYPE_PAN) {
     CANTINA_TRY_RETHROW({
-      m_pantoufle->setController(pan::MidiPan::make(
-          getNumberHarmonics(), channel, controllerIds.at(0)));
+      m_pantoufle->addController(
+          pan::MidiPan::make(channel, controllerIds.at(0)));
     })
   } else {
     throw CANTINA_EXCEPTION("Controller type not recognised: " + type);

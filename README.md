@@ -18,23 +18,30 @@ Working on Linux. Have issues linking to FFTW on Windows.
 	Pantoufle  (submodule)
 	FFTW       (included)
 	SoundTouch (included)
-	
+
 ##### On Debian:
 
 	sudo apt install libsndfile-dev vamp-plugin-sdk
-	
+
 ### To do
 
-#### Features 
+#### Features
 
+##### Pitch shifting
+
+- [ ] Set pitch of pitch sifter outside of the apply() routine.
+- [ ] Make it vary incrementally with a Slider.
+
+##### Misc
+
+- [ ] Output freq / volume info of seed as MIDI note?
 - [ ] Move responsibility of MIDI tone <-> frequency conversion to Eurêka when ready.
 - [ ] Add support of phase-based pitch shifting with RubberBand.
 - [ ] Implement mixed pitch shifting for semi-static pitch shifting to harmonics.
 
 #### Fixes
 
-- [ ] Audio signal frets when starting and stopping note. 
-Testing revealed that it was not obviously related to velocity changes.
-
+- [ ] Audio signal frets when starting and stopping note. Testing revealed that it was not obviously related to velocity
+  changes.
 
 ###### ~ tut-tut-tut-tut-tulut-tut ~

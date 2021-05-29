@@ -8,7 +8,7 @@
 #pragma once
 
 #include <cant/common/types.hpp>
-#include <cant/pan/common/types.hpp>
+#include <cant/pan/note/MidiNoteData.hpp>
 
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
@@ -23,7 +23,6 @@ public:
   CANT_NODISCARD virtual type_d getFidelity() const = 0;
 
   CANT_NODISCARD virtual bool isPitchAcceptable() const = 0;
-
 protected:
   /** -- fields -- **/
   // constants

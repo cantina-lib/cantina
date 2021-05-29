@@ -14,7 +14,7 @@ HelmholtzTracker::HelmholtzTracker(const type_i sampleRate,
       m_minFidelity(minFidelity), m_pitch(), m_fidelity() {}
 
 void HelmholtzTracker::update(const sample_f *in, const size_u blockSize) {
-  m_helm.inSamples(in, static_cast<int>(blockSize));
+  m_helm.inSamples(in, blockSize);
   const type_d updatedFidelity = m_helm.getFidelity();
   if (isPitchAcceptable(updatedFidelity)) {
     m_pitch = static_cast<type_d>(static_cast<cant::type_i>(m_sampleRate) /

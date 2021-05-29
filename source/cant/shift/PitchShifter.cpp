@@ -6,16 +6,12 @@
 
 #include <cant/common/CantinaException.hpp>
 #include <cant/maths/approx.hpp>
+#include <cant/reka/common/conversions.hpp>
 
 #include <cant/pan/note/MidiNoteInternalOutput.hpp>
 
 #include <cant/common/macro.hpp>
 CANTINA_CANT_NAMESPACE_BEGIN
-
-static CANT_CONSTEXPR type_d c_freqA440 = 440.;
-static CANT_CONSTEXPR pan::tone_d c_toneA440 = 69.;
-
-static const type_d c_twelthRootTwo = std::pow(2., 1. / 12.);
 
 static CANT_CONSTEXPR time_d c_maxLatency = 40.;       // milliseconds
 static CANT_CONSTEXPR time_d c_preferredLatency = 20.; // milliseconds
@@ -30,10 +26,10 @@ void PitchShifter::apply(const type_d pitch, const pan::MidiNoteOutput &note,
       if (shouldTrimBuffers(note, c_maxLatency)) {
         trimBuffers(note.getVoice(), timeToNumberSamples(c_preferredLatency));
       }
-      shift(freqToTone(pitch), note, input, output, blockSize);
+      shift(reka::Convertor::freqToTone(pitch), note, input, output, blockSize);
     }
     const pan::vel_d velocityPlaying = note.getVelocityPlaying();
-    const type_d amp = velocityToVolumeRatio(velocityPlaying);
+    const type_d amp = reka::Convertor::velocityToVolumeRatio(velocityPlaying);
     amplify(output, blockSize, amp);
   })
 }
@@ -69,9 +65,6 @@ size_u PitchShifter::timeToNumberSamples(time_d t) const {
                                         static_cast<time_d>(getSampleRate())));
 }
 
-type_d PitchShifter::velocityToVolumeRatio(const pan::vel_d velocity) {
-  return velocity / static_cast<type_d>(pan::c_midiMaxVelocity);
-}
 
 void PitchShifter::amplify(sample_f *block, const size_u blockSize,
                            const type_d amp) {
@@ -79,13 +72,11 @@ void PitchShifter::amplify(sample_f *block, const size_u blockSize,
                 [amp](sample_f &s) { s *= static_cast<sample_f>(amp); });
 }
 
-pan::tone_d PitchShifter::freqToTone(const type_d freq) {
-  return 12. * std::log2(freq / c_freqA440) + c_toneA440;
-}
 
 type_d PitchShifter::toneToShiftRatio(const pan::tone_d src,
                                       const pan::tone_d dest) {
-  return std::pow(c_twelthRootTwo, dest - src);
+  static const type_d twelthRootTwo = std::pow(2., 1. / 12.);
+  return std::pow(twelthRootTwo, dest - src);
 }
 
 CANTINA_CANT_NAMESPACE_END

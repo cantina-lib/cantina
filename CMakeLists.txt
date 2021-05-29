@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.12)
 
-project(cantina)
+project(cantina CXX)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
@@ -12,8 +12,6 @@ set(CANTINA_INLINE_DIR ${PROJECT_SOURCE_DIR}/inline)
 set(CANTINA_LIB_DIR ${PROJECT_SOURCE_DIR}/lib)
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/third-party)
 set(THIRDPARTY_PROXY_DIR ${PROJECT_SOURCE_DIR}/third-party_proxy)
-
-
 
 # internal
 set(PANTOUFLE_DIR ${PROJECT_SOURCE_DIR}/pantoufle)
@@ -37,9 +35,6 @@ add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 #set(RUBBERBAND_LIBRARIES ${RUBBERBAND_LIB_DIR}/librubberband.a)
 
 
-set(CMAKE_CXX_STANDARD ${CANTINA_CXX_STANDARD})
-set(CMAKE_CXX_FLAGS ${CANTINA_MAIN_CXX_FLAGS})
-
 set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INCLUDE_DIR}
         ${CANTINA_INLINE_DIR}
@@ -47,14 +42,8 @@ set(CANTINA_INCLUDE_DIRS
         ${SOUNDTOUCH_INCLUDE_DIRS}
         ${HELMHOLTZ_DIR}/include
         ${RUBBERBAND_DIR}/rubberband
-        ${FFTW3_INCLUDE_DIRS}
-        CACHE INTERNAL
-        "List of include directories for Cantina"
-        )
+        ${FFTW3_INCLUDE_DIRS})
 
-include_directories(
-       ${CANTINA_INCLUDE_DIRS}
-)
 
 
 set(CANTINA_FILES
@@ -116,7 +105,18 @@ set(CANTINA_DEP_LIBS
         ${FFTW3_LIBRARIES}
         )
 
-add_library(cantina STATIC ${CANTINA_FILES})
+add_library(${PROJECT_NAME} STATIC ${CANTINA_FILES})
 
-set(CANTINA_LIBRARIES cantina ${CANTINA_DEP_LIBS} PARENT_SCOPE)
+target_compile_options(
+        ${PROJECT_NAME} PRIVATE
+        ${CANTINA_CXX_FLAGS}
+)
+
+target_compile_features(${PROJECT_NAME} PUBLIC ${CANTINA_CXX_STANDARD})
+
+target_include_directories(${PROJECT_NAME} PRIVATE ${CANTINA_INCLUDE_DIRS})
+
+target_link_libraries(${PROJECT_NAME} ${PANTOUFLE_LIBRARIES})
+
+set(CANTINA_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
 

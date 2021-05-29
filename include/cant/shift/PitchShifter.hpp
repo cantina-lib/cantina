@@ -60,8 +60,6 @@ private:
   virtual void trimBuffers(size_u voice, size_u numberSamples) = 0;
 
   // static methods
-  static type_d velocityToVolumeRatio(pan::vel_d velocity);
-  static pan::tone_d freqToTone(type_d freq);
   static void amplify(sample_f *block, size_u blockSize, type_d amp);
 };
 

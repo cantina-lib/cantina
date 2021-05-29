@@ -49,6 +49,7 @@ Katja Vetter, Feb 2012.
 /* This section includes the Pure Data API header. If you build Helmholtz
 against another DSP framework, you need to define t_float, and you need to
 include Ron Mayer's fft or similar functionality. */
+// downloaded from: https://www.katjaas.nl/helmholtz/helmholtz.html
 // pip: Using internal sample_m (float), and fftw3 for fourier's discrete
 // transform
 
