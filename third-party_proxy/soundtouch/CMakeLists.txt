@@ -11,7 +11,6 @@ set(SOUNDTOUCH_SOURCE_DIR   ${SOUNDTOUCH_DIR}/source/SoundTouch)
 set(SOUNDTOUCH_INCLUDE_DIR  ${SOUNDTOUCH_DIR}/include)
 set(SOUNDTOUCH_INCLUDE_DIRS "${SOUNDTOUCH_INCLUDE_DIR}" "${SOUNDTOUCH_SOURCE_DIR}" PARENT_SCOPE)
 
-
 set(SOUNDTOUCH_LIB
         #source
         ${SOUNDTOUCH_SOURCE_DIR}/SoundTouch.cpp
@@ -45,6 +44,22 @@ set(SOUNDTOUCH_LIB
         ${SOUNDTOUCH_SOURCE_DIR}/RateTransposer.h
         ${SOUNDTOUCH_SOURCE_DIR}/TDStretch.h
         )
+
+
+# need to configure stuff first.
+if (NOT ${SOUNDTOUCH_CONFIGURED})
+    execute_process(
+            COMMAND ./bootstrap
+            COMMAND ./configure
+            WORKING_DIRECTORY ${SOUNDTOUCH_DIR}
+            )
+    set(SOUNDTOUCH_CONFIGURED
+            TRUE
+            CACHE INTERNAL
+            "Cached state so that we don't have to configure it every time it reloads."
+            )
+endif()
+
 
 add_library(${PROJECT_NAME} STATIC ${SOUNDTOUCH_LIB})
 
