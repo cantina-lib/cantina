@@ -12,20 +12,14 @@ set(CANTINA_INLINE_DIR ${PROJECT_SOURCE_DIR}/inline)
 set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/third-party)
 set(THIRDPARTY_PROXY_DIR ${PROJECT_SOURCE_DIR}/third-party_proxy)
 
-# internal
 set(PANTOUFLE_DIR ${PROJECT_SOURCE_DIR}/pantoufle)
-
-# add before so that cantina can use pantoufle_include_dirs
-add_subdirectory(${PANTOUFLE_DIR})
-
-#fftw
 set(FFTW3_PROXY_DIR ${THIRDPARTY_PROXY_DIR}/fftw-3.3.8)
-add_subdirectory(${FFTW3_PROXY_DIR})
-
-# soundtouch
 set(SOUNDTOUCH_PROXY_DIR ${THIRDPARTY_PROXY_DIR}/soundtouch)
-add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 
+# subdirs
+add_subdirectory(${PANTOUFLE_DIR})
+add_subdirectory(${FFTW3_PROXY_DIR})
+add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 
 # RUBBERBAND
 #set(RUBBERBAND_DIR ${THIRDPARTY_DIR}/rubber-band)
@@ -37,11 +31,9 @@ add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INCLUDE_DIR}
         ${CANTINA_INLINE_DIR}
-        ${PANTOUFLE_INCLUDE_DIRS}
         ${SOUNDTOUCH_INCLUDE_DIRS}
-        ${FFTW3_INCLUDE_DIRS})
-
-
+        ${FFTW3_INCLUDE_DIRS}
+        )
 
 set(CANTINA_FILES
         # Cantina lib
@@ -105,12 +97,14 @@ set(CANTINA_DEP_LIBS
 add_library(${PROJECT_NAME} STATIC ${CANTINA_FILES})
 
 target_compile_options(${PROJECT_NAME} PRIVATE ${CANTINA_CXX_FLAGS})
-
-target_compile_features(${PROJECT_NAME} PUBLIC ${CANTINA_CXX_STANDARD})
+target_compile_features(${PROJECT_NAME} PRIVATE ${CANTINA_CXX_STANDARD})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CANTINA_INCLUDE_DIRS})
-
-target_link_libraries(${PROJECT_NAME} PUBLIC ${PANTOUFLE_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PUBLIC
+        ${PANTOUFLE_LIBRARIES}
+        ${FFTW3_LIBRARIES}
+        ${SOUNDTOUCH_LIBRARIES}
+        )
 
 set(CANTINA_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
 

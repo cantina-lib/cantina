@@ -51,7 +51,7 @@ add_library(${PROJECT_NAME} STATIC ${SOUNDTOUCH_LIB})
 # in order to avoid clicks when the target pitch is close to 1
 #
 target_compile_definitions(${PROJECT_NAME} PRIVATE SOUNDTOUCH_PREVENT_CLICK_AT_RATE_CROSSOVER)
+target_compile_options(${PROJECT_NAME} PRIVATE "-fPIC")
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${SOUNDTOUCH_INCLUDE_DIR})
-
+target_include_directories(${PROJECT_NAME} PUBLIC ${SOUNDTOUCH_INCLUDE_DIR})
 set(SOUNDTOUCH_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
