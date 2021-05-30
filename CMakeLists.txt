@@ -21,18 +21,9 @@ add_subdirectory(${PANTOUFLE_DIR})
 add_subdirectory(${FFTW3_PROXY_DIR})
 add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 
-# RUBBERBAND
-#set(RUBBERBAND_DIR ${THIRDPARTY_DIR}/rubber-band)
-#set(RUBBERBAND_LIB_DIR ${RUBBERBAND_DIR}/lib)
-# bad bad bad
-#set(RUBBERBAND_LIBRARIES ${RUBBERBAND_LIB_DIR}/librubberband.a)
-
-
 set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INCLUDE_DIR}
         ${CANTINA_INLINE_DIR}
-        ${SOUNDTOUCH_INCLUDE_DIRS}
-        ${FFTW3_INCLUDE_DIRS}
         )
 
 set(CANTINA_FILES
@@ -81,17 +72,6 @@ set(CANTINA_FILES
         ${CANTINA_SOURCE_DIR}/cant/extern/helmholtz/Helmholtz.cpp
         ### header
         ${CANTINA_INCLUDE_DIR}/cant/extern/helmholtz/Helmholtz.hpp
-        )
-
-set(CANTINA_DEP_LIBS
-        ${PANTOUFLE_LIBRARIES}
-        #pitch-trackers
-        # pitch-shifters
-        ${SOUNDTOUCH_LIBRARIES}
-        #${RUBBERBAND_LIBRARIES}
-        # fftw, with 32-bit float sample support
-        # fftw3f
-        ${FFTW3_LIBRARIES}
         )
 
 add_library(${PROJECT_NAME} STATIC ${CANTINA_FILES})
