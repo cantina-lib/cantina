@@ -15,13 +15,14 @@ Working on Linux. Have issues linking to FFTW on Windows.
 
 #### Dependencies:
 
-	Pantoufle  (submodule)
-	FFTW       (included)
-	SoundTouch (included)
+* Pantoufle  (submodule)
+* SoundTouch  2.1.2
+* FFTW3 3.3.8
 
 ##### On Debian:
 
-	sudo apt install libsndfile-dev vamp-plugin-sdk
+	sudo apt install libsndfile-dev vamp-plugin-sdk libsoundtouch-dev libfftw3-dev
+
 
 ### To do
 
