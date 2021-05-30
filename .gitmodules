@@ -1,9 +1,3 @@
 [submodule "submodules/pantoufle"]
 	path = pantoufle
 	url  = https://github.com/cantina-lib/pantoufle.git
-[submodule "submodules/soundtouch"]
-	path = third-party/soundtouch
-	url = https://gitlab.com/soundtouch/soundtouch.git
-# [submodule "submodules/rubber-band"]
-#	path = third-party/rubber-band
-#	url = https://github.com/breakfastquay/rubberband.git

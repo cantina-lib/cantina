@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 project(cantina CXX)
 
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/modules/cmake)
 
 set(CANTINA_SOURCE_DIR ${PROJECT_SOURCE_DIR}/source)
 set(CANTINA_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
@@ -18,8 +18,17 @@ set(SOUNDTOUCH_PROXY_DIR ${THIRDPARTY_PROXY_DIR}/soundtouch)
 
 # subdirs
 add_subdirectory(${PANTOUFLE_DIR})
-add_subdirectory(${FFTW3_PROXY_DIR})
-add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
+
+#FFTW
+set(FFTW_USE_STATIC_LIBS TRUE)
+find_package(FFTW REQUIRED)
+message(STATUS "Found FFTW: " ${FFTW_LIBRARIES})
+
+#Soundtouch
+set(SoundTouch_USE_STATIC_LIBS TRUE)
+find_package(SoundTouch REQUIRED)
+message(STATUS "Found SoundTouch: " ${SoundTouch_LIBRARIES})
+
 
 set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INCLUDE_DIR}
@@ -82,8 +91,8 @@ target_compile_features(${PROJECT_NAME} PRIVATE ${CANTINA_CXX_STANDARD})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CANTINA_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC
         ${PANTOUFLE_LIBRARIES}
-        ${FFTW3_LIBRARIES}
-        ${SOUNDTOUCH_LIBRARIES}
+        FFTW::Float
+        ${SoundTouch_LIBRARIES}
         )
 
 set(CANTINA_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
