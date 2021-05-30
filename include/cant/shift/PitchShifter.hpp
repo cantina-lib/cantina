@@ -49,7 +49,7 @@ protected:
 
 private:
   /** -- methods -- **/
-  virtual void shift(pan::tone_d src, const pan::MidiNoteOutput &data,
+  virtual void shift(pan::tone_d src, const pan::MidiNoteOutput &note,
                      const sample_f *input, sample_f *output,
                      size_u blockSize) = 0;
 

@@ -14,7 +14,7 @@ void TimeDomainPitchShifter::shift(type_d src, const pan::MidiNoteOutput &note,
                                    size_u blockSize) {
   const pan::tone_d target = note.getTone();
   const type_d shiftRatio = toneToShiftRatio(src, target);
-  shift(note.getVoice(), shiftRatio, input, output, blockSize);
+    shiftVoice(note.getVoice(), shiftRatio, input, output, blockSize);
 }
 
 CANTINA_CANT_NAMESPACE_END

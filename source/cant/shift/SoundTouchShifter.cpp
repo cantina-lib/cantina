@@ -43,9 +43,9 @@ size_u SoundTouchShifter::getNumberSamplesAvailable(const size_u voice) const {
 
 type_i SoundTouchShifter::getSampleRate() const { return m_sampleRate; }
 
-void SoundTouchShifter::shift(size_u voice, type_d shiftRatio,
-                              const sample_f *input, sample_f *output,
-                              size_u blockSize) {
+void SoundTouchShifter::shiftVoice(size_u voice, type_d shiftRatio,
+                                   const sample_f *input, sample_f *output,
+                                   size_u blockSize) {
   update(voice, input, blockSize);
   auto &touch = m_touches.at(voice);
   touch.setPitch(shiftRatio);
