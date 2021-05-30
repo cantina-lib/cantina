@@ -21,12 +21,10 @@ Cantina::Cantina(const size_u numberHarmonics, const type_i sampleRate,
       m_shifter(static_cast<UPtr<TimeDomainPitchShifter>>(
           std::make_unique<SoundTouchShifter>(numberHarmonics, sampleRate))) {}
 
-void Cantina::perform(const sample_f *in, sample_f *outSeed,
-                      sample_f **outHarmonics, const size_u blockSize) {
+void Cantina::perform(const sample_f *in, sample_f **outHarmonics,
+                      const size_u blockSize) {
   // first updateDelta pitch tracker.
   CANTINA_TRY_RETHROW({ m_tracker->update(in, blockSize); })
-  // seed
-  std::copy(in, in + blockSize, outSeed);
   // getting current pitch
   if (!m_tracker->isPitchAcceptable()) {
     // tracker isn't ready, return.
