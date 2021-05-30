@@ -19,9 +19,12 @@ cmake_policy(SET CMP0074 OLD)
 # cmake_policy(SET CMP0075 OLD)
 # add_subdirectory(${FFTW3_DIR})
 
-if (NOT ${FFTW3_CONFIGURED})
+if (NOT DEFINED FFTW3_CONFIGURED)
     execute_process(
             COMMAND configure --enable-float --quiet
+            WORKING_DIRECTORY ${FFTW_DIR}
+    )
+    execute_process(
             COMMAND make
             WORKING_DIRECTORY ${FFTW_DIR}
     )

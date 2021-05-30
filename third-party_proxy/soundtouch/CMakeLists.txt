@@ -47,14 +47,16 @@ set(SOUNDTOUCH_LIB
 
 
 # need to configure stuff first.
-if (NOT ${SOUNDTOUCH_CONFIGURED})
+if (NOT DEFINED SOUNDTOUCH_CONFIGURED)
     execute_process(
             COMMAND ./bootstrap
+            WORKING_DIRECTORY ${SOUNDTOUCH_DIR}
+    )
+    execute_process(
             COMMAND ./configure
             WORKING_DIRECTORY ${SOUNDTOUCH_DIR}
-            )
+    )
     set(SOUNDTOUCH_CONFIGURED
-            TRUE
             CACHE INTERNAL
             "Cached state so that we don't have to configure it every time it reloads."
             )
