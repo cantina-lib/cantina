@@ -75,6 +75,12 @@ else ()
 
 endif (SoundTouch_ROOT)
 
+add_library(SoundTouch INTERFACE IMPORTED)
+set_target_properties(SoundTouch
+        PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${SoundTouch_INCLUDE_DIRS}"
+        INTERFACE_LINK_LIBRARIES "${SoundTouch_LIBRARIES}"
+        )
+
 set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES_SAV})
 
 include(FindPackageHandleStandardArgs)

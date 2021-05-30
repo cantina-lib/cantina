@@ -24,8 +24,9 @@ set(FFTW_USE_STATIC_LIBS TRUE)
 find_package(FFTW REQUIRED)
 message(STATUS "Found FFTW: " ${FFTW_LIBRARIES})
 
-#Soundtouch
-set(SoundTouch_USE_STATIC_LIBS TRUE)
+# Soundtouch
+# no static version of Soundtouch in deb by default, whatever.
+# set(SoundTouch_USE_STATIC_LIBS FALSE)
 find_package(SoundTouch REQUIRED)
 message(STATUS "Found SoundTouch: " ${SoundTouch_LIBRARIES})
 
@@ -92,7 +93,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CANTINA_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC
         ${PANTOUFLE_LIBRARIES}
         FFTW::Float
-        ${SoundTouch_LIBRARIES}
+        SoundTouch
         )
 
 set(CANTINA_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
