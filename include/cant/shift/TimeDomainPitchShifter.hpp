@@ -28,8 +28,8 @@ private:
   void shift(pan::tone_d src, const pan::MidiNoteOutput &note,
              const sample_f *input, sample_f *output,
              size_u blockSize) override;
-  virtual void shift(size_u voice, type_d shiftRatio, const sample_f *input,
-                     sample_f *output, size_u blockSize) = 0;
+  virtual void shiftVoice(size_u voice, type_d shiftRatio, const sample_f *input,
+                          sample_f *output, size_u blockSize) = 0;
 
   void clearBuffers(size_u voice) override = 0;
   void trimBuffers(size_u voice, size_u numberSamples) override = 0;

@@ -34,8 +34,8 @@ private: // unsable here, only in base class
   void update(size_u voice, const sample_f *input, size_u blockSize) override;
   void clearBuffers(size_u voice) override;
   void trimBuffers(size_u voice, size_u numberSamples) override;
-  void shift(size_u voice, type_d shiftRatio, const sample_f *input,
-             sample_f *output, size_u blockSize) override;
+  void shiftVoice(size_u voice, type_d shiftRatio, const sample_f *input,
+                  sample_f *output, size_u blockSize) override;
 
   /** -- fields -- **/
   type_i m_sampleRate;
