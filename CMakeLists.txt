@@ -13,7 +13,6 @@ set(THIRDPARTY_DIR ${PROJECT_SOURCE_DIR}/third-party)
 set(THIRDPARTY_PROXY_DIR ${PROJECT_SOURCE_DIR}/third-party_proxy)
 
 set(PANTOUFLE_DIR ${PROJECT_SOURCE_DIR}/pantoufle)
-set(FFTW3_PROXY_DIR ${THIRDPARTY_PROXY_DIR}/fftw-3.3.8)
 set(SOUNDTOUCH_PROXY_DIR ${THIRDPARTY_PROXY_DIR}/soundtouch)
 
 # subdirs
@@ -26,10 +25,7 @@ message(STATUS "Found FFTW: " ${FFTW_LIBRARIES})
 
 # Soundtouch
 # no static version of Soundtouch in deb by default, whatever.
-# set(SoundTouch_USE_STATIC_LIBS FALSE)
-find_package(SoundTouch REQUIRED)
-message(STATUS "Found SoundTouch: " ${SoundTouch_LIBRARIES})
-
+add_subdirectory(${SOUNDTOUCH_PROXY_DIR})
 
 set(CANTINA_INCLUDE_DIRS
         ${CANTINA_INCLUDE_DIR}
@@ -93,7 +89,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${CANTINA_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PUBLIC
         ${PANTOUFLE_LIBRARIES}
         FFTW::Float
-        SoundTouch
+        ${SOUNDTOUCH_LIBRARIES}
         )
 
 set(CANTINA_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
