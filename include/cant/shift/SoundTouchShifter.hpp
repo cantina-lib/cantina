@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <soundtouch/SoundTouch.h>
+#include <SoundTouch.h>
 
 #include <cant/common/types.hpp>
 #include <cant/shift/TimeDomainPitchShifter.hpp>
