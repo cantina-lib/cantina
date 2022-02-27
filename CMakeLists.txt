@@ -54,6 +54,7 @@ set(CANTINA_FILES
         ${CANTINA_SOURCE_DIR}/cant/track/HelmholtzTracker.cpp
         ## headers
         ${CANTINA_INCLUDE_DIR}/cant/track/track.hpp
+        ${CANTINA_INCLUDE_DIR}/cant/track/Pitch.hpp
         ${CANTINA_INCLUDE_DIR}/cant/track/PitchTracker.hpp
         ${CANTINA_INCLUDE_DIR}/cant/track/HelmholtzTracker.hpp
 

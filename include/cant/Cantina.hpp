@@ -32,7 +32,8 @@ public:
   /** -- methods -- **/
   void update();
   /* @brief: assumes numberHarmonics() elements in outVoices */
-  void perform(const sample_f *in, sample_f **outHarmonics, size_u blockSize);
+  void perform(sample_f const *inTrack, sample_f const *inSeed,
+               sample_f **outHarmonics, size_u blockSize);
 
   void setCustomClock(time::AbsoluteTimeGetter currentTimeGetter);
 

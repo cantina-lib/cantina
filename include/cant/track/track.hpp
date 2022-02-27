@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "Pitch.hpp"
 #include "PitchTracker.hpp"
 
 #include "HelmholtzTracker.hpp"

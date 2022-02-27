@@ -21,24 +21,25 @@ Cantina::Cantina(const size_u numberHarmonics, const type_i sampleRate,
       m_shifter(static_cast<UPtr<TimeDomainPitchShifter>>(
           std::make_unique<SoundTouchShifter>(numberHarmonics, sampleRate))) {}
 
-void Cantina::perform(const sample_f *in, sample_f **outHarmonics,
-                      const size_u blockSize) {
+void Cantina::perform(sample_f const *inTrack, sample_f const *inSeed,
+                      sample_f **outHarmonics, size_u blockSize) {
   // first updateDelta pitch tracker.
-  CANTINA_TRY_RETHROW({ m_tracker->update(in, blockSize); })
-  // getting current pitch
-  if (!m_tracker->isPitchAcceptable()) {
+  CANTINA_TRY_RETHROW({ m_tracker->update(inTrack, blockSize); })
+  // getting last valid pitch
+  auto const pitch = m_tracker->getLastValidPitch();
+  if (!m_tracker->isOtherPitchAcceptable(pitch)) {
     // tracker isn't ready, return.
     return;
   }
-  type_d pitch = m_tracker->getPitchFreq();
   // getting stream of processed notes
   const auto &processedNoteOutput = m_pantoufle->getProcessedNoteOutput();
   for (size_u i = 0; i < getNumberHarmonics(); ++i) {
     const auto &note = processedNoteOutput.at(i);
     if (note.isSet()) {
       sample_f *outHarmonic = outHarmonics[i];
-      CANTINA_TRY_RETHROW(
-          { m_shifter->apply(pitch, note, in, outHarmonic, blockSize); })
+      CANTINA_TRY_RETHROW({
+        m_shifter->apply(pitch.getFreq(), note, inSeed, outHarmonic, blockSize);
+      })
     }
   }
 }
