@@ -3,7 +3,7 @@
 	url  = https://github.com/cantina-lib/pantoufle.git
 [submodule "submodules/soundtouch"]
 	path = third-party/soundtouch
-	url = https://gitlab.com/soundtouch/soundtouch.git
+	url = https://gitlab.com/diizzyy/soundtouch.git
 # [submodule "submodules/rubber-band"]
 #	path = third-party/rubber-band
 #	url = https://github.com/breakfastquay/rubberband.git
