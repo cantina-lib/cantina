@@ -22,6 +22,7 @@ add_subdirectory(${PANTOUFLE_DIR})
 set(FFTW_USE_STATIC_LIBS TRUE)
 find_package(FFTW REQUIRED)
 message(STATUS "Found FFTW: " ${FFTW_LIBRARIES})
+message(STATUS "Found FFTW: " ${FFTW_INCLUDE_DIRS})
 
 # Soundtouch
 # no static version of Soundtouch in deb by default, whatever.

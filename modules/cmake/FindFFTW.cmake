@@ -41,6 +41,7 @@ if (NOT FFTW_ROOT AND DEFINED ENV{FFTWDIR})
     set(FFTW_ROOT $ENV{FFTWDIR})
 endif ()
 
+
 # Check if we can use PkgConfig
 find_package(PkgConfig)
 
@@ -48,6 +49,7 @@ find_package(PkgConfig)
 if (PKG_CONFIG_FOUND AND NOT FFTW_ROOT)
     pkg_check_modules(PKG_FFTW QUIET "fftw3")
 endif ()
+
 
 #Check whether to search static or dynamic libs
 set(CMAKE_FIND_LIBRARY_SUFFIXES_SAV ${CMAKE_FIND_LIBRARY_SUFFIXES})
@@ -61,13 +63,16 @@ endif ()
 if (FFTW_ROOT)
     # find libs
 
+message(STATUS "${CMAKE_FIND_LIBRARY_SUFFIXES}")
     find_library(
             FFTW_DOUBLE_LIB
-            NAMES "fftw3" libfftw3-3
+            NAMES "fftw3"
             PATHS ${FFTW_ROOT}
             PATH_SUFFIXES "lib" "lib64"
             NO_DEFAULT_PATH
     )
+
+        message(STATUS "aaa " ${FFTW_DOUBLE_LIB})
 
     find_library(
             FFTW_DOUBLE_THREADS_LIB
@@ -95,7 +100,7 @@ if (FFTW_ROOT)
 
     find_library(
             FFTW_FLOAT_LIB
-            NAMES "fftw3f" libfftw3f-3
+            NAMES "fftw3f"
             PATHS ${FFTW_ROOT}
             PATH_SUFFIXES "lib" "lib64"
             NO_DEFAULT_PATH
@@ -127,7 +132,7 @@ if (FFTW_ROOT)
 
     find_library(
             FFTW_LONGDOUBLE_LIB
-            NAMES "fftw3l" libfftw3l-3
+            NAMES "fftw3l"
             PATHS ${FFTW_ROOT}
             PATH_SUFFIXES "lib" "lib64"
             NO_DEFAULT_PATH
@@ -163,7 +168,7 @@ if (FFTW_ROOT)
             PATHS ${FFTW_ROOT}
             PATH_SUFFIXES "include"
             NO_DEFAULT_PATH
-            )
+    )
 
 else ()
 
@@ -171,7 +176,10 @@ else ()
             FFTW_DOUBLE_LIB
             NAMES "fftw3"
             PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
+            NO_CACHE
     )
+
+
 
     find_library(
             FFTW_DOUBLE_THREADS_LIB
@@ -230,22 +238,21 @@ else ()
     find_library(FFTW_LONGDOUBLE_OPENMP_LIB
             NAMES "fftw3l_omp"
             PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
-            )
+    )
 
     find_library(FFTW_LONGDOUBLE_MPI_LIB
             NAMES "fftw3l_mpi"
             PATHS ${PKG_FFTW_LIBRARY_DIRS} ${LIB_INSTALL_DIR}
-            )
+    )
 
     find_path(FFTW_INCLUDE_DIRS
             NAMES "fftw3.h"
             PATHS ${PKG_FFTW_INCLUDE_DIRS} ${INCLUDE_INSTALL_DIR}
-            )
+    )
 
 endif (FFTW_ROOT)
 
 #--------------------------------------- components
-
 if (FFTW_DOUBLE_LIB)
     set(FFTW_DOUBLE_LIB_FOUND TRUE)
     set(FFTW_LIBRARIES ${FFTW_LIBRARIES} ${FFTW_DOUBLE_LIB})
@@ -397,7 +404,7 @@ set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES_SAV})
 include(FindPackageHandleStandardArgs)
 
 find_package_handle_standard_args(FFTW
-        REQUIRED_VARS FFTW_INCLUDE_DIRS
+        REQUIRED_VARS FFTW_INCLUDE_DIRS FFTW_LIBRARIES
         HANDLE_COMPONENTS
         )
 
