@@ -32,7 +32,7 @@ public:
   /** -- methods -- **/
   void update();
   /* @brief: assumes numberHarmonics() elements in outVoices */
-  void perform(sample_f const *inTrack, sample_f const *inSeed,
+  void perform(sample_f const *inSeed, sample_f const *inTrack, 
                sample_f **outHarmonics, size_u blockSize);
 
   void setCustomClock(time::AbsoluteTimeGetter currentTimeGetter);
@@ -44,8 +44,10 @@ public:
 
   CANT_NODISCARD const pan::MidiNoteOutput &
   getProcessedVoice(size_u voice) const;
+  CANT_NODISCARD Pitch getLastValidPitch() const;
+  CANT_NODISCARD Pitch getPitch() const;
 
-  CANT_NODISCARD size_u getNumberHarmonics() const;
+  CANT_NODISCARD size_u getNumberVoices() const;
 
 private:
   /** -- fields -- **/

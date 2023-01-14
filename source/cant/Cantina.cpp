@@ -21,7 +21,7 @@ Cantina::Cantina(const size_u numberHarmonics, const type_i sampleRate,
       m_shifter(static_cast<UPtr<TimeDomainPitchShifter>>(
           std::make_unique<SoundTouchShifter>(numberHarmonics, sampleRate))) {}
 
-void Cantina::perform(sample_f const *inTrack, sample_f const *inSeed,
+void Cantina::perform(sample_f const *inSeed, sample_f const *inTrack,
                       sample_f **outHarmonics, size_u blockSize) {
   // first updateDelta pitch tracker.
   CANTINA_TRY_RETHROW({ m_tracker->update(inTrack, blockSize); })
@@ -33,7 +33,7 @@ void Cantina::perform(sample_f const *inTrack, sample_f const *inSeed,
   }
   // getting stream of processed notes
   const auto &processedNoteOutput = m_pantoufle->getProcessedNoteOutput();
-  for (size_u i = 0; i < getNumberHarmonics(); ++i) {
+  for (size_u i = 0; i < getNumberVoices(); ++i) {
     const auto &note = processedNoteOutput.at(i);
     if (note.isSet()) {
       sample_f *outHarmonic = outHarmonics[i];
@@ -50,8 +50,15 @@ void Cantina::setCustomClock(time::AbsoluteTimeGetter currentTimeGetter) {
 
 void Cantina::update(){CANTINA_TRY_RETHROW({ m_pantoufle->update(); })}
 
-size_u Cantina::getNumberHarmonics() const {
+size_u Cantina::getNumberVoices() const {
   return m_pantoufle->getNumberVoices();
+}
+
+Pitch Cantina::getLastValidPitch() const {
+  return m_tracker->getLastValidPitch();
+}
+Pitch Cantina::getPitch() const {
+  return m_tracker->getPitch();
 }
 
 Optional<size_u> Cantina::receiveNote(const pan::MidiNoteInputData &noteData) {
